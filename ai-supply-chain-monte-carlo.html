@@ -1,0 +1,690 @@
+<title>AI Supply Chain Stress Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one column of instrument panels, upstream-to-downstream chain table as the control surface, results above it. */
+:root {
+  --bg: #f2f3f4;
+  --surface: #fbfbfb;
+  --ink: #111417;
+  --ink-2: #4a5058;
+  --muted: #767c84;
+  --line: #dde0e4;
+  --line-strong: #c3c8ce;
+  --accent: #9c4a1c;
+  --accent-wash: rgba(156,74,28,.09);
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1113; --surface: #171a1d; --ink: #eef0f2; --ink-2: #b9bfc6; --muted: #868c94;
+    --line: #262a2f; --line-strong: #383d44; --accent: #e08a58; --accent-wash: rgba(224,138,88,.12);
+    --s1: #3987e5; --s2: #d95926; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1113; --surface: #171a1d; --ink: #eef0f2; --ink-2: #b9bfc6; --muted: #868c94;
+  --line: #262a2f; --line-strong: #383d44; --accent: #e08a58; --accent-wash: rgba(224,138,88,.12);
+  --s1: #3987e5; --s2: #d95926; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+.wrap > *, section > *, .panel > *, .grid2 > * { min-width: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; line-height: 1.05; }
+h2 { font-size: 24px; font-weight: 600; }
+h3 { font-size: 16px; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.lede { color: var(--ink-2); max-width: 70ch; }
+.note { font-size: 13px; color: var(--muted); max-width: 80ch; }
+header { display: grid; gap: 12px; }
+.source { font-size: 13px; color: var(--ink-2); border-left: 2px solid var(--accent); padding-left: 12px; max-width: 80ch; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: end; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.field { display: grid; gap: 4px; }
+.field label, .lbl { font-size: 11px; font-family: var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+select, input[type=number], input[type=text] { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 4px; padding: 6px 8px; min-width: 0; }
+input[type=number] { font-family: var(--mono); font-size: 13px; width: 72px; }
+button { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 4px; padding: 7px 14px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); }
+button.ghost { background: transparent; color: var(--accent); }
+button:disabled { opacity: .55; cursor: progress; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.status { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: auto; }
+
+section { display: grid; gap: 16px; }
+.section-head { display: grid; gap: 6px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.panel .sub { font-size: 13px; color: var(--ink-2); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px; }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.kpi { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.kpi .v { font-family: var(--display); font-size: 34px; font-weight: 600; line-height: 1.1; }
+.kpi .d { font-size: 12.5px; color: var(--ink-2); }
+
+.obar { display: flex; gap: 2px; height: 30px; border-radius: 4px; overflow: hidden; }
+.obar > div { min-width: 0; }
+.olegend { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px 20px; }
+.oitem { display: grid; grid-template-columns: 12px 1fr auto; gap: 4px 8px; align-items: baseline; font-size: 13px; }
+.oitem .sw { width: 12px; height: 12px; border-radius: 3px; align-self: center; }
+.oitem b { font-weight: 600; }
+.oitem .pct { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.oitem .desc { grid-column: 2 / 4; color: var(--ink-2); font-size: 12.5px; }
+
+.chart { width: 100%; min-height: 240px; position: relative; }
+.chart svg { display: block; overflow: visible; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; background: var(--c); }
+
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { text-align: left; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line-strong); white-space: nowrap; }
+td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mini { display: flex; gap: 1px; height: 10px; width: 110px; border-radius: 2px; overflow: hidden; background: var(--line); }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-size: 11.5px; padding: 1px 7px; border-radius: 10px; background: var(--accent-wash); color: var(--ink); white-space: nowrap; }
+.chip.none { background: transparent; color: var(--muted); border: 1px dashed var(--line-strong); }
+
+.chain td { vertical-align: top; }
+.chain .nm { font-weight: 600; }
+.chain .dt { font-size: 12px; color: var(--ink-2); max-width: 32ch; }
+.idx { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 3px; padding: 0 5px; white-space: nowrap; }
+.sev { display: flex; gap: 4px; }
+.sev input { width: 58px; }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; background: transparent; color: var(--ink-2); font-size: 12px; font-weight: 500; padding: 5px 8px; }
+.seg button + button { border-left: 1px solid var(--line-strong); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+.hitbar { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.hitbar i { display: block; height: 6px; background: var(--s1); border-radius: 0 3px 3px 0; }
+
+.params { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 14px 20px; }
+.params .field input { width: 100%; }
+.params .hint { font-size: 12px; color: var(--ink-2); }
+
+.progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s; }
+
+.method { display: grid; gap: 10px; font-size: 14px; color: var(--ink-2); max-width: 82ch; }
+.method code { font-family: var(--mono); font-size: 12.5px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; }
+.method ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 4px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45; box-shadow: 0 4px 14px rgba(0,0,0,.14); max-width: 280px; }
+#tip b { font-weight: 600; }
+#tip .m { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .progress i { transition: none; } }
+@media (max-width: 640px) { .status { margin-left: 0; width: 100%; } .kpi .v { font-size: 28px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Monte Carlo · AI build-out 2026–2030</div>
+    <h1>AI Supply Chain Stress Test</h1>
+    <p class="lede">Eleven links run from minerals to monetization, and the AI build-out needs all of them to hold. Each run draws random disruptions for every link, including correlated shocks like a Taiwan Strait crisis. It then asks whether the compute got built and whether AI revenue grew enough to pay for it.</p>
+    <p class="source">Framework: the “what has to go right” argument in Generative Value’s <a href="https://www.generativevalue.com/p/what-has-to-go-right-to-justify-the" target="_blank" rel="noopener">What has to go right to justify the AI build-out</a>. Every number below is an editable assumption, not a figure from the article. Change any input and the simulation re-runs.</p>
+  </header>
+
+  <div class="toolbar" role="group" aria-label="Simulation controls">
+    <div class="field"><label for="preset">Scenario</label>
+      <select id="preset">
+        <option value="base">Base case</option>
+        <option value="calm">Calm world</option>
+        <option value="taiwan">Taiwan Strait crisis</option>
+        <option value="power">Power crunch</option>
+        <option value="demand">Demand air pocket</option>
+        <option value="hbmpack">HBM + packaging squeeze</option>
+        <option value="all">Everything breaks</option>
+      </select></div>
+    <div class="field"><label for="trials">Runs</label>
+      <select id="trials"><option>2000</option><option selected>5000</option><option>20000</option><option>50000</option></select></div>
+    <div class="field"><label for="fyear">Forced shocks hit in</label><select id="fyear"></select></div>
+    <div class="field"><label for="seed">Seed</label><input id="seed" type="number" value="42"></div>
+    <button id="run">Re-run</button>
+    <span class="status" id="status" aria-live="polite"></span>
+  </div>
+
+  <section aria-labelledby="h-out">
+    <div class="section-head"><h2 id="h-out">Outcomes</h2>
+      <p class="note">A run is <b>justified</b> when final-year AI revenue covers the build-out’s annual cost (depreciation, cost of capital, operating cost), scaled up by the share of revenue that can pay for infrastructure. It is <b>supply-constrained</b> when the chain delivers less than the threshold share of planned capacity on average.</p></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="panel">
+      <h3>How runs end</h3>
+      <div class="obar" id="obar" aria-hidden="true"></div>
+      <div class="olegend" id="olegend"></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3>Supply delivered, share of plan</h3><p class="sub">Tightest physical link or financing each year. Bands show the 10–90th and 25–75th percentile; the line is the median.</p><div class="chart" id="c-supply"></div></div>
+      <div class="panel"><h3>AI revenue ÷ revenue required</h3><p class="sub">1.0× means revenue pays for the installed base that year.</p><div class="chart" id="c-cov"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h3 id="h-hist">Final-year coverage, all runs</h3><p class="sub">Distribution of revenue ÷ required in the last year. The dashed line is the justification threshold.</p><div class="chart" id="c-hist"></div></div>
+      <div class="panel"><h3>Which link matters most</h3><p class="sub">Chance a run is justified when that link was disrupted at least once, compared with runs where it never was. Sorted by the gap.</p>
+        <div class="legend"><span style="--c:var(--s1)">Not disrupted</span><span style="--c:var(--s2)">Disrupted</span></div>
+        <div class="chart" id="c-sens"></div></div>
+    </div>
+    <div class="panel">
+      <h3>Outcomes by how many links broke</h3>
+      <p class="sub">Runs grouped by the number of distinct links hit by any disruption over the horizon, from zero up to all eleven.</p>
+      <div class="tablewrap"><table id="t-count"></table></div>
+    </div>
+    <div class="panel">
+      <h3>Most common disruption combinations</h3>
+      <p class="sub" id="combo-sub"></p>
+      <div class="tablewrap"><table id="t-combo"></table></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-chain">
+    <div class="section-head"><h2 id="h-chain">The chain</h2>
+      <p class="note">Listed upstream to downstream. For each link, set the yearly chance of a disruption, how much capacity it removes (min, most likely, max), and how long it lasts. <b>Headroom</b> is spare capacity against plan: 1.05 absorbs a 5% hit, and 0.95 means the link already falls 5% short. <b>Force</b> lets you pick any one, several or all links: Always adds a guaranteed disruption in the forced-shock year, and Never shields the link completely.</p></div>
+    <div class="panel"><div class="tablewrap"><table class="chain" id="t-chain"></table></div></div>
+    <div class="panel">
+      <h3>Correlated shocks</h3>
+      <p class="sub">System-wide events that hit several links at once. The ranges are capacity removed from each link.</p>
+      <div class="tablewrap"><table class="chain" id="t-events"></table></div>
+    </div>
+    <div class="panel">
+      <h3>Economics</h3>
+      <p class="sub">Capex plan, revenue path and the cost of the installed base. Dollar figures are global AI data-center capex and AI-attributable revenue, in billions.</p>
+      <div class="params" id="params"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-sweep">
+    <div class="section-head"><h2 id="h-sweep">Every combination</h2>
+      <p class="note">This sweep runs all 2,048 subsets of the 11 links. In each subset, the chosen links are forced to break in the forced-shock year and all other links are shielded. Correlated shocks are off, and the economics and severities above still apply.</p></div>
+    <div class="toolbar" style="position:static">
+      <div class="field"><label for="sweepN">Runs per combination</label><select id="sweepN"><option>50</option><option selected>100</option><option>250</option></select></div>
+      <button id="sweep" class="ghost">Run all 2,048 combinations</button>
+      <span class="status" id="sweepStatus">Not run yet. Takes a few seconds.</span>
+    </div>
+    <div class="progress"><i id="sweepProg"></i></div>
+    <div id="sweepOut" hidden>
+      <div class="grid2">
+        <div class="panel" style="grid-column:1/-1"><h3>Each dot is one combination</h3><p class="sub">Median final-year coverage for that combination, grouped by how many links were forced to break. Color shows the most common outcome. Hover a dot for its links.</p>
+          <div class="legend" id="sweepLegend"></div>
+          <div class="chart" id="c-strip" style="min-height:300px"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel"><h3>One link at a time</h3><div class="tablewrap"><table id="t-single"></table></div></div>
+        <div class="panel"><h3>Worst and most survivable combination of each size</h3><div class="tablewrap"><table id="t-size"></table></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-method">
+    <h2 id="h-method">How the model works</h2>
+    <div class="method">
+      <ol>
+        <li><b>Disruptions.</b> Each year, each link breaks with its yearly probability. Severity is drawn from a triangular distribution and duration from a triangle running from half to twice the typical length. A disruption starts at a random month, can spill into the next year, and removes <code>severity × months overlapping ÷ 12</code> of that year’s capacity. Overlapping disruptions combine multiplicatively.</li>
+        <li><b>Supply.</b> Each physical link delivers <code>min(1, headroom − loss)</code> of plan, and the build-out gets the tightest one. Financing caps it too. Deployed capex is <code>plan × min(physical, financing) × discipline</code>. Discipline cuts spending when coverage runs behind the no-shock path.</li>
+        <li><b>Demand.</b> AI revenue grows each year at a random rate. A model-progress disruption removes part of that year’s growth, a monetization disruption cuts the revenue level, and both effects persist. Revenue can’t exceed what the installed compute can serve.</li>
+        <li><b>Cost.</b> Every capex vintage, including 2023–25, depreciates straight-line over its useful life. Required revenue is <code>(depreciation + WACC × net book + opex × gross book) ÷ infrastructure share of revenue</code>.</li>
+        <li><b>Outcome.</b> Final-year coverage against the threshold gives justified or not. Average supply against the threshold gives constrained or not. A <b>systemic break</b> is any year in which supply falls below 50% of plan.</li>
+      </ol>
+      <p>Supply shocks cut both sides of the ledger. Less capex is built, so less revenue is needed to justify it. Scarcity can therefore leave a run justified but supply-constrained. Demand shocks have no such offset.</p>
+    </div>
+  </section>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+"use strict";
+const DEF_STAGES = [
+  { id:"minerals",   name:"Critical minerals",     detail:"Gallium, germanium, rare earths, high-purity quartz, neon", kind:"physical",   p:.10, smin:.05, smode:.15, smax:.40, dur:9,  head:1.05 },
+  { id:"equipment",  name:"Fab equipment",         detail:"EUV lithography, deposition, etch, metrology tools",       kind:"physical",   p:.08, smin:.05, smode:.15, smax:.35, dur:12, head:1.00 },
+  { id:"foundry",    name:"Leading-edge foundry",  detail:"3nm and 2nm logic wafers for GPUs and custom ASICs",       kind:"physical",   p:.06, smin:.10, smode:.30, smax:.90, dur:9,  head:1.00 },
+  { id:"hbm",        name:"HBM memory",            detail:"Stacked DRAM from three suppliers",                       kind:"physical",   p:.10, smin:.05, smode:.20, smax:.45, dur:6,  head:.98 },
+  { id:"packaging",  name:"Advanced packaging",    detail:"CoWoS-class 2.5D packaging capacity",                     kind:"physical",   p:.10, smin:.05, smode:.20, smax:.50, dur:6,  head:.98 },
+  { id:"systems",    name:"Systems & networking",  detail:"Accelerator boards, servers, switches, optics",           kind:"physical",   p:.10, smin:.05, smode:.15, smax:.35, dur:4,  head:1.00 },
+  { id:"datacenter", name:"Data center build",     detail:"Shells, liquid cooling, transformers, switchgear, labor", kind:"physical",   p:.12, smin:.05, smode:.15, smax:.35, dur:9,  head:.98 },
+  { id:"power",      name:"Power & grid",          detail:"Generation, gas turbines, interconnection queues",        kind:"physical",   p:.15, smin:.05, smode:.20, smax:.45, dur:12, head:.96 },
+  { id:"capital",    name:"Capital & financing",   detail:"Hyperscaler cash flow, credit and equity markets",        kind:"financing",  p:.12, smin:.10, smode:.25, smax:.50, dur:12 },
+  { id:"models",     name:"Model progress",        detail:"Scaling keeps improving capability per dollar",           kind:"growth",     p:.10, smin:.10, smode:.30, smax:.60, dur:12 },
+  { id:"demand",     name:"Monetization",          detail:"Enterprise, consumer and ad revenue from AI",             kind:"revenue",    p:.15, smin:.05, smode:.20, smax:.40, dur:12 },
+];
+const KIND_HINT = { physical:"capacity lost", financing:"capex cut", growth:"growth lost", revenue:"revenue lost" };
+const DEF_EVENTS = [
+  { id:"taiwan", name:"Taiwan Strait crisis",              p:.02, dur:18, hits:{ foundry:[.6,.9], packaging:[.5,.85], hbm:[.15,.35], systems:[.2,.4], capital:[.2,.4], demand:[.05,.15] } },
+  { id:"export", name:"Export controls & mineral retaliation", p:.10, dur:12, hits:{ minerals:[.2,.5], equipment:[.1,.3], hbm:[0,.1] } },
+  { id:"credit", name:"Credit squeeze / AI equity sell-off",  p:.08, dur:12, hits:{ capital:[.25,.5], demand:[.05,.2] } },
+  { id:"grid",   name:"Grid & energy crisis",              p:.05, dur:12, hits:{ power:[.15,.35], datacenter:[.05,.15] } },
+  { id:"quake",  name:"Major earthquake in an East Asian fab cluster", p:.03, dur:4, hits:{ foundry:[.1,.3], hbm:[.05,.2], packaging:[.05,.2] } },
+];
+const DEF_PARAMS = {
+  startYear:2026, years:5, capex0:650, capexG:.15, legacy23:150, legacy24:230, legacy25:400,
+  rev0:300, revG:.60, revSd:.20, life:5, wacc:.10, opex:.05, share:.65, revCap:.8, disc:.5,
+  supplyThr:.85, covThr:1.0,
+};
+const PARAM_UI = [
+  ["capex0","2026 AI capex plan ($B)","Global AI data-center spend planned for the first year",1],
+  ["capexG","Capex plan growth / yr","0.15 = 15% more each year",.01],
+  ["legacy23","2023 capex ($B)","Still depreciating in the horizon",1],
+  ["legacy24","2024 capex ($B)","",1],
+  ["legacy25","2025 capex ($B)","",1],
+  ["rev0","2026 AI revenue ($B)","AI-attributable revenue across clouds, labs, apps and ads",1],
+  ["revG","Revenue growth / yr (mean)","0.60 = 60% a year",.01],
+  ["revSd","Revenue growth volatility","Std. dev. of each year’s growth rate",.01],
+  ["life","Useful life of compute (yrs)","Straight-line depreciation period",1],
+  ["wacc","Cost of capital","Return owed on net book value",.01],
+  ["opex","Opex / gross book","Power and operations per $ installed",.01],
+  ["share","Infrastructure share of revenue","Share of end revenue that can pay for compute",.01],
+  ["revCap","Max revenue per $ installed","Ceiling on what installed compute can serve",.05],
+  ["disc","Capex discipline","0 = never cut, 1 = cut in step with the coverage gap",.05],
+  ["supplyThr","Supply threshold","Below this average share of plan = constrained",.01],
+  ["covThr","Coverage threshold","Final-year revenue ÷ required needed to justify",.05],
+];
+const OUTCOMES = [
+  { key:"good",     name:"Justified",                   desc:"Chain delivered and revenue covers the cost" },
+  { key:"warning",  name:"Constrained but justified",   desc:"Shortfalls held back the build, but what was built pays off" },
+  { key:"serious",  name:"Overbuilt",                   desc:"The chain delivered, but revenue fell short" },
+  { key:"critical", name:"Double hit",                  desc:"Supply fell short and revenue still didn’t cover the cost" },
+];
+
+let STAGES, EVENTS, P, FS, FE;
+const clone = o => JSON.parse(JSON.stringify(o));
+function resetModel() {
+  STAGES = clone(DEF_STAGES); EVENTS = clone(DEF_EVENTS); P = clone(DEF_PARAMS);
+  FS = STAGES.map(() => "random"); FE = EVENTS.map(() => "random");
+}
+const IDX = () => Object.fromEntries(STAGES.map((s, i) => [s.id, i]));
+
+const PRESETS = {
+  base() {},
+  calm() { STAGES.forEach(s => s.p *= .4); EVENTS.forEach(e => e.p *= .3); },
+  taiwan() { FE[0] = "always"; },
+  power() { const s = STAGES[7]; s.p = .4; s.head = .88; s.smode = .25; s.smax = .5; FE[3] = "always"; },
+  demand() { FS[10] = "always"; FS[9] = "always"; STAGES[10].smode = .3; STAGES[10].smax = .5; },
+  hbmpack() { FS[3] = "always"; FS[4] = "always"; STAGES[3].head = .92; STAGES[4].head = .92; },
+  all() { FS = FS.map(() => "always"); FE = FE.map(() => "always"); },
+};
+
+/* ---------- random numbers ---------- */
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function tri(r, a, c, b) { if (b <= a) return a; c = Math.min(Math.max(c, a), b); const u = r(), f = (c - a) / (b - a); return u < f ? a + Math.sqrt(u * (b - a) * (c - a)) : b - Math.sqrt((1 - u) * (b - a) * (b - c)); }
+function gauss(r) { let u = 0; while (u === 0) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+/* ---------- economics ---------- */
+function legacyVintages(p) { return [p.legacy23, p.legacy24, p.legacy25]; }
+function econYear(p, t, legacy, deployed) {
+  let gross = 0, depr = 0, nb = 0;
+  const L = p.life;
+  const take = (x, age) => { if (age < L) { gross += x; depr += x / L; nb += x * Math.max(0, 1 - (age + .5) / L); } };
+  for (let i = 0; i < legacy.length; i++) take(legacy[i], t + legacy.length - i);
+  for (let v = 0; v <= t; v++) take(deployed[v], t - v);
+  return { gross, req: (depr + p.wacc * nb + p.opex * gross) / p.share };
+}
+function baselinePath(p) {
+  const H = p.years, legacy = legacyVintages(p), dep = new Float64Array(H), cov = new Float64Array(H);
+  const avail = Math.min(1, ...STAGES.filter(s => s.kind === "physical").map(s => s.head));
+  let D = p.rev0 / (1 + p.revG);
+  for (let t = 0; t < H; t++) {
+    dep[t] = p.capex0 * Math.pow(1 + p.capexG, t) * avail;
+    D *= 1 + p.revG;
+    const e = econYear(p, t, legacy, dep);
+    cov[t] = Math.min(D, e.gross * p.revCap) / e.req;
+  }
+  return cov;
+}
+
+/* ---------- simulation ---------- */
+function runBatch(N, seed, fS, fE, full) {
+  const S = STAGES.length, H = P.years, rng = mulberry32(seed), idx = IDX();
+  const fy = clamp(P.forceYear | 0, 0, H - 1);
+  const PHYS = STAGES.map((s, i) => s.kind === "physical" ? i : -1).filter(i => i >= 0);
+  const CAP = idx.capital, MOD = idx.models, DEM = idx.demand;
+  const legacy = legacyVintages(P), base = baselinePath(P);
+  const out = { N, H, mask:new Int32Array(N), outcome:new Uint8Array(N), cov:new Float32Array(N), supply:new Float32Array(N), brk:new Uint8Array(N) };
+  if (full) { out.availY = new Float32Array(N * H); out.covY = new Float32Array(N * H); }
+  const loss = STAGES.map(() => new Float64Array(H)), dep = new Float64Array(H);
+  for (let n = 0; n < N; n++) {
+    for (let s = 0; s < S; s++) loss[s].fill(0);
+    let mask = 0;
+    const add = (s, t, sev, dur) => {
+      if (fS[s] === "never" || sev <= 0) return;
+      const st = t * 12 + rng() * 12, en = st + dur;
+      for (let y = t; y < H; y++) {
+        const ys = y * 12; if (ys >= en) break;
+        const ov = Math.min(en, ys + 12) - Math.max(st, ys);
+        if (ov > 0) loss[s][y] = 1 - (1 - loss[s][y]) * (1 - Math.min(1, sev) * ov / 12);
+      }
+      mask |= 1 << s;
+    };
+    for (let s = 0; s < S; s++) {
+      if (fS[s] === "never") continue;
+      const g = STAGES[s];
+      const hit = t => add(s, t, tri(rng, g.smin, g.smode, g.smax), tri(rng, g.dur * .5, g.dur, g.dur * 2));
+      for (let t = 0; t < H; t++) if (rng() < g.p) hit(t);
+      if (fS[s] === "always") hit(fy);
+    }
+    for (let e = 0; e < EVENTS.length; e++) {
+      if (fE[e] === "never") continue;
+      const E = EVENTS[e];
+      const fire = t => { for (const id in E.hits) { const [a, b] = E.hits[id]; add(idx[id], t, a + (b - a) * rng(), E.dur * (.75 + .5 * rng())); } };
+      for (let t = 0; t < H; t++) if (rng() < E.p) fire(t);
+      if (fE[e] === "always") fire(fy);
+    }
+    let D = P.rev0 / (1 + P.revG), lvl = 1, prevRatio = 1, sumAvail = 0, minAvail = 1, cov = 0;
+    for (let t = 0; t < H; t++) {
+      let phys = 1;
+      for (const s of PHYS) phys = Math.min(phys, STAGES[s].head - loss[s][t]);
+      const avail = clamp(Math.min(phys, 1 - loss[CAP][t]), 0, 1);
+      const disc = t > 0 ? clamp(Math.pow(clamp(prevRatio, 0, 1), P.disc), .4, 1) : 1;
+      dep[t] = P.capex0 * Math.pow(1 + P.capexG, t) * avail * disc;
+      const g = Math.max(-.5, P.revG + P.revSd * gauss(rng));
+      D *= 1 + g * (1 - loss[MOD][t]);
+      lvl *= 1 - loss[DEM][t];
+      const e = econYear(P, t, legacy, dep);
+      const rev = Math.min(D * lvl, e.gross * P.revCap);
+      cov = rev / e.req;
+      prevRatio = cov / base[t];
+      sumAvail += avail; minAvail = Math.min(minAvail, avail);
+      if (full) { out.availY[n * H + t] = avail; out.covY[n * H + t] = cov; }
+    }
+    const supply = sumAvail / H, okC = cov >= P.covThr, okS = supply >= P.supplyThr;
+    out.mask[n] = mask; out.cov[n] = cov; out.supply[n] = supply; out.brk[n] = minAvail < .5 ? 1 : 0;
+    out.outcome[n] = okC ? (okS ? 0 : 1) : (okS ? 2 : 3);
+  }
+  return out;
+}
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const pct = v => (v * 100).toFixed(v > 0 && v < .01 ? 1 : 0) + "%";
+const x2 = v => v.toFixed(2) + "×";
+function quantile(sorted, q) { if (!sorted.length) return NaN; const i = (sorted.length - 1) * q, lo = Math.floor(i), hi = Math.ceil(i); return sorted[lo] + (sorted[hi] - sorted[lo]) * (i - lo); }
+const median = arr => quantile(Float64Array.from(arr).sort(), .5);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const years = () => Array.from({ length: P.years }, (_, i) => P.startYear + i);
+function niceTicks(lo, hi, n = 5) {
+  const span = hi - lo, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => span / s <= n) || mag * 10;
+  const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+function outcomeMini(counts, total) {
+  return `<div class="mini" role="img" aria-label="${OUTCOMES.map((o, i) => o.name + " " + pct(counts[i] / total)).join(", ")}">` +
+    counts.map((c, i) => c ? `<div style="width:${c / total * 100}%;background:var(--${OUTCOMES[i].key})"></div>` : "").join("") + "</div>";
+}
+function chips(mask) {
+  if (!mask) return `<span class="chip none">No disruption</span>`;
+  return `<div class="chips">${STAGES.map((s, i) => mask >> i & 1 ? `<span class="chip">${esc(s.name)}</span>` : "").join("")}</div>`;
+}
+
+/* ---------- tooltip ---------- */
+const tip = $("tip");
+document.addEventListener("pointermove", ev => {
+  const t = ev.target.closest && ev.target.closest("[data-tip]");
+  if (!t) { tip.hidden = true; return; }
+  tip.innerHTML = t.getAttribute("data-tip"); tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style.left = Math.max(8, x) + "px"; tip.style.top = Math.max(8, y) + "px";
+});
+document.addEventListener("pointerleave", () => tip.hidden = true);
+
+/* ---------- charts ---------- */
+function fanChart(el, q, opt) {
+  const W = Math.max(280, el.clientWidth), H = 240, m = { l: 46, r: 18, t: 14, b: 28 };
+  const ys = years(), n = ys.length;
+  const step = (W - m.l - m.r) / n;
+  const x = i => m.l + step * (i + .5);
+  const y = v => m.t + (1 - (clamp(v, opt.min, opt.max) - opt.min) / (opt.max - opt.min)) * (H - m.t - m.b);
+  const ticks = niceTicks(opt.min, opt.max, 5);
+  let s = `<svg width="${W}" height="${H}" role="img" aria-label="${esc(opt.label)}">`;
+  ticks.forEach(v => s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${opt.fmt(v)}</text>`);
+  ys.forEach((yr, i) => s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${yr}</text>`);
+  const area = (a, b) => "M" + q.map((r, i) => `${x(i)},${y(r[a])}`).join("L") + "L" + q.map((r, i) => `${x(n - 1 - i)},${y(q[n - 1 - i][b])}`).join("L") + "Z";
+  s += `<path d="${area(0, 4)}" fill="var(--s1)" fill-opacity=".14"/>`;
+  s += `<path d="${area(1, 3)}" fill="var(--s1)" fill-opacity=".26"/>`;
+  if (opt.ref != null) s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(opt.ref)}" y2="${y(opt.ref)}" stroke="var(--ink-2)" stroke-dasharray="4 4" stroke-width="1"/><text x="${W - m.r}" y="${y(opt.ref) - 6}" text-anchor="end" style="fill:var(--ink-2)">${esc(opt.refLabel)}</text>`;
+  s += `<path d="M${q.map((r, i) => `${x(i)},${y(r[2])}`).join("L")}" fill="none" stroke="var(--s1)" stroke-width="2" stroke-linejoin="round"/>`;
+  s += `<circle cx="${x(n - 1)}" cy="${y(q[n - 1][2])}" r="4" fill="var(--s1)" stroke="var(--surface)" stroke-width="2"/>`;
+  q.forEach((r, i) => {
+    const t = `<b>${ys[i]}</b><br>Median <span class="m">${opt.fmt(r[2])}</span><br>25–75th <span class="m">${opt.fmt(r[1])} – ${opt.fmt(r[3])}</span><br>10–90th <span class="m">${opt.fmt(r[0])} – ${opt.fmt(r[4])}</span>`;
+    s += `<rect x="${x(i) - step / 2}" y="${m.t}" width="${step}" height="${H - m.t - m.b}" fill="transparent" data-tip="${esc(t)}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+
+function histChart(el, vals, thr) {
+  const W = Math.max(280, el.clientWidth), H = 240, m = { l: 46, r: 18, t: 14, b: 28 };
+  const max = Math.max(2, Math.ceil(thr * 2 * 4) / 4), B = 40, bw = max / B, counts = new Array(B).fill(0);
+  for (const v of vals) counts[Math.min(B - 1, Math.max(0, Math.floor(v / bw)))]++;
+  const N = vals.length, top = Math.max(...counts) / N || .01;
+  const yMax = niceTicks(0, top * 1.1, 4).slice(-1)[0] >= top ? niceTicks(0, top * 1.1, 4).slice(-1)[0] : top * 1.1;
+  const x = v => m.l + v / max * (W - m.l - m.r);
+  const y = v => m.t + (1 - v / yMax) * (H - m.t - m.b);
+  let s = `<svg width="${W}" height="${H}" role="img" aria-label="Histogram of final-year coverage">`;
+  niceTicks(0, yMax, 4).forEach(v => s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${pct(v)}</text>`);
+  niceTicks(0, max, 5).forEach(v => s += `<text x="${x(v)}" y="${H - 8}" text-anchor="middle">${v.toFixed(1)}×</text>`);
+  counts.forEach((c, i) => {
+    if (!c) return;
+    const x0 = x(i * bw) + 1, w = Math.max(1, x((i + 1) * bw) - x(i * bw) - 2), h = y(0) - y(c / N), r = Math.min(4, w / 2, h);
+    const yy = y(c / N), last = i === B - 1;
+    const tipT = `<b>${(i * bw).toFixed(2)}–${last ? max.toFixed(2) + "+" : ((i + 1) * bw).toFixed(2)}×</b><br><span class="m">${pct(c / N)}</span> of runs`;
+    s += `<path d="M${x0},${y(0)}V${yy + r}Q${x0},${yy} ${x0 + r},${yy}H${x0 + w - r}Q${x0 + w},${yy} ${x0 + w},${yy + r}V${y(0)}Z" fill="var(--s1)"/>`;
+    s += `<rect x="${x0 - 1}" y="${m.t}" width="${w + 2}" height="${H - m.t - m.b}" fill="transparent" data-tip="${esc(tipT)}"/>`;
+  });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line-strong)"/>`;
+  s += `<line x1="${x(thr)}" x2="${x(thr)}" y1="${m.t}" y2="${y(0)}" stroke="var(--ink-2)" stroke-dasharray="4 4"/><text x="${x(thr) + 6}" y="${m.t + 10}" style="fill:var(--ink-2)">threshold ${thr.toFixed(2)}×</text>`;
+  el.innerHTML = s + "</svg>";
+}
+
+function sensChart(el, rows) {
+  const W = Math.max(280, el.clientWidth), rowH = 26, m = { l: Math.min(150, W * .42), r: 18, t: 6, b: 26 };
+  const H = m.t + m.b + rows.length * rowH;
+  const x = v => m.l + v * (W - m.l - m.r);
+  let s = `<svg width="${W}" height="${H}" role="img" aria-label="Chance of a justified outcome with and without each link disrupted">`;
+  [0, .25, .5, .75, 1].forEach(v => s += `<line x1="${x(v)}" x2="${x(v)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--line)"/><text x="${x(v)}" y="${H - 8}" text-anchor="middle">${pct(v)}</text>`);
+  rows.forEach((r, i) => {
+    const cy = m.t + rowH * (i + .5);
+    s += `<text x="${m.l - 10}" y="${cy + 4}" text-anchor="end" style="fill:var(--ink-2);font-family:var(--body);font-size:12px">${esc(r.name)}</text>`;
+    if (r.hit == null || r.not == null) { s += `<text x="${m.l + 4}" y="${cy + 4}">${r.hit == null ? "never disrupted" : "always disrupted"}</text>`; return; }
+    s += `<line x1="${x(r.not)}" x2="${x(r.hit)}" y1="${cy}" y2="${cy}" stroke="var(--line-strong)" stroke-width="2"/>`;
+    s += `<circle cx="${x(r.not)}" cy="${cy}" r="5" fill="var(--s1)" stroke="var(--surface)" stroke-width="2"/>`;
+    s += `<circle cx="${x(r.hit)}" cy="${cy}" r="5" fill="var(--s2)" stroke="var(--surface)" stroke-width="2"/>`;
+    const t = `<b>${esc(r.name)}</b><br>Disrupted in <span class="m">${pct(r.share)}</span> of runs<br>Justified when disrupted <span class="m">${pct(r.hit)}</span><br>Justified when not <span class="m">${pct(r.not)}</span><br>Median coverage when disrupted <span class="m">${x2(r.covHit)}</span>`;
+    s += `<rect x="0" y="${cy - rowH / 2}" width="${W}" height="${rowH}" fill="transparent" data-tip="${esc(t)}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+
+function stripChart(el, res) {
+  const W = Math.max(280, el.clientWidth), H = 300, m = { l: 46, r: 18, t: 14, b: 40 };
+  const S = STAGES.length, step = (W - m.l - m.r) / (S + 1);
+  let yMax = 0; for (const r of res) yMax = Math.max(yMax, r.cov);
+  yMax = Math.max(P.covThr * 1.25, Math.ceil(yMax * 4) / 4);
+  const x = k => m.l + step * (k + .5);
+  const y = v => m.t + (1 - v / yMax) * (H - m.t - m.b);
+  let s = `<svg width="${W}" height="${H}" role="img" aria-label="Median coverage for every combination of disrupted links">`;
+  niceTicks(0, yMax, 5).forEach(v => s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}×</text>`);
+  for (let k = 0; k <= S; k++) s += `<text x="${x(k)}" y="${H - 22}" text-anchor="middle">${k}</text>`;
+  s += `<text x="${(m.l + W - m.r) / 2}" y="${H - 4}" text-anchor="middle">links forced to break</text>`;
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(P.covThr)}" y2="${y(P.covThr)}" stroke="var(--ink-2)" stroke-dasharray="4 4"/>`;
+  const seen = new Array(S + 1).fill(0), tot = new Array(S + 1).fill(0);
+  res.forEach(r => tot[r.k]++);
+  const r0 = Math.max(2.5, Math.min(4, step / 14));
+  res.forEach(r => {
+    const j = tot[r.k] > 1 ? ((seen[r.k]++ * 0.6180339887) % 1 - .5) * step * .78 : 0;
+    const t = `<b>${r.k} link${r.k === 1 ? "" : "s"} forced</b><br>${r.k ? STAGES.filter((_, i) => r.mask >> i & 1).map(s => esc(s.name)).join(", ") : "None"}<br>Median coverage <span class="m">${x2(r.cov)}</span><br>Justified <span class="m">${pct(r.pJ)}</span> · supply <span class="m">${pct(r.sup)}</span>`;
+    s += `<circle cx="${(x(r.k) + j).toFixed(1)}" cy="${y(Math.min(r.cov, yMax)).toFixed(1)}" r="${r0}" fill="var(--${OUTCOMES[r.dom].key})" fill-opacity=".85" stroke="var(--surface)" stroke-width="1" data-tip="${esc(t)}"/>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+
+/* ---------- render results ---------- */
+let last = null, lastSweep = null;
+function renderResults(o) {
+  const N = o.N, H = o.H, S = STAGES.length;
+  const oc = [0, 0, 0, 0]; let brk = 0;
+  for (let n = 0; n < N; n++) { oc[o.outcome[n]]++; brk += o.brk[n]; }
+  const pJ = (oc[0] + oc[1]) / N;
+  const medCov = median(o.cov), medSup = median(o.supply);
+  $("kpis").innerHTML = [
+    [pct(pJ), "Runs where the build-out pays for itself", `Final-year coverage ≥ ${P.covThr.toFixed(2)}×`],
+    [x2(medCov), "Median final-year coverage", `AI revenue ÷ required revenue in ${P.startYear + H - 1}`],
+    [pct(medSup), "Median supply delivered", "Average share of planned capacity the chain built"],
+    [pct(brk / N), "Systemic break", "Supply fell below 50% of plan in at least one year"],
+  ].map(([v, l, d]) => `<div class="kpi"><span class="lbl">${l}</span><span class="v">${v}</span><span class="d">${d}</span></div>`).join("");
+  $("obar").innerHTML = oc.map((c, i) => c ? `<div style="flex:${c} 1 0;background:var(--${OUTCOMES[i].key})"></div>` : "").join("");
+  $("olegend").innerHTML = OUTCOMES.map((O, i) => `<div class="oitem"><span class="sw" style="background:var(--${O.key})"></span><b>${O.name}</b><span class="pct">${pct(oc[i] / N)}</span><span class="desc">${O.desc}</span></div>`).join("");
+
+  const qs = (arr) => { const res = []; for (let t = 0; t < H; t++) { const col = new Float64Array(N); for (let n = 0; n < N; n++) col[n] = arr[n * H + t]; col.sort(); res.push([.1, .25, .5, .75, .9].map(q => quantile(col, q))); } return res; };
+  const qA = qs(o.availY), qC = qs(o.covY);
+  fanChart($("c-supply"), qA, { min: 0, max: 1, fmt: v => pct(v), label: "Supply delivered by year", ref: P.supplyThr, refLabel: `threshold ${pct(P.supplyThr)}` });
+  const cMax = Math.max(P.covThr * 1.5, Math.ceil(Math.max(...qC.map(r => r[4])) * 2) / 2);
+  fanChart($("c-cov"), qC, { min: 0, max: cMax, fmt: v => v.toFixed(1) + "×", label: "Revenue over required revenue by year", ref: P.covThr, refLabel: "pays for itself" });
+  $("h-hist").textContent = `${P.startYear + H - 1} coverage, all runs`;
+  histChart($("c-hist"), o.cov, P.covThr);
+
+  const rows = STAGES.map((s, i) => {
+    let h = 0, hJ = 0, nJ = 0; const covH = [];
+    for (let n = 0; n < N; n++) { const j = o.outcome[n] <= 1; if (o.mask[n] >> i & 1) { h++; hJ += j; covH.push(o.cov[n]); } else nJ += j; }
+    return { name: s.name, share: h / N, hit: h ? hJ / h : null, not: N - h ? nJ / (N - h) : null, covHit: covH.length ? median(covH) : NaN };
+  }).sort((a, b) => ((b.not ?? 0) - (b.hit ?? 0)) - ((a.not ?? 0) - (a.hit ?? 0)));
+  sensChart($("c-sens"), rows);
+
+  const byK = Array.from({ length: S + 1 }, () => ({ n: 0, oc: [0, 0, 0, 0], cov: [], sup: [] }));
+  const combos = new Map();
+  for (let n = 0; n < N; n++) {
+    let m = o.mask[n], k = 0; while (m) { k += m & 1; m >>>= 1; }
+    const b = byK[k]; b.n++; b.oc[o.outcome[n]]++; b.cov.push(o.cov[n]); b.sup.push(o.supply[n]);
+    let c = combos.get(o.mask[n]); if (!c) combos.set(o.mask[n], c = { mask: o.mask[n], n: 0, oc: [0, 0, 0, 0], cov: [] });
+    c.n++; c.oc[o.outcome[n]]++; c.cov.push(o.cov[n]);
+  }
+  $("t-count").innerHTML = `<thead><tr><th class="num">Links hit</th><th class="num">Share of runs</th><th>Outcome mix</th><th class="num">Justified</th><th class="num">Median coverage</th><th class="num">Median supply</th></tr></thead><tbody>` +
+    byK.map((b, k) => b.n ? `<tr><td class="num">${k}${k === S ? " (all)" : ""}</td><td class="num">${pct(b.n / N)}</td><td>${outcomeMini(b.oc, b.n)}</td><td class="num">${pct((b.oc[0] + b.oc[1]) / b.n)}</td><td class="num">${x2(median(b.cov))}</td><td class="num">${pct(median(b.sup))}</td></tr>` :
+      `<tr><td class="num">${k}${k === S ? " (all)" : ""}</td><td class="num">0%</td><td colspan="4" style="color:var(--muted)">No runs</td></tr>`).join("") + "</tbody>";
+  const top = [...combos.values()].sort((a, b) => b.n - a.n).slice(0, 12);
+  $("combo-sub").textContent = `${combos.size.toLocaleString()} of the 2,048 possible combinations showed up in ${N.toLocaleString()} runs. These are the 12 most frequent.`;
+  $("t-combo").innerHTML = `<thead><tr><th>Links disrupted</th><th class="num">Share of runs</th><th>Outcome mix</th><th class="num">Justified</th><th class="num">Median coverage</th></tr></thead><tbody>` +
+    top.map(c => `<tr><td>${chips(c.mask)}</td><td class="num">${pct(c.n / N)}</td><td>${outcomeMini(c.oc, c.n)}</td><td class="num">${pct((c.oc[0] + c.oc[1]) / c.n)}</td><td class="num">${x2(median(c.cov))}</td></tr>`).join("") + "</tbody>";
+
+  const hitShare = STAGES.map((_, i) => { let h = 0; for (let n = 0; n < N; n++) h += o.mask[n] >> i & 1; return h / N; });
+  STAGES.forEach((_, i) => { const el = $("hit-" + i); if (el) el.innerHTML = `<i style="width:${Math.round(hitShare[i] * 60)}px"></i>${pct(hitShare[i])}`; });
+}
+
+function run() {
+  readTop();
+  const N = +$("trials").value, seed = +$("seed").value || 1;
+  const t0 = performance.now();
+  last = runBatch(N, seed, FS, FE, true);
+  renderResults(last);
+  $("status").textContent = `${N.toLocaleString()} runs · ${Math.round(performance.now() - t0)} ms`;
+}
+let timer = null;
+const schedule = () => { clearTimeout(timer); timer = setTimeout(run, 220); };
+
+/* ---------- controls ---------- */
+function seg(kind, i, val) {
+  return `<div class="seg" role="group" aria-label="Force">${["random", "always", "never"].map(v => `<button type="button" data-${kind}="${i}" data-v="${v}" aria-pressed="${val === v}">${v[0].toUpperCase() + v.slice(1)}</button>`).join("")}</div>`;
+}
+const num = (id, v, step, min, max) => `<input type="number" id="${id}" value="${+(+v).toFixed(3)}" step="${step}"${min != null ? ` min="${min}"` : ""}${max != null ? ` max="${max}"` : ""}>`;
+function renderControls() {
+  $("t-chain").innerHTML = `<thead><tr><th>#</th><th>Link</th><th class="num">Chance / yr</th><th>Severity min · mode · max</th><th class="num">Duration (mo)</th><th class="num">Headroom</th><th>Force</th><th>Disrupted in</th></tr></thead><tbody>` +
+    STAGES.map((s, i) => `<tr><td class="idx">${String(i + 1).padStart(2, "0")}</td>
+      <td><div class="nm">${esc(s.name)}</div><div class="dt">${esc(s.detail)}</div><span class="tag">${KIND_HINT[s.kind]}</span></td>
+      <td class="num">${num(`sp-${i}`, s.p, .01, 0, 1)}</td>
+      <td><div class="sev">${num(`sa-${i}`, s.smin, .01, 0, 1)}${num(`sm-${i}`, s.smode, .01, 0, 1)}${num(`sb-${i}`, s.smax, .01, 0, 1)}</div></td>
+      <td class="num">${num(`sd-${i}`, s.dur, 1, 1, 60)}</td>
+      <td class="num">${s.kind === "physical" ? num(`sh-${i}`, s.head, .01, 0, 2) : `<span class="note">n/a</span>`}</td>
+      <td>${seg("fs", i, FS[i])}</td>
+      <td><div class="hitbar" id="hit-${i}"></div></td></tr>`).join("") + "</tbody>";
+  $("t-events").innerHTML = `<thead><tr><th>Event</th><th>Links hit (capacity removed)</th><th class="num">Chance / yr</th><th class="num">Duration (mo)</th><th>Force</th></tr></thead><tbody>` +
+    EVENTS.map((e, i) => `<tr><td class="nm">${esc(e.name)}</td>
+      <td><div class="chips">${Object.entries(e.hits).map(([id, [a, b]]) => `<span class="chip">${esc(STAGES[IDX()[id]].name)} ${Math.round(a * 100)}–${Math.round(b * 100)}%</span>`).join("")}</div></td>
+      <td class="num">${num(`ep-${i}`, e.p, .01, 0, 1)}</td><td class="num">${num(`ed-${i}`, e.dur, 1, 1, 60)}</td><td>${seg("fe", i, FE[i])}</td></tr>`).join("") + "</tbody>";
+  $("params").innerHTML = PARAM_UI.map(([k, l, h, st]) => `<div class="field"><label for="p-${k}">${l}</label>${num(`p-${k}`, P[k], st)}${h ? `<span class="hint">${h}</span>` : ""}</div>`).join("");
+  const fy = $("fyear"), cur = fy.value;
+  fy.innerHTML = years().map((y, i) => `<option value="${i}">${y}</option>`).join("");
+  fy.value = cur !== "" && +cur < P.years ? cur : "1";
+}
+function readTop() { P.forceYear = +$("fyear").value; }
+document.addEventListener("input", ev => {
+  const id = ev.target.id || "", m = id.match(/^(sp|sa|sm|sb|sd|sh|ep|ed)-(\d+)$/), v = parseFloat(ev.target.value);
+  if (m && isFinite(v)) {
+    const i = +m[2], key = { sp: "p", sa: "smin", sm: "smode", sb: "smax", sd: "dur", sh: "head", ep: "p", ed: "dur" }[m[1]];
+    (m[1][0] === "e" ? EVENTS : STAGES)[i][key] = key === "dur" ? Math.max(1, v) : Math.max(0, v);
+    if (key === "p") (m[1][0] === "e" ? EVENTS : STAGES)[i][key] = clamp(v, 0, 1);
+    schedule(); return;
+  }
+  if (id.startsWith("p-") && isFinite(v)) { P[id.slice(2)] = v; if (id === "p-life") P.life = Math.max(1, Math.round(v)); if (id === "p-share") P.share = Math.max(.01, v); schedule(); return; }
+  if (id === "seed") schedule();
+});
+document.addEventListener("change", ev => { if (["trials", "fyear"].includes(ev.target.id)) schedule(); });
+document.addEventListener("click", ev => {
+  const b = ev.target.closest("button[data-v]"); if (!b) return;
+  const arr = b.dataset.fs != null ? FS : FE, i = +(b.dataset.fs ?? b.dataset.fe);
+  arr[i] = b.dataset.v;
+  b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  schedule();
+});
+$("run").addEventListener("click", run);
+$("preset").addEventListener("change", () => { resetModel(); PRESETS[$("preset").value](); const fy = $("fyear").value; renderControls(); $("fyear").value = fy; run(); });
+
+/* ---------- exhaustive sweep ---------- */
+$("sweep").addEventListener("click", () => {
+  readTop();
+  const S = STAGES.length, total = 1 << S, per = +$("sweepN").value, seed = +$("seed").value || 1;
+  const res = []; let m = 0;
+  const btn = $("sweep"); btn.disabled = true;
+  const t0 = performance.now();
+  const chunk = () => {
+    const end = Math.min(total, m + 48);
+    for (; m < end; m++) {
+      const fs = STAGES.map((_, i) => m >> i & 1 ? "always" : "never");
+      const o = runBatch(per, seed + m * 7919, fs, EVENTS.map(() => "never"), false);
+      const oc = [0, 0, 0, 0]; for (let n = 0; n < per; n++) oc[o.outcome[n]]++;
+      let k = 0, x = m; while (x) { k += x & 1; x >>= 1; }
+      res.push({ mask: m, k, oc, pJ: (oc[0] + oc[1]) / per, cov: median(o.cov), sup: median(o.supply), dom: oc.indexOf(Math.max(...oc)) });
+    }
+    $("sweepProg").style.width = (m / total * 100) + "%";
+    $("sweepStatus").textContent = `${m.toLocaleString()} / ${total.toLocaleString()} combinations`;
+    if (m < total) setTimeout(chunk, 0);
+    else { btn.disabled = false; lastSweep = res; $("sweepStatus").textContent = `${total.toLocaleString()} combinations × ${per} runs · ${((performance.now() - t0) / 1000).toFixed(1)} s`; renderSweep(res); }
+  };
+  chunk();
+});
+function renderSweep(res) {
+  $("sweepOut").hidden = false;
+  $("sweepLegend").innerHTML = OUTCOMES.map(o => `<span style="--c:var(--${o.key})">${o.name}</span>`).join("");
+  stripChart($("c-strip"), res);
+  const none = res[0];
+  const singles = STAGES.map((s, i) => ({ s, r: res[1 << i] })).sort((a, b) => a.r.cov - b.r.cov);
+  const row = (label, r) => `<tr><td>${label}</td><td>${outcomeMini(r.oc, r.oc.reduce((a, b) => a + b))}</td><td class="num">${pct(r.pJ)}</td><td class="num">${x2(r.cov)}</td><td class="num">${pct(r.sup)}</td></tr>`;
+  $("t-single").innerHTML = `<thead><tr><th>Link forced to break</th><th>Outcome mix</th><th class="num">Justified</th><th class="num">Median cov.</th><th class="num">Supply</th></tr></thead><tbody>` +
+    row(`<span class="chip none">None (reference)</span>`, none) + singles.map(({ s, r }) => row(esc(s.name), r)).join("") + "</tbody>";
+  let rows = "";
+  for (let k = 1; k <= STAGES.length; k++) {
+    const g = res.filter(r => r.k === k).sort((a, b) => a.cov - b.cov || a.pJ - b.pJ);
+    const w = g[0], b = g[g.length - 1];
+    rows += `<tr><td class="num" rowspan="${k === STAGES.length ? 1 : 2}">${k}</td><td>${k === STAGES.length ? "All links" : "Worst"}</td><td>${chips(w.mask)}</td><td class="num">${pct(w.pJ)}</td><td class="num">${x2(w.cov)}</td></tr>`;
+    if (k < STAGES.length) rows += `<tr><td>Most survivable</td><td>${chips(b.mask)}</td><td class="num">${pct(b.pJ)}</td><td class="num">${x2(b.cov)}</td></tr>`;
+  }
+  $("t-size").innerHTML = `<thead><tr><th class="num">Size</th><th></th><th>Links</th><th class="num">Justified</th><th class="num">Median cov.</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (last) renderResults(last); if (lastSweep) stripChart($("c-strip"), lastSweep); }, 150); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => last && renderResults(last));
+
+resetModel(); renderControls(); run();
+</script>
