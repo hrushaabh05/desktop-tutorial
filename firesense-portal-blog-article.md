@@ -23,7 +23,7 @@ Wildfire spread isn't linear. A fire that starts in light, dry fuel with wind be
 
 1. **Small fires are easier to stop.** A fire caught while it's still a spot fire can often be put out by one engine crew. A fire caught later may need aircraft, many crews, and evacuations.
 2. **Human reporting is unreliable.** Fires in remote areas, at night, or along empty roads can burn a while before anyone sees them and calls 911.
-3. **The riskiest conditions are also the fastest-spreading ones.** Lindsey FireSense has made this point in testimony to the California Senate: the strong wind events that can make power lines arc or fail are the same ones that push fire fastest. Research the company cited suggests power-line-caused fires tend to grow larger than fires from other causes.
+3. **The riskiest conditions are also the fastest-spreading ones.** Lindsey FireSense has made this point in testimony to the California Senate: the strong wind events that can make power lines arc or fail are the same ones that push fire fastest. Research the company cited suggests power-line-caused fires tend to grow larger than fires from other causes [3].
 
 Automated, always-on sensors are meant to close that reporting gap.
 
@@ -31,17 +31,17 @@ Automated, always-on sensors are meant to close that reporting gap.
 
 ## What is FIREBird?
 
-**FIREBird** is a compact early wildfire detection device made by Lindsey FireSense, LLC, based in Azusa, California. It's mainly designed to mount on **utility poles**, but it can also go on buildings, streetlights, and similar structures along what the company calls "critical boundaries": power lines, roadways, and the edge where wildland meets homes.
+**FIREBird** is a compact early wildfire detection device made by Lindsey FireSense, LLC, based in Azusa, California. It's mainly designed to mount on **utility poles**, but it can also go on buildings, streetlights, and similar structures along what the company calls "critical boundaries": power lines, roadways, and the edge where wildland meets homes [2][5].
 
 According to the company, each unit includes:
 
-- **Thermal (heat) detectors tuned for wildfire.** The company's current materials describe 360-degree coverage from 14 combined thermal detectors and optical cameras. Earlier testimony described 6 thermal detectors and 8 optical cameras.
-- **Optical cameras** that capture images of a suspected fire so a person can confirm it visually.
-- **Weather instruments** that measure wind speed, wind direction, temperature, and humidity, the main variables in fire behavior.
+- **Thermal (heat) detectors tuned for wildfire.** The company's current materials describe 360-degree coverage from 14 combined thermal detectors and optical cameras. Earlier testimony described 6 thermal detectors and 8 optical cameras [2][3].
+- **Optical cameras** that capture images of a suspected fire so a person can confirm it visually [2].
+- **Weather instruments** that measure wind speed, wind direction, temperature, and humidity, the main variables in fire behavior [2][3].
 
 ### Why heat detection instead of smoke?
 
-Many people picture fire detection as smoke detection, but outdoors smoke is a poor signal: it disperses, drifts, and is hard to see at night or in fog. FIREBird uses **heat signatures**, which the company says works **day or night and in most atmospheric conditions**.
+Many people picture fire detection as smoke detection, but outdoors smoke is a poor signal: it disperses, drifts, and is hard to see at night or in fog. FIREBird uses **heat signatures**, which the company says works **day or night and in most atmospheric conditions** [2].
 
 ### How far can it "see"?
 
@@ -49,7 +49,7 @@ The company's published figures:
 
 - Detection of **very small fires up to about 400 feet** away
 - Detection of **larger fires out to roughly 900 feet**
-- Earlier testimony described a radius of almost 1,000 feet, or about a **60-acre detection zone** per device
+- Earlier testimony described a radius of almost 1,000 feet, or about a **60-acre detection zone** per device [2][3]
 
 That's a local, close-range design. Its aim is to catch ignitions right where they're most likely to start, such as under a power line or beside a road, not to watch an entire mountainside.
 
@@ -59,15 +59,15 @@ That's a local, close-range design. Its aim is to catch ignitions right where th
 
 Sensors are only useful if the right people get their data quickly. The **FireSense Portal** is the web-based dashboard that connects FIREBird devices to their operators, such as utility staff, fire departments, city emergency managers, or private property owners.
 
-The company says the portal works the same way whether you manage **one device or a thousand**. Here are its main features as described by the manufacturer.
+The company says the portal works the same way whether you manage **one device or a thousand**. Here are its main features as described by the manufacturer [1].
 
 ### 1. A single view of every device
 
-The portal opens to a summary of all connected FIREBird units, so an operator can see the status of the whole network at once instead of checking each sensor.
+The portal opens to a summary of all connected FIREBird units, so an operator can see the status of the whole network at once instead of checking each sensor [1].
 
 ### 2. One-click fire map
 
-One click brings up a **map of all devices, with any reporting active fires highlighted**. In an emergency, this answers the first question responders ask: *where is it?*
+One click brings up a **map of all devices, with any reporting active fires highlighted**. In an emergency, this answers the first question responders ask: *where is it?* [1]
 
 ### 3. Per-device detail
 
@@ -76,32 +76,32 @@ For each device, users can see:
 - **Fire and heat alarms**
 - **Live and historical weather data** (wind, temperature, humidity)
 - **Notification history**
-- **Camera images** from the device
+- **Camera images** from the device [1]
 
 ### 4. Map overlays for context
 
-The map can show **active fires, Red Flag zones, and real-time weather**. Red Flag Warnings are issued when warm temperatures, very low humidity, and strong winds combine to create high fire danger, so this overlay helps operators judge how serious an alert is.
+The map can show **active fires, Red Flag zones, and real-time weather**. Red Flag Warnings are issued when warm temperatures, very low humidity, and strong winds combine to create high fire danger, so this overlay helps operators judge how serious an alert is [1].
 
 ### 5. Automated alerts
 
-When a FIREBird detects a probable fire, the system **automatically notifies** the people assigned to that device. The company says this usually happens **within about two minutes** of detection. Alerts:
+When a FIREBird detects a probable fire, the system **automatically notifies** the people assigned to that device. The company says this usually happens **within about two minutes** of detection [2]. Alerts:
 
 - Arrive by **text message and email**
 - Include **images of the suspected fire** for quick visual confirmation
-- Go to **contact groups** set up per device, such as a utility control room, a monitoring company, or local first responders
+- Go to **contact groups** set up per device, such as a utility control room, a monitoring company, or local first responders [1][2]
 
 ### 6. Features for utilities
 
 Because FIREBird is often mounted along power lines, the portal includes tools for electric utilities:
 
 - **"Line view" cameras** pointed along the utility right-of-way, letting operators inspect the lines and the vegetation around them
-- A **"PSPS Clear"** feature that supports the end of **Public Safety Power Shutoff (PSPS)** events
+- A **"PSPS Clear"** feature that supports the end of **Public Safety Power Shutoff (PSPS)** events [1]
 
-**What's a PSPS?** In high-risk weather, some utilities, especially in California, cut power to certain lines on purpose to avoid sparking a fire. Before turning power back on, crews must confirm the lines are undamaged and no fire is burning. Remote cameras and sensors may help with that check, which can shorten outages for the communities affected.
+**What's a PSPS?** In high-risk weather, some utilities, especially in California, cut power to certain lines on purpose to avoid sparking a fire. Before turning power back on, crews must confirm the lines are undamaged and no fire is burning. Remote cameras and sensors may help with that check, which can shorten outages for the communities affected [1].
 
 ### 7. Mobile access and "Follow Me"
 
-The portal runs in a standard web browser and is designed to work on phones. The company also describes a **"Follow Me"** feature that sends alerts about fires near the user's current location, which is useful for field crews and supervisors on the move.
+The portal runs in a standard web browser and is designed to work on phones. The company also describes a **"Follow Me"** feature that sends alerts about fires near the user's current location, which is useful for field crews and supervisors on the move [1].
 
 ---
 
@@ -128,7 +128,7 @@ The main value is in step 4: getting from ignition to an alert in minutes rather
 - **Transportation agencies** watching roadsides, a common place for fires to start
 - **Large property owners**, such as campuses, industrial sites, and ranches, near wildland
 
-The company's technology has been field-tested in Southern California, including a controlled-burn demonstration with local firefighters. Rancho Cucamonga has been reported as the first California community to deploy the FIREBird system with state funding.
+The company's technology has been field-tested in Southern California, including a controlled-burn demonstration with local firefighters [6]. Rancho Cucamonga has been reported as the first California community to deploy the FIREBird system with state funding [4][7].
 
 ---
 
@@ -169,12 +169,14 @@ For residents of fire-prone regions, the main point is that **the first few minu
 
 ---
 
-*This article is for educational and informational purposes. It is not sponsored by or affiliated with Lindsey FireSense, LLC. Product details are based on publicly available information from the manufacturer and news coverage. Contact the company directly for current specifications.*
+*This article is for educational and informational purposes. It is not sponsored by or affiliated with Lindsey FireSense, LLC. Product details are based on publicly available information from the manufacturer and news coverage; bracketed numbers refer to the References list. Contact the company directly for current specifications.*
 
-**References**
+## References
 
-- Lindsey FireSense, "FireSense Portal": https://lindsey-firesense.com/firesense-portal/
-- Lindsey FireSense, "Tour the FIREBird": https://lindsey-firesense.com/tour/
-- Testimony of Jack McCall for Lindsey FireSense, California State Senate: https://sins.senate.ca.gov/sites/sins.senate.ca.gov/files/testimony_of_jack_mccall_for_lindsey_firesense.pdf
-- Fire & Safety Journal Americas, "California's first FIREBird early wildfire detection system": https://fireandsafetyjournalamericas.com/firebird-wildfire-detection/
-- T&D World directory, Lindsey FireSense LLC: https://www.tdworld.com/directory/wildfire-mitigation/company/21252082/lindsey-firesense-llc
+1. Lindsey FireSense, LLC. "FireSense Portal." https://lindsey-firesense.com/firesense-portal/
+2. Lindsey FireSense, LLC. "Tour the FIREBird." https://lindsey-firesense.com/tour/
+3. McCall, J. "Remarks of Jack McCall of Lindsey FireSense, LLC." Testimony to the California State Senate. https://sins.senate.ca.gov/sites/sins.senate.ca.gov/files/testimony_of_jack_mccall_for_lindsey_firesense.pdf
+4. Fire & Safety Journal Americas. "California's first FIREBird early wildfire detection system." https://fireandsafetyjournalamericas.com/firebird-wildfire-detection/
+5. T&D World. "Lindsey FireSense LLC" (wildfire mitigation directory). https://www.tdworld.com/directory/wildfire-mitigation/company/21252082/lindsey-firesense-llc
+6. ABC7 Los Angeles. "During fire season, this new piece of technology may be key to saving homes and lives." https://abc7.com/this-device-may-be-key-to-saving-lives-homes-in-fire-season/10744943/
+7. Kurrant. "Rancho Cucamonga To Unveil California's State-Funded Wildfire System." https://kurrant.com/kurrantly-news/rancho-cucamonga-to-unveil-californias-state-funded-wildfire-system/
