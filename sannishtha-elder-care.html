@@ -1,10 +1,10 @@
-<title>Aangan Elder Care</title>
+<title>Sannishtha Elder Care</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600&family=Rozha+One&display=swap">
 <style>
-/* Layout: a courtyard (aangan) metaphor. Arched frames hold the key moments; everything else sits on open, quiet ground. */
+/* Layout: an arched doorway motif. Arched frames hold the key moments; everything else sits on open, quiet ground. */
 :root {
   --paper: #f2f5f1;
   --surface: #ffffff;
@@ -238,16 +238,43 @@ footer h4 { color: var(--ink); margin: 0 0 8px; font-size: 1rem; }
 footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .helpline { font-family: var(--display); font-size: var(--step-2); color: var(--ink); user-select: all; }
 @media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } }
+
+/* Not-for-profit: donate + CSR */
+.fill { background: var(--haldi-soft); color: var(--ink); padding: 0 6px; border-radius: 4px; font-weight: 600; }
+.reg { margin-top: 10px; font-size: 0.88rem; line-height: 1.9; }
+.give { display: grid; gap: 18px; }
+.amounts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.amounts label { position: relative; }
+.amounts input { position: absolute; opacity: 0; }
+.amounts span { display: grid; place-items: center; min-height: 56px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font-family: var(--display); font-size: var(--step-1); cursor: pointer; font-variant-numeric: tabular-nums; }
+.amounts input:checked + span { background: var(--peacock); border-color: var(--peacock); color: var(--on-accent); }
+.amounts input:focus-visible + span { outline: 3px solid var(--haldi); outline-offset: 2px; }
+@media (max-width: 480px) { .amounts { grid-template-columns: 1fr 1fr; } }
+.impact { background: var(--peacock-soft); border-radius: 16px; padding: 20px 22px; display: grid; gap: 6px; }
+.impact strong { font-family: var(--display); font-weight: 400; font-size: var(--step-2); line-height: 1.15; }
+.impact p { color: var(--muted); font-size: 1rem; }
+.howto { border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--paper); display: grid; gap: 16px; align-content: start; }
+.howto dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 1rem; }
+.howto dt { color: var(--muted); }
+.howto dd { margin: 0; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.howto .small { font-size: 0.92rem; color: var(--muted); }
+.csr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.csr-card { border-top: 3px solid var(--haldi); padding-top: 18px; display: grid; gap: 10px; align-content: start; }
+.csr-card p { color: var(--muted); font-size: 1rem; }
+.csr-card .meta { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--peacock); }
+.csr-foot { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--surface); }
+.csr-foot ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 1rem; display: grid; gap: 4px; }
+@media (max-width: 860px) { .csr-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 
 <header class="site-head">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="Aangan home">
+    <a class="logo" href="#top" aria-label="Sannishtha Elder Care home">
       <svg class="logo-mark" viewBox="0 0 34 40" aria-hidden="true">
         <path d="M2 40V17C2 8.7 8.7 2 17 2s15 6.7 15 15v23" fill="none" stroke="var(--peacock)" stroke-width="3"/>
         <path d="M10 40V20c0-3.9 3.1-7 7-7s7 3.1 7 7v20" fill="var(--haldi)"/>
       </svg>
-      <span class="logo-word">Aangan<small>Elder care planning</small></span>
+      <span class="logo-word">Sannishtha<small>Elder Care</small></span>
     </a>
     <nav class="nav" aria-label="Main">
       <a href="#how">How it works</a>
@@ -255,6 +282,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
       <a href="#options">Care options</a>
       <a href="#schemes">Schemes</a>
       <a href="#abroad">Children abroad</a>
+      <a href="#donate">Donate</a>
     </nav>
     <a class="btn btn-primary" href="#estimate">Start your plan</a>
   </div>
@@ -264,15 +292,16 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
   <section class="hero">
     <div class="wrap">
       <div class="hero-copy">
-        <span class="eyebrow">Long-term care planning for Indian families</span>
+        <span class="eyebrow">A not-for-profit programme of Sannishtha Foundation</span>
         <h1>Plan your parents’ later years <em>before a crisis plans them for you.</em></h1>
-        <p class="hindi" lang="hi">माँ-बाबा की देखभाल, समय रहते।</p>
-        <p class="lede">Aangan predicts the care your parent is likely to need over the next ten years, what it will cost in your city, and which schemes and insurance can pay for it. Then a gerontology-trained care manager helps the whole family act on it.</p>
+        <p class="hindi" lang="hi">सन्निष्ठा · माँ-बाबा की देखभाल, समय रहते।</p>
+        <p class="lede">Sannishtha Elder Care predicts the care your parent is likely to need over the next ten years, what it will cost in your city, and which schemes and insurance can pay for it. Then a gerontology-trained care manager helps the whole family act on it.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#estimate">Estimate care costs</a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
         </div>
         <div class="trust">
+          <span>Run by a Section 8 not-for-profit</span>
           <span>Built by gerontologists in Mumbai</span>
           <span>English, हिंदी, मराठी, ગુજરાતી</span>
           <span>Free first plan</span>
@@ -517,8 +546,8 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
       <div class="note">
         <span class="eyebrow">From our gerontology team</span>
         <p>In Mumbai we see the same story every week. A parent in their late seventies, a third-floor flat with no lift, a slippery bathroom in the monsoon. Then a fall, a hip fracture, and a family making ten big decisions in one week in a hospital corridor.</p>
-        <p>Almost every one of those decisions could have been made calmly, two years earlier, with the parent at the table. That is why we built Aangan. Ageing well at home is possible for most Indian elders. It just needs a plan.</p>
-        <span class="sig">Geriatric care team, Aangan · Mumbai</span>
+        <p>Almost every one of those decisions could have been made calmly, two years earlier, with the parent at the table. That is why Sannishtha Foundation started this programme. Ageing well at home is possible for most Indian elders. It just needs a plan.</p>
+        <span class="sig">Geriatric care team, Sannishtha Elder Care · Mumbai</span>
       </div>
       <div>
         <div class="section-head" style="margin-bottom:20px">
@@ -540,6 +569,79 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
     </div>
   </section>
 
+  <section class="band band-alt" id="donate">
+    <div class="wrap split">
+      <div class="give">
+        <div class="section-head" style="margin:0">
+          <span class="eyebrow">Donate</span>
+          <h2>Fund care for an elder who has no one to plan it</h2>
+          <p class="lede">Many elders in Mumbai live alone in a single room, with children far away or no family at all. Your gift pays for their care plan, their home safety and a care manager who checks on them.</p>
+        </div>
+        <fieldset>
+          <legend class="eyebrow" style="margin-bottom:10px">Choose an amount</legend>
+          <div class="amounts" id="amounts">
+            <label><input type="radio" id="amt-1" name="amt" value="0"><span>₹2,000</span></label>
+            <label><input type="radio" id="amt-2" name="amt" value="1" checked><span>₹5,000</span></label>
+            <label><input type="radio" id="amt-3" name="amt" value="2"><span>₹12,000</span></label>
+            <label><input type="radio" id="amt-4" name="amt" value="3"><span>₹25,000</span></label>
+          </div>
+        </fieldset>
+        <div class="impact" aria-live="polite">
+          <strong id="impactHead">Four sessions of home physiotherapy</strong>
+          <p id="impactBody">Balance and strength work for an elder who has already fallen once. Physiotherapy is the best protection against a second, more serious fall.</p>
+        </div>
+      </div>
+      <div class="howto">
+        <h3>How to give</h3>
+        <dl>
+          <dt>UPI</dt><dd><span class="fill">[add UPI ID]</span></dd>
+          <dt>Account name</dt><dd>Sannishtha Foundation</dd>
+          <dt>Account no.</dt><dd><span class="fill">[add account no.]</span></dd>
+          <dt>IFSC</dt><dd><span class="fill">[add IFSC]</span></dd>
+          <dt>Receipts</dt><dd><span class="fill">[add email]</span></dd>
+        </dl>
+        <p class="small">After you give, email us your name, PAN and address. We send a receipt and an 80G certificate for every donation.</p>
+        <p class="small">Indian citizens living abroad can donate from an NRO or NRE account. We cannot accept donations from foreign nationals or OCI card holders, because Indian law requires separate FCRA registration for those.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="csr">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">CSR partnerships</span>
+        <h2>Put your company’s CSR budget to work for India’s elders</h2>
+        <p class="lede">Care for senior citizens is listed under Schedule VII, item (iii) of the Companies Act, 2013. Sannishtha Foundation is registered with the Ministry of Corporate Affairs to carry out CSR projects. Choose one of our programmes, or we can design one with you.</p>
+      </div>
+      <div class="csr-grid">
+        <div class="csr-card">
+          <span class="meta">Schedule VII (iii)</span>
+          <h3>Ageing in place, one ward at a time</h3>
+          <p>Care plans, home safety changes, physiotherapy and a named care manager for low-income elders living alone in one BMC ward.</p>
+        </div>
+        <div class="csr-card">
+          <span class="meta">Schedule VII (i), (iii)</span>
+          <h3>Memory screening camps</h3>
+          <p>Community camps run with geriatricians and memory clinics to find dementia early, followed by counselling for families on what comes next.</p>
+        </div>
+        <div class="csr-card">
+          <span class="meta">Schedule VII (ii)</span>
+          <h3>Trained attendants, better livelihoods</h3>
+          <p>Elder care training for young women from low-income communities, with placement support. India needs many more trained attendants.</p>
+        </div>
+      </div>
+      <div class="csr-foot">
+        <ul>
+          <li>Board-ready proposals with budgets and outcomes</li>
+          <li>Quarterly progress reports and utilisation certificates</li>
+          <li>Support for impact assessment where your rules need it</li>
+          <li>Employee volunteering with elders in Mumbai</li>
+        </ul>
+        <p style="font-size:var(--step-1)">Write to our CSR team at <span class="fill" style="user-select:all">[add CSR email]</span></p>
+      </div>
+    </div>
+  </section>
+
   <section class="band band-alt">
     <div class="wrap">
       <div class="section-head">
@@ -551,7 +653,9 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
         <details><summary>Is a senior living community abandoning our parents?</summary><p>No. Many elders choose it for company, safety and a lift. We help families talk about this openly and visit communities together. For most families the plan is ageing at home with the right support, and we say so when that is the better option.</p></details>
         <details><summary>How do you find trustworthy attendants?</summary><p>We work only with agencies that provide police verification, written contracts, replacement guarantees and basic GDA training. Our care manager checks in on the attendant as well as your parent.</p></details>
         <details><summary>Can you help if my parent has memory problems?</summary><p>Yes. We arrange a cognitive screening with a geriatrician or memory clinic, explain the diagnosis in plain words, and train family members and attendants in dementia care. Early diagnosis opens up more options.</p></details>
-        <details><summary>What does Aangan cost?</summary><p>Your first care forecast and family call are free. Ongoing care management is a monthly plan, and we never take commissions from agencies or senior living operators, so our advice stays independent.</p></details>
+        <details><summary>What does it cost?</summary><p>Your first care forecast and family call are free for everyone. Ongoing care management has a monthly fee on a sliding scale linked to household income, and elders with no family support or limited means pay nothing. The fees cover our costs. As a Section 8 company, Sannishtha Foundation cannot pay profits or dividends to anyone, so any surplus goes back into free care for elders who cannot pay.</p></details>
+        <details><summary>Why is a not-for-profit doing this?</summary><p>Families tell us they no longer trust advice from agencies and senior living operators who earn a commission on every placement. We take no commissions or referral fees from anyone we recommend, so our only interest is what is right for your parent.</p></details>
+        <details><summary>Can I get a tax deduction on my donation?</summary><p>Donations to Sannishtha Foundation are eligible for deduction under the Income Tax Act, and we send a receipt and certificate for every gift. Whether you can claim it depends on the tax regime you file under, so check with your tax adviser.</p></details>
       </div>
     </div>
   </section>
@@ -570,8 +674,9 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 <footer>
   <div class="wrap">
     <div>
-      <a class="logo" href="#top"><span class="logo-word">Aangan<small>Elder care planning · Mumbai</small></span></a>
-      <p style="margin-top:14px;max-width:46ch">Aangan helps Indian families plan, pay for and coordinate long-term care for ageing parents. We do not replace emergency services or your doctor.</p>
+      <a class="logo" href="#top"><span class="logo-word">Sannishtha<small>Elder Care · Mumbai</small></span></a>
+      <p style="margin-top:14px;max-width:46ch">Sannishtha Elder Care is a programme of Sannishtha Foundation, a not-for-profit company registered under Section 8 of the Companies Act, 2013. We help Indian families plan, pay for and coordinate long-term care for ageing parents. We do not replace emergency services or your doctor.</p>
+      <p class="reg">CIN <span class="fill">[add CIN]</span> · 12A <span class="fill">[add no.]</span> · 80G <span class="fill">[add no.]</span> · CSR-1 <span class="fill">[add no.]</span></p>
     </div>
     <div>
       <h4>National Elderline</h4>
@@ -585,6 +690,8 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
         <li><a href="#options">Care options</a></li>
         <li><a href="#schemes">Schemes &amp; tax</a></li>
         <li><a href="#abroad">Children abroad</a></li>
+        <li><a href="#donate">Donate</a></li>
+        <li><a href="#csr">CSR partnerships</a></li>
       </ul>
     </div>
   </div>
@@ -681,7 +788,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
   render();
 
   // Readiness checklist, remembered on this device only
-  var KEY = "aangan-readiness";
+  var KEY = "sannishtha-readiness";
   var boxes = Array.prototype.slice.call(document.querySelectorAll("#checklist input"));
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
@@ -695,5 +802,20 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
   }
   boxes.forEach(function (b) { b.addEventListener("change", score); });
   score();
+
+  // Donation impact
+  var IMPACT = [
+    ["A safer bathroom", "Grab bars, an anti-skid mat and a night light fitted in an elder’s home. Most falls at home happen in the bathroom."],
+    ["Four sessions of home physiotherapy", "Balance and strength work for an elder who has already fallen once. Physiotherapy is the best protection against a second, more serious fall."],
+    ["A month of care management", "Weekly visits, daily check-in calls and doctor appointments for an elder who lives alone."],
+    ["A month of a day attendant", "Twelve hours of help every day for a widowed elder recovering from a fracture, with no family nearby."]
+  ];
+  function impact() {
+    var i = +document.querySelector('input[name="amt"]:checked').value;
+    $("impactHead").textContent = IMPACT[i][0];
+    $("impactBody").textContent = IMPACT[i][1];
+  }
+  $("amounts").addEventListener("change", impact);
+  impact();
 })();
 </script>
