@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BESS Entry Readiness Scorecard</title>
+<meta name="description" content="A 5-minute self-assessment for Indian companies planning to enter battery energy storage: get your readiness score, your best entry point and your top gaps, based on IESA September 2026 market data.">
+<style>
+  :root {
+    --bg: #f6f8f7;
+    --surface: #ffffff;
+    --surface-2: #eef3f1;
+    --text: #13201b;
+    --muted: #55655e;
+    --border: #d6e0dc;
+    --accent: #0b7a5a;
+    --accent-ink: #ffffff;
+    --accent-soft: #dcf1e9;
+    --warn: #b45309;
+    --warn-soft: #fdf0dc;
+    --low: #b42318;
+    --mid: #b45309;
+    --high: #0b7a5a;
+    --shadow: 0 1px 2px rgba(16,24,20,.06), 0 4px 16px rgba(16,24,20,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1513; --surface: #151f1c; --surface-2: #1c2925; --text: #e7efeb; --muted: #9db0a8;
+      --border: #2a3a35; --accent: #3fc79a; --accent-ink: #062018; --accent-soft: #173a2f;
+      --warn: #f2b25c; --warn-soft: #3a2b16; --low: #f47b6e; --mid: #f2b25c; --high: #3fc79a;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1513; --surface: #151f1c; --surface-2: #1c2925; --text: #e7efeb; --muted: #9db0a8;
+    --border: #2a3a35; --accent: #3fc79a; --accent-ink: #062018; --accent-soft: #173a2f;
+    --warn: #f2b25c; --warn-soft: #3a2b16; --low: #f47b6e; --mid: #f2b25c; --high: #3fc79a;
+    --shadow: none;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 24px 16px 64px; }
+  header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
+  .brand { font-weight: 700; letter-spacing: .02em; }
+  .brand span { color: var(--accent); }
+  .tag { font-size: 13px; color: var(--muted); }
+  h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.12; margin: 0 0 12px; letter-spacing: -.01em; }
+  h2 { font-size: 22px; margin: 0 0 12px; }
+  h3 { font-size: 17px; margin: 0 0 8px; }
+  p.lead { font-size: 18px; color: var(--muted); max-width: 680px; margin: 0 0 24px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 24px 0; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .stat b { display: block; font-size: 26px; line-height: 1.1; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat small { color: var(--muted); font-size: 13.5px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 10px;
+    padding: 13px 20px; font: inherit; font-weight: 650; cursor: pointer; text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.05); }
+  .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn:focus-visible, .opt:focus-within, .persona:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13.5px; }
+  .hidden { display: none !important; }
+  ul.ticks { padding-left: 0; list-style: none; margin: 0; }
+  ul.ticks li { padding-left: 26px; position: relative; margin: 6px 0; }
+  ul.ticks li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+  .personas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .persona {
+    text-align: left; background: var(--surface); color: var(--text); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 16px; cursor: pointer; font: inherit;
+  }
+  .persona:hover { border-color: var(--accent); }
+  .persona[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+  .persona .lbl { font-weight: 650; display: block; margin-bottom: 4px; }
+  .persona .sub { font-size: 14px; color: var(--muted); }
+
+  .progress { height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; margin: 8px 0 20px; }
+  .progress > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s; }
+  .q { margin-bottom: 22px; }
+  .q legend { font-weight: 650; margin-bottom: 10px; padding: 0; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  .opts { display: grid; gap: 8px; }
+  .opt { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--border); border-radius: 10px; padding: 11px 12px; cursor: pointer; background: var(--surface); }
+  .opt:hover { border-color: var(--accent); }
+  .opt input { margin-top: 4px; accent-color: var(--accent); }
+  .opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+  .nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+
+  .result-head { display: grid; grid-template-columns: 170px 1fr; gap: 24px; align-items: center; }
+  @media (max-width: 600px) { .result-head { grid-template-columns: 1fr; justify-items: start; } }
+  .gauge { position: relative; width: 160px; height: 160px; }
+  .gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .gauge .num { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .gauge .num b { font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .gauge .num small { display: block; color: var(--muted); font-size: 13px; }
+  .band { display: inline-block; font-size: 13px; font-weight: 650; padding: 4px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-bottom: 8px; }
+  .dims { display: grid; gap: 10px; margin-top: 8px; }
+  .dim { display: grid; grid-template-columns: minmax(130px, 220px) 1fr 40px; gap: 10px; align-items: center; font-size: 14.5px; }
+  @media (max-width: 520px) { .dim { grid-template-columns: 1fr 40px; } .dim .bar { grid-column: 1 / -1; grid-row: 2; } }
+  .bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 99px; }
+  .dim span.v { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+  .gap { border-left: 3px solid var(--warn); background: var(--warn-soft); padding: 12px 14px; border-radius: 0 10px 10px 0; margin: 10px 0; }
+  .gap b { display: block; margin-bottom: 2px; }
+  .cta { background: var(--accent-soft); border-color: transparent; }
+  form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { form .row { grid-template-columns: 1fr; } }
+  label.f { display: block; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+  label.f input, label.f select {
+    display: block; width: 100%; margin-top: 5px; padding: 11px 12px; font: inherit; font-weight: 400;
+    color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+  }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--muted); margin: 6px 0 16px; }
+  .consent input { margin-top: 3px; accent-color: var(--accent); }
+  footer { margin-top: 40px; font-size: 12.5px; color: var(--muted); }
+  section + section { margin-top: 20px; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; color: #000; }
+    .card { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Syselec <span>Technologies</span></div>
+    <div class="tag">BESS Market-Entry Advisory</div>
+  </header>
+
+  <!-- ============ INTRO ============ -->
+  <main id="intro">
+    <h1>Is your company ready to enter India's battery storage market?</h1>
+    <p class="lead">Take the free <strong>BESS Entry Readiness Scorecard</strong>. Answer 8 questions in about 5 minutes and get your readiness score, the best entry point for your business, and the three gaps to close first.</p>
+
+    <div class="stats" aria-label="India BESS market snapshot">
+      <div class="stat"><b>308 GWh</b><small>energy storage tendered in India since 2018 (167 GWh BESS)</small></div>
+      <div class="stat"><b>~17×</b><small>growth in installed BESS: 0.8 GWh (Dec 2025) to 13.7 GWh (Sep 2026)</small></div>
+      <div class="stat"><b>91 GWh</b><small>of storage tenders issued in 2026 so far</small></div>
+      <div class="stat"><b>~20%</b><small>of tendered capacity cancelled. Entering without a plan is costly.</small></div>
+    </div>
+
+    <div class="card">
+      <h2>You'll get</h2>
+      <ul class="ticks">
+        <li>A readiness score out of 100 across 8 factors that decide success in BESS</li>
+        <li>The value-chain entry point that fits your company: manufacturing, EPC/turnkey, project ownership, power electronics or O&amp;M services</li>
+        <li>Your top 3 gaps, with practical first steps</li>
+        <li>The market numbers that matter for your segment, from IESA's September 2026 market update</li>
+      </ul>
+      <p class="small muted" style="margin:14px 0 18px">Built for mid-size and large companies (roughly INR 500 crore revenue and above) evaluating a move into energy storage.</p>
+      <button class="btn" id="start">Start the scorecard →</button>
+    </div>
+  </main>
+
+  <!-- ============ STEP 1: PERSONA ============ -->
+  <main id="step-persona" class="hidden">
+    <p class="small muted">Step 1 of 2</p>
+    <h2>Which best describes your company's plan?</h2>
+    <p class="muted" style="margin-top:0">Pick the closest match. You can change it later.</p>
+    <div class="personas" id="personas" role="group" aria-label="Company type"></div>
+    <div class="nav">
+      <button class="btn ghost" data-go="intro">← Back</button>
+      <button class="btn" id="to-questions" disabled>Continue →</button>
+    </div>
+  </main>
+
+  <!-- ============ STEP 2: QUESTIONS ============ -->
+  <main id="step-questions" class="hidden">
+    <p class="small muted">Step 2 of 2 · <span id="answered">0</span> of 8 answered</p>
+    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    <form id="qform"></form>
+    <div class="nav">
+      <button class="btn ghost" data-go="step-persona">← Back</button>
+      <button class="btn" id="to-result" disabled>See my score →</button>
+    </div>
+  </main>
+
+  <!-- ============ RESULT ============ -->
+  <main id="step-result" class="hidden">
+    <section class="card">
+      <div class="result-head">
+        <div class="gauge" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--surface-2)" stroke-width="12"/>
+            <circle id="gauge-arc" cx="60" cy="60" r="52" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 999"/>
+          </svg>
+          <div class="num"><div><b id="score">0</b><small>out of 100</small></div></div>
+        </div>
+        <div>
+          <span class="band" id="band"></span>
+          <h2 id="band-title" style="margin-bottom:6px"></h2>
+          <p class="muted" id="band-text" style="margin:0"></p>
+          <p class="small muted" style="margin:10px 0 0">Profile: <strong id="persona-name"></strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Your readiness by factor</h2>
+      <div class="dims" id="dims"></div>
+    </section>
+
+    <section class="card">
+      <h2>Your top 3 gaps to close first</h2>
+      <div id="gaps"></div>
+    </section>
+
+    <section class="grid2">
+      <div class="card">
+        <h3>Your segment's opportunity</h3>
+        <ul class="ticks" id="opp"></ul>
+      </div>
+      <div class="card">
+        <h3>The decisions you'll face next</h3>
+        <ul class="ticks" id="decisions"></ul>
+      </div>
+    </section>
+
+    <section class="card cta no-print" id="lead">
+      <h2>Get your full BESS Entry Plan, free</h2>
+      <p style="margin-top:0">Share your details and a Syselec BESS specialist will send you:</p>
+      <ul class="ticks" style="margin-bottom:16px">
+        <li>A detailed PDF report for your profile, with a 3-year entry roadmap</li>
+        <li>The <strong>India BESS Entry Playbook 2026</strong>: tender pipeline, tariff trends, policy triggers and value-chain economics</li>
+        <li>A free 30-minute <strong>BESS Entry Diagnostic</strong> call to review your score</li>
+      </ul>
+      <form id="leadform" novalidate>
+        <div class="row">
+          <label class="f">Full name<input name="name" required autocomplete="name"></label>
+          <label class="f">Work email<input name="email" type="email" required autocomplete="email"></label>
+        </div>
+        <div class="row">
+          <label class="f">Company<input name="company" required autocomplete="organization"></label>
+          <label class="f">Designation<input name="designation" required autocomplete="organization-title"></label>
+        </div>
+        <div class="row">
+          <label class="f">Annual revenue
+            <select name="revenue" required>
+              <option value="">Select…</option>
+              <option>Below INR 500 crore</option>
+              <option>INR 500–5,000 crore</option>
+              <option>Above INR 5,000 crore</option>
+            </select>
+          </label>
+          <label class="f">Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label>
+        </div>
+        <label class="consent"><input type="checkbox" name="consent" required> I agree that Syselec Technologies may contact me about my scorecard results and its BESS advisory services. I can unsubscribe at any time.</label>
+        <p class="small" id="form-error" style="color:var(--low);margin:0 0 10px" role="alert"></p>
+        <button class="btn" type="submit">Send me my BESS Entry Plan →</button>
+      </form>
+      <div id="thanks" class="hidden" role="status">
+        <h3>Thank you. Your request is in.</h3>
+        <p class="muted" style="margin:0">A Syselec BESS specialist will email your full plan and suggest a time for the diagnostic call within 2 working days.</p>
+      </div>
+    </section>
+
+    <div class="nav no-print" style="margin-top:16px">
+      <button class="btn ghost" id="restart">↺ Retake the scorecard</button>
+      <button class="btn ghost" onclick="window.print()">Save this summary as PDF</button>
+    </div>
+  </main>
+
+  <footer>
+    Market data: India Energy Storage Alliance (IESA), <em>ESS Market Update, September 2026</em> (updated to 1 October 2026). The scorecard is a self-assessment tool and does not constitute investment advice.
+  </footer>
+</div>
+
+<script>
+/* ---------- Configuration: set before going live ---------- */
+const CONFIG = {
+  // POST endpoint for your CRM or form service (e.g. HubSpot form, n8n webhook). Leave empty to use email fallback.
+  FORM_ENDPOINT: "",
+  // Inbox that receives leads when no endpoint is set. Replace with Syselec's real address.
+  CONTACT_EMAIL: "bess@syselec.example"
+};
+
+/* ---------- Content ---------- */
+const PERSONAS = {
+  mfg: {
+    name: "Manufacturer entering cells, packs or containers",
+    sub: "Auto components, batteries, electricals or metals group planning a cell, pack or container plant",
+    opp: [
+      "Domestic Li-ion cell capacity is ~2 GWh today and announced to reach ~110 GWh by 2030",
+      "Cell/pack-to-container capacity is expected to grow from 60–70 GWh to 180–220 GWh by 2030",
+      "40+ companies have already announced plants, so positioning and partner choice decide who wins"
+    ],
+    decisions: [
+      "Cells or packs/containers: where will the margin be in 2030?",
+      "LFP now or a sodium-ion option, and which technology partner or JV",
+      "Plant location and state incentives (Gujarat, Maharashtra, Tamil Nadu, Karnataka, Telangana)",
+      "How to secure anchor offtake from EPCs and developers"
+    ]
+  },
+  epc: {
+    name: "EPC contractor moving to turnkey BESS",
+    sub: "Solar, substation or infrastructure EPC company aiming to deliver storage projects end to end",
+    opp: [
+      "EPC is 23% of tendered storage capacity, with live NTPC, NGEL, NREL and Mahagenco EPC tenders of 1–7.8 GWh",
+      "122 GWh of storage is in execution, and BOO winners need capable EPC partners",
+      "Small 1–30 MWh EPC tenders (municipal, island, state agencies) are the fastest way to build references"
+    ],
+    decisions: [
+      "In-house integration or partnership with a container OEM",
+      "How to meet pre-qualification rules without past BESS references",
+      "Pricing performance guarantees: availability, round-trip efficiency, liquidated damages",
+      "Preparing for the proposed CEA grid-forming PCS requirement from 2027"
+    ]
+  },
+  bid: {
+    name: "First-time storage bidder or asset owner",
+    sub: "Infra, industrial or RE company bidding build-own-operate (BOO) storage tenders or building merchant BESS",
+    opp: [
+      "BOO is 66% of tendered storage capacity, so the asset owner is the market's main buyer",
+      "Recent 2-hour standalone tariffs: INR 1.48–3.35 lakh/MW/month; 4-hour: INR 2.85–6.45 lakh/MW/month",
+      "VGF-2 support and new state tenders (Maharashtra, Andhra Pradesh, Telangana, Karnataka) keep the pipeline active"
+    ],
+    decisions: [
+      "What tariff to bid, given cell-price risk, degradation and augmentation",
+      "Which states and offtakers to target to avoid cancellation and PSA delays",
+      "Contracted, merchant, FDRE or co-located revenue model",
+      "Choosing EPC, OEM and O&M partners to reach financial close"
+    ]
+  },
+  oem: {
+    name: "Power-electronics or electrical OEM",
+    sub: "Inverter, transformer, switchgear or automation maker adding PCS, EMS or BoP for storage",
+    opp: [
+      "CEA has proposed that all BESS PCS from 2027 must be grid-forming",
+      "CEA has also proposed 15% storage on new solar and wind projects from 2027",
+      "Developers want vendor-neutral EMS and plant controllers that work with any container"
+    ],
+    decisions: [
+      "Grid-forming PCS roadmap: build, license or partner",
+      "EMS and plant-controller software strategy",
+      "Type-testing, certification and vendor-list approvals",
+      "Channel strategy with EPCs, integrators and container makers"
+    ]
+  },
+  om: {
+    name: "O&M and lifecycle services provider",
+    sub: "Solar O&M, facility management or engineering-services firm building BESS service capability",
+    opp: [
+      "13.7 GWh of BESS is already operating, with ~4 GWh more expected by December 2026",
+      "122 GWh is in execution, and every project needs 12+ years of O&M and warranty management",
+      "CTUIL guidance allows MWh augmentation without extra MW, creating an augmentation-services market"
+    ],
+    decisions: [
+      "Service portfolio: O&M, capacity testing, warranty claims, augmentation, recycling",
+      "Pricing: fixed fee or availability-linked contracts",
+      "Technician training, fire-safety readiness and certification",
+      "Analytics and state-of-health monitoring tools"
+    ]
+  }
+};
+
+const QUESTIONS = [
+  { id: "mandate", short: "Board mandate & budget",
+    q: "How far has your board gone in committing to BESS?",
+    o: ["Informal interest only", "Exploring, with a team assigned", "Budget approved for studies and pilots", "Capex committed with a defined target"],
+    gap: "Turn interest into a funded, board-approved BESS business case with clear go/no-go gates." },
+  { id: "tech", short: "In-house BESS expertise",
+    q: "What BESS technical expertise do you have in-house?",
+    o: ["None yet", "General electrical / power engineers", "A few people with BESS project experience", "A dedicated BESS team (BMS, PCS, EMS, grid integration)"],
+    gap: "Map the skills you need (BMS, PCS, EMS, fire safety, grid codes) and decide what to hire, partner or outsource." },
+  { id: "refs", short: "Track record",
+    q: "What relevant track record can you show customers or tender authorities?",
+    o: ["None in power or energy", "Adjacent experience (solar, substations, electrical products)", "A BESS pilot or a small project", "Commercial BESS projects or products delivered"],
+    gap: "Plan a reference-building path: small tenders, pilots or consortium roles that unlock pre-qualification." },
+  { id: "partners", short: "Partner ecosystem",
+    q: "How developed are your technology and supply partnerships?",
+    o: ["No partners identified", "Early conversations", "MoU or shortlisted partners", "Signed agreements with key partners"],
+    gap: "Run a structured partner and supplier due diligence covering technology, warranties, bankability and back-to-back terms." },
+  { id: "policy", short: "Regulatory readiness",
+    q: "How well do you track storage policy (CEA grid-forming proposal, VGF-2, CTUIL guidelines, state mandates)?",
+    o: ["Not tracking yet", "Generally aware", "Tracking actively, with an internal view", "A compliance plan is built into our strategy"],
+    gap: "Build a regulatory watch and compliance plan, especially for the proposed 2027 grid-forming and 15% storage rules." },
+  { id: "finance", short: "Financial & risk modelling",
+    q: "How robust is your BESS financial model?",
+    o: ["No model yet", "A basic payback estimate", "A detailed model with cell-price and tariff sensitivities", "A lender-grade model, reviewed independently"],
+    gap: "Build a lender-grade model that stress-tests cell prices, tariffs, degradation and cancellation risk." },
+  { id: "market", short: "Customer & offtake clarity",
+    q: "How clear are you on who will buy your product or service?",
+    o: ["Not yet defined", "Target segments listed", "Active conversations with prospects", "LOIs, tender wins or signed offtake"],
+    gap: "Define target customers by value-chain segment and secure early offtake or tender wins." },
+  { id: "time", short: "Execution timeline",
+    q: "When do you aim to have your first BESS revenue?",
+    o: ["More than 24 months away", "12–24 months", "6–12 months", "Within 6 months"],
+    gap: "Set a realistic 3-year roadmap with milestones tied to the tender calendar and policy dates." }
+];
+
+const BANDS = [
+  { max: 34, label: "Explorer", title: "You're at the starting line",
+    text: "You see the opportunity, but the foundations aren't in place yet. A focused entry strategy now will save you from costly false starts." },
+  { max: 67, label: "Builder", title: "You're building momentum",
+    text: "Key pieces are in place, but gaps in capability, partners or modelling could hurt your first bids or investments. Closing them now gives you an edge." },
+  { max: 100, label: "Market-ready", title: "You're ready to compete",
+    text: "You have strong foundations. The priority now is sharpening bid economics, execution and lifecycle performance so you win profitably." }
+];
+
+/* ---------- State and rendering ---------- */
+const state = { persona: null, answers: {} };
+const $ = (id) => document.getElementById(id);
+const screens = ["intro", "step-persona", "step-questions", "step-result"];
+function show(id) {
+  screens.forEach(s => $(s).classList.toggle("hidden", s !== id));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => show(b.dataset.go)));
+$("start").addEventListener("click", () => show("step-persona"));
+
+// Persona cards
+const pWrap = $("personas");
+Object.entries(PERSONAS).forEach(([key, p]) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "persona"; b.setAttribute("aria-pressed", "false"); b.dataset.key = key;
+  b.innerHTML = `<span class="lbl"></span><span class="sub"></span>`;
+  b.querySelector(".lbl").textContent = p.name;
+  b.querySelector(".sub").textContent = p.sub;
+  b.addEventListener("click", () => {
+    state.persona = key;
+    pWrap.querySelectorAll(".persona").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    $("to-questions").disabled = false;
+  });
+  pWrap.appendChild(b);
+});
+$("to-questions").addEventListener("click", () => show("step-questions"));
+
+// Questions
+const qform = $("qform");
+QUESTIONS.forEach((item, i) => {
+  const fs = document.createElement("fieldset");
+  fs.className = "q";
+  const lg = document.createElement("legend");
+  lg.textContent = `${i + 1}. ${item.q}`;
+  fs.appendChild(lg);
+  const opts = document.createElement("div"); opts.className = "opts";
+  item.o.forEach((txt, v) => {
+    const l = document.createElement("label"); l.className = "opt";
+    const inp = document.createElement("input");
+    inp.type = "radio"; inp.name = item.id; inp.value = v;
+    inp.addEventListener("change", () => { state.answers[item.id] = v; updateProgress(); });
+    const s = document.createElement("span"); s.textContent = txt;
+    l.append(inp, s); opts.appendChild(l);
+  });
+  fs.appendChild(opts); qform.appendChild(fs);
+});
+function updateProgress() {
+  const n = Object.keys(state.answers).length;
+  $("answered").textContent = n;
+  $("prog").style.width = (n / QUESTIONS.length * 100) + "%";
+  $("to-result").disabled = n < QUESTIONS.length;
+}
+$("to-result").addEventListener("click", renderResult);
+
+function colorFor(pct) { return pct < 34 ? "var(--low)" : pct < 67 ? "var(--mid)" : "var(--high)"; }
+
+function computeScore() {
+  const total = QUESTIONS.reduce((s, q) => s + state.answers[q.id], 0);
+  return Math.round(total / (QUESTIONS.length * 3) * 100);
+}
+
+function renderResult() {
+  const score = computeScore();
+  const band = BANDS.find(b => score <= b.max);
+  const p = PERSONAS[state.persona];
+
+  $("score").textContent = score;
+  const circ = 2 * Math.PI * 52;
+  const arc = $("gauge-arc");
+  arc.setAttribute("stroke", colorFor(score));
+  arc.setAttribute("stroke-dasharray", `${circ * score / 100} ${circ}`);
+  $("band").textContent = band.label;
+  $("band-title").textContent = band.title;
+  $("band-text").textContent = band.text;
+  $("persona-name").textContent = p.name;
+
+  const dims = $("dims"); dims.innerHTML = "";
+  QUESTIONS.forEach(q => {
+    const pct = Math.round(state.answers[q.id] / 3 * 100);
+    const row = document.createElement("div"); row.className = "dim";
+    row.innerHTML = `<span></span><div class="bar"><i></i></div><span class="v"></span>`;
+    row.children[0].textContent = q.short;
+    row.querySelector(".bar i").style.width = Math.max(pct, 3) + "%";
+    row.querySelector(".bar i").style.background = colorFor(pct);
+    row.querySelector(".v").textContent = pct + "%";
+    dims.appendChild(row);
+  });
+
+  const gaps = $("gaps"); gaps.innerHTML = "";
+  const sorted = [...QUESTIONS].sort((a, b) => state.answers[a.id] - state.answers[b.id]).slice(0, 3);
+  sorted.forEach(q => {
+    const d = document.createElement("div"); d.className = "gap";
+    const b = document.createElement("b"); b.textContent = q.short;
+    const s = document.createElement("span"); s.textContent = q.gap;
+    d.append(b, s); gaps.appendChild(d);
+  });
+
+  const fill = (id, arr) => { const ul = $(id); ul.innerHTML = ""; arr.forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); }); };
+  fill("opp", p.opp); fill("decisions", p.decisions);
+
+  $("leadform").classList.remove("hidden"); $("thanks").classList.add("hidden");
+  show("step-result");
+}
+
+$("restart").addEventListener("click", () => {
+  state.answers = {}; qform.reset(); updateProgress(); show("step-persona");
+});
+
+// Lead capture
+$("leadform").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, err = $("form-error");
+  const data = Object.fromEntries(new FormData(f).entries());
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || "");
+  if (!data.name || !data.company || !data.designation || !data.revenue || !emailOk || !data.consent) {
+    err.textContent = "Please fill in all required fields with a valid work email, and tick the consent box.";
+    return;
+  }
+  err.textContent = "";
+  const payload = {
+    ...data,
+    profile: PERSONAS[state.persona].name,
+    score: computeScore(),
+    band: BANDS.find(b => computeScore() <= b.max).label,
+    answers: Object.fromEntries(QUESTIONS.map(q => [q.short, q.o[state.answers[q.id]]])),
+    source: "BESS Entry Readiness Scorecard",
+    submitted_at: new Date().toISOString()
+  };
+  try {
+    if (CONFIG.FORM_ENDPOINT) {
+      const r = await fetch(CONFIG.FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!r.ok) throw new Error("Request failed");
+    } else {
+      const body = Object.entries(payload).map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v, null, 1) : v}`).join("\n");
+      window.location.href = `mailto:${CONFIG.CONTACT_EMAIL}?subject=${encodeURIComponent("BESS Entry Plan request – " + data.company)}&body=${encodeURIComponent(body)}`;
+    }
+    f.classList.add("hidden"); $("thanks").classList.remove("hidden");
+  } catch (_) {
+    err.textContent = "Something went wrong sending your details. Please try again, or email " + CONFIG.CONTACT_EMAIL + ".";
+  }
+});
+</script>
+</body>
+</html>
