@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Diwali Greeting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #1a0d0d; }
+  body { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  svg { width: 100%; max-width: 1448px; height: auto; display: block; }
+</style>
+</head>
+<body>
+<svg id="card" viewBox="0 0 1448 1086" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff6c2"/>
+      <stop offset="0.35" stop-color="#ffd45a"/>
+      <stop offset="0.65" stop-color="#e8a317"/>
+      <stop offset="1" stop-color="#a86b08"/>
+    </linearGradient>
+    <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a86b08"/>
+      <stop offset="0.5" stop-color="#ffe37a"/>
+      <stop offset="1" stop-color="#a86b08"/>
+    </linearGradient>
+    <radialGradient id="night" cx="0.5" cy="0.45" r="0.7">
+      <stop offset="0" stop-color="#1c2a5c"/>
+      <stop offset="0.6" stop-color="#101a3d"/>
+      <stop offset="1" stop-color="#070d24"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff2b0" stop-opacity="0.95"/>
+      <stop offset="0.25" stop-color="#ffc23d" stop-opacity="0.6"/>
+      <stop offset="0.6" stop-color="#ff8a00" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ff8a00" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="flame" cx="0.5" cy="0.75" r="0.6">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.35" stop-color="#fff3a0"/>
+      <stop offset="0.7" stop-color="#ffb21e"/>
+      <stop offset="1" stop-color="#ff6a00"/>
+    </radialGradient>
+    <linearGradient id="bowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8262b"/>
+      <stop offset="1" stop-color="#7a0d12"/>
+    </linearGradient>
+    <linearGradient id="peaBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b6fe0"/>
+      <stop offset="1" stop-color="#0b2a85"/>
+    </linearGradient>
+    <linearGradient id="lantern" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff9a1f"/>
+      <stop offset="0.5" stop-color="#fff0a0"/>
+      <stop offset="1" stop-color="#ff9a1f"/>
+    </linearGradient>
+    <linearGradient id="scroll" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/>
+      <stop offset="1" stop-color="#f3e2c0"/>
+    </linearGradient>
+
+    <!-- outer border tile: navy with red/gold blossoms -->
+    <pattern id="borderPat" width="44" height="44" patternUnits="userSpaceOnUse">
+      <rect width="44" height="44" fill="#14204d"/>
+      <g transform="translate(22 22)">
+        <g fill="#d42a2a">
+          <ellipse rx="4.5" ry="9" />
+          <ellipse rx="4.5" ry="9" transform="rotate(60)"/>
+          <ellipse rx="4.5" ry="9" transform="rotate(120)"/>
+        </g>
+        <circle r="3.6" fill="#ffc83d"/>
+      </g>
+      <g fill="#ffb02e"><circle cx="0" cy="0" r="3"/><circle cx="44" cy="0" r="3"/><circle cx="0" cy="44" r="3"/><circle cx="44" cy="44" r="3"/></g>
+      <g fill="#2f8a4a"><ellipse cx="22" cy="2" rx="3" ry="1.6"/><ellipse cx="2" cy="22" rx="1.6" ry="3"/></g>
+    </pattern>
+    <!-- red band tile -->
+    <pattern id="redPat" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#a3161c"/>
+      <circle cx="15" cy="15" r="5" fill="none" stroke="#f2b632" stroke-width="1.6"/>
+      <circle cx="15" cy="15" r="1.8" fill="#f2b632"/>
+      <circle cx="0" cy="0" r="2" fill="#2b5aa8"/><circle cx="30" cy="30" r="2" fill="#2b5aa8"/>
+      <circle cx="30" cy="0" r="2" fill="#2b5aa8"/><circle cx="0" cy="30" r="2" fill="#2b5aa8"/>
+    </pattern>
+    <!-- cream vine tile -->
+    <pattern id="creamPat" width="70" height="70" patternUnits="userSpaceOnUse">
+      <rect width="70" height="70" fill="#f7e9cc"/>
+      <path d="M0 50 C 18 30, 30 70, 50 40 S 70 20, 70 20" fill="none" stroke="#5f8a3a" stroke-width="1.4"/>
+      <g fill="#6d9a45">
+        <ellipse cx="14" cy="38" rx="5" ry="2.2" transform="rotate(-30 14 38)"/>
+        <ellipse cx="38" cy="54" rx="5" ry="2.2" transform="rotate(30 38 54)"/>
+        <ellipse cx="60" cy="28" rx="5" ry="2.2" transform="rotate(-40 60 28)"/>
+      </g>
+      <g transform="translate(50 40)">
+        <g fill="#d6332e"><circle cx="0" cy="-5" r="3.6"/><circle cx="5" cy="0" r="3.6"/><circle cx="0" cy="5" r="3.6"/><circle cx="-5" cy="0" r="3.6"/></g>
+        <circle r="2.4" fill="#f5b52e"/>
+      </g>
+      <g transform="translate(18 14)">
+        <g fill="#e2694a"><circle cx="0" cy="-3" r="2.4"/><circle cx="3" cy="0" r="2.4"/><circle cx="0" cy="3" r="2.4"/><circle cx="-3" cy="0" r="2.4"/></g>
+        <circle r="1.5" fill="#f5b52e"/>
+      </g>
+    </pattern>
+    <!-- carpet tile -->
+    <pattern id="carpet" width="36" height="36" patternUnits="userSpaceOnUse">
+      <rect width="36" height="36" fill="#9e1218"/>
+      <path d="M18 4 L32 18 L18 32 L4 18 Z" fill="#1d3a8a" stroke="#f1b53a" stroke-width="1.5"/>
+      <circle cx="18" cy="18" r="4" fill="#f1b53a"/>
+    </pattern>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textShadow" x="-10%" y="-20%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#ffb000" flood-opacity="0.45"/>
+    </filter>
+    <clipPath id="archClip"><path id="archPathClip"/></clipPath>
+  </defs>
+
+  <!-- Frame layers -->
+  <rect width="1448" height="1086" fill="url(#borderPat)"/>
+  <rect x="40" y="40" width="1368" height="1006" fill="url(#redPat)"/>
+  <rect x="40" y="40" width="1368" height="1006" fill="none" stroke="url(#goldH)" stroke-width="4"/>
+  <rect x="62" y="62" width="1324" height="962" fill="url(#creamPat)"/>
+  <rect x="62" y="62" width="1324" height="962" fill="none" stroke="#c48a1c" stroke-width="3"/>
+
+  <g id="cornerTL"></g>
+
+  <!-- Night-sky arch -->
+  <path id="arch" fill="url(#night)"/>
+  <path id="archLine1" fill="none" stroke="url(#goldH)" stroke-width="7"/>
+  <path id="archLine2" fill="none" stroke="#7a1010" stroke-width="2.5"/>
+
+  <g id="sky" clip-path="url(#archClip)"></g>
+  <g id="garland"></g>
+  <g id="lanterns"></g>
+
+  <!-- Greeting text -->
+  <g filter="url(#textShadow)">
+    <text x="724" y="292" text-anchor="middle" font-family="Cinzel, 'Times New Roman', serif" font-weight="700" font-size="74" letter-spacing="6" fill="url(#gold)" stroke="#7a4a00" stroke-width="1">HAPPY</text>
+    <text x="724" y="478" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="230" fill="url(#gold)" stroke="#8a5500" stroke-width="1.5">Diwali</text>
+  </g>
+  <g fill="none" stroke="url(#goldH)" stroke-width="3" stroke-linecap="round">
+    <path d="M520 512 C 600 492, 650 520, 724 510 C 800 500, 850 530, 930 508"/>
+  </g>
+  <g fill="url(#gold)">
+    <path d="M724 500 l10 12 l-10 12 l-10 -12 z"/>
+    <circle cx="690" cy="512" r="4"/><circle cx="758" cy="512" r="4"/>
+    <path d="M724 210 l9 10 l-9 10 l-9 -10 z"/>
+    <path d="M634 220 C 670 205, 700 225, 714 220" stroke="url(#goldH)" stroke-width="2.5" fill="none"/>
+    <path d="M814 220 C 778 205, 748 225, 734 220" stroke="url(#goldH)" stroke-width="2.5" fill="none"/>
+  </g>
+  <text x="724" y="582" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-style="italic" font-weight="600" font-size="50" fill="url(#gold)" filter="url(#textShadow)">To Family &amp; Friends</text>
+  <g stroke="url(#goldH)" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M530 606 L 690 606"/><path d="M758 606 L 918 606"/>
+  </g>
+  <path d="M724 598 l7 8 l-7 8 l-7 -8 z" fill="url(#gold)"/>
+
+  <!-- Carpet & diya -->
+  <ellipse cx="724" cy="905" rx="560" ry="70" fill="url(#carpet)" stroke="#f1b53a" stroke-width="4"/>
+  <ellipse cx="724" cy="905" rx="530" ry="58" fill="none" stroke="#1d3a8a" stroke-width="6"/>
+  <g id="diya"></g>
+
+  <!-- Peacocks & flora -->
+  <g id="flora"></g>
+  <g id="peacockL"></g>
+  <g id="peacockR"></g>
+
+  <!-- Name scroll -->
+  <g id="scrollG">
+    <path d="M250 940 L 1198 940 L 1228 985 L 1198 1030 L 250 1030 L 220 985 Z" fill="url(#scroll)" stroke="#c48a1c" stroke-width="4"/>
+    <path d="M262 950 L 1186 950 L 1210 985 L 1186 1020 L 262 1020 L 238 985 Z" fill="none" stroke="#a3161c" stroke-width="1.5"/>
+    <text id="fromText" x="724" y="1000" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-style="italic" font-weight="600" font-size="42" fill="#6b0f14">From: Prashaant &amp; Maya, Shikhaa, Hrushaabh &amp; Sakshi</text>
+  </g>
+</svg>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+// deterministic random
+let seed = 7;
+function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+/* ---------- Mughal cusped arch ---------- */
+(function arch() {
+  const L = 190, R = 1258, bottom = 1024, shoulder = 330, apexY = 78, cx = 724;
+  // control points along a pointed (ogee-ish) arch, left half
+  const pts = [];
+  const n = 9;
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    // cubic from (L, shoulder) to (cx, apexY)
+    const x = Math.pow(1-t,3)*L + 3*Math.pow(1-t,2)*t*L + 3*(1-t)*t*t*(cx-150) + t*t*t*cx;
+    const y = Math.pow(1-t,3)*shoulder + 3*Math.pow(1-t,2)*t*(apexY+40) + 3*(1-t)*t*t*(apexY+90) + t*t*t*apexY;
+    pts.push([x, y]);
+  }
+  const right = pts.slice(0, -1).reverse().map(([x, y]) => [2*cx - x, y]);
+  const all = pts.concat(right);
+  let d = `M${L},${bottom} L${L},${shoulder} `;
+  for (let i = 1; i < all.length; i++) {
+    const [x0, y0] = all[i-1], [x1, y1] = all[i];
+    const r = Math.hypot(x1-x0, y1-y0) * 0.62;
+    d += `A${r.toFixed(1)},${r.toFixed(1)} 0 0 1 ${x1.toFixed(1)},${y1.toFixed(1)} `;
+  }
+  d += `L${R},${bottom} Z`;
+  ['arch', 'archLine1', 'archLine2', 'archPathClip'].forEach(id => document.getElementById(id).setAttribute('d', d));
+})();
+
+/* ---------- Stars & fireworks ---------- */
+(function sky() {
+  const g = document.getElementById('sky');
+  for (let i = 0; i < 140; i++) {
+    const x = 200 + rnd() * 1050, y = 90 + rnd() * 760;
+    el('circle', { cx: x, cy: y, r: (rnd() * 1.6 + 0.4).toFixed(2), fill: rnd() > 0.7 ? '#ffd76a' : '#fff', opacity: (0.4 + rnd() * 0.6).toFixed(2) }, g);
+  }
+  function firework(cx, cy, r, c1, c2) {
+    const f = el('g', { filter: 'url(#softGlow)' }, g);
+    const rays = 40;
+    for (let i = 0; i < rays; i++) {
+      const a = (i / rays) * Math.PI * 2;
+      const rr = r * (0.75 + rnd() * 0.25);
+      const x1 = cx + Math.cos(a) * r * 0.18, y1 = cy + Math.sin(a) * r * 0.18;
+      const x2 = cx + Math.cos(a) * rr, y2 = cy + Math.sin(a) * rr;
+      el('line', { x1, y1, x2, y2, stroke: i % 2 ? c1 : c2, 'stroke-width': 1.6, 'stroke-linecap': 'round', opacity: 0.9 }, f);
+      el('circle', { cx: x2, cy: y2, r: 2.2, fill: i % 2 ? c1 : '#fff3c4' }, f);
+    }
+    for (let i = 0; i < 18; i++) {
+      const a = (i / 18) * Math.PI * 2 + 0.1;
+      el('circle', { cx: cx + Math.cos(a) * r * 0.45, cy: cy + Math.sin(a) * r * 0.45, r: 1.8, fill: c2 }, f);
+    }
+    el('circle', { cx, cy, r: 3, fill: '#fff' }, f);
+  }
+  firework(520, 205, 70, '#ff4d5e', '#ffd34d');
+  firework(925, 205, 72, '#7dff6a', '#ffe14d');
+  firework(1010, 330, 62, '#ff5577', '#ffc0cb');
+  firework(415, 330, 52, '#ffcf3d', '#ff8a1f');
+  firework(612, 140, 36, '#ffd84d', '#ff6b3d');
+  firework(840, 130, 34, '#ff6fa8', '#ffd84d');
+})();
+
+/* ---------- Marigold garlands ---------- */
+function marigold(parent, x, y, r, i) {
+  const col = i % 3 === 0 ? '#ffc21a' : '#ff8c12';
+  el('circle', { cx: x, cy: y, r, fill: col }, parent);
+  el('circle', { cx: x - r * 0.2, cy: y - r * 0.25, r: r * 0.55, fill: i % 3 === 0 ? '#ffe066' : '#ffae3d' }, parent);
+  el('circle', { cx: x, cy: y, r: r, fill: 'none', stroke: '#c75a00', 'stroke-width': 0.8, 'stroke-dasharray': '2 2' }, parent);
+}
+(function garland() {
+  const g = document.getElementById('garland');
+  const swags = [[250, 150, 487, 150, 70], [487, 150, 724, 150, 70], [724, 150, 961, 150, 70], [961, 150, 1198, 150, 70]];
+  // top cords
+  swags.forEach(([x1, y1, x2, y2, sag], si) => {
+    const n = 22;
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      const x = x1 + (x2 - x1) * t;
+      const y = y1 + (y2 - y1) * t + Math.sin(t * Math.PI) * sag - 70;
+      marigold(g, x, y, 11, i + si);
+    }
+  });
+  // hanging strands
+  const hang = [[250, 6], [487, 9], [961, 9], [1198, 6], [370, 4], [1078, 4], [600, 5], [848, 5]];
+  hang.forEach(([x, len]) => {
+    const yStart = x === 487 || x === 961 || x === 250 || x === 1198 ? 82 : (x === 600 || x === 848 ? 140 : 140);
+    el('line', { x1: x, y1: yStart, x2: x, y2: yStart + len * 21, stroke: '#7a4a00', 'stroke-width': 1.5 }, g);
+    for (let i = 0; i < len; i++) marigold(g, x, yStart + i * 21, 9.5, i + x);
+    const by = yStart + len * 21;
+    el('path', { d: `M${x-8},${by} Q${x},${by-12} ${x+8},${by} L${x+5},${by+14} L${x-5},${by+14} Z`, fill: 'url(#gold)', stroke: '#8a5500' }, g);
+    el('circle', { cx: x, cy: by + 18, r: 3.5, fill: '#d42a2a' }, g);
+  });
+  // central medallion at top
+  const m = el('g', { transform: 'translate(724 72)' }, g);
+  for (let i = 0; i < 12; i++) el('ellipse', { rx: 9, ry: 24, cy: -16, fill: i % 2 ? '#d42a2a' : '#f5b52e', transform: `rotate(${i*30})` }, m);
+  el('circle', { r: 16, fill: '#1d6b3a', stroke: '#f5b52e', 'stroke-width': 3 }, m);
+  el('circle', { r: 6, fill: '#d42a2a' }, m);
+})();
+
+/* ---------- Lanterns ---------- */
+(function lanterns() {
+  const g = document.getElementById('lanterns');
+  [[300, 300], [1148, 300]].forEach(([x, y]) => {
+    const L = el('g', { transform: `translate(${x} ${y})` }, g);
+    el('line', { x1: 0, y1: -150, x2: 0, y2: -45, stroke: '#b8860b', 'stroke-width': 2 }, L);
+    el('circle', { cx: 0, cy: 10, r: 70, fill: 'url(#glow)' }, L);
+    el('path', { d: 'M-14,-45 L14,-45 L26,-28 L-26,-28 Z', fill: 'url(#gold)', stroke: '#7a4a00' }, L);
+    el('path', { d: 'M-26,-28 L26,-28 L30,40 L-30,40 Z', fill: 'url(#lantern)', stroke: '#8a5500', 'stroke-width': 2 }, L);
+    for (let i = -2; i <= 2; i++) el('line', { x1: i * 11, y1: -28, x2: i * 12, y2: 40, stroke: '#a0520a', 'stroke-width': 1.5 }, L);
+    for (let j = 0; j < 4; j++) el('line', { x1: -28, y1: -12 + j * 15, x2: 28, y2: -12 + j * 15, stroke: '#a0520a', 'stroke-width': 1.2 }, L);
+    el('path', { d: 'M-30,40 L30,40 L18,56 L-18,56 Z', fill: 'url(#gold)', stroke: '#7a4a00' }, L);
+    el('line', { x1: 0, y1: 56, x2: 0, y2: 70, stroke: '#b8860b', 'stroke-width': 2 }, L);
+    el('path', { d: 'M-6,70 L6,70 L4,100 L-4,100 Z', fill: '#d42a2a' }, L);
+  });
+})();
+
+/* ---------- Diya ---------- */
+(function diya() {
+  const g = document.getElementById('diya');
+  el('circle', { cx: 724, cy: 740, r: 230, fill: 'url(#glow)' }, g);
+  const rays = el('g', { opacity: 0.55 }, g);
+  for (let i = 0; i < 46; i++) {
+    const a = Math.PI + (i / 45) * Math.PI;
+    const len = 120 + rnd() * 90;
+    el('line', { x1: 724 + Math.cos(a) * 60, y1: 740 + Math.sin(a) * 60, x2: 724 + Math.cos(a) * len, y2: 740 + Math.sin(a) * len, stroke: '#ffd66b', 'stroke-width': 1.4 }, rays);
+  }
+  for (let i = 0; i < 40; i++) {
+    const a = rnd() * Math.PI * 2, d = 70 + rnd() * 150;
+    el('circle', { cx: 724 + Math.cos(a) * d, cy: 720 + Math.sin(a) * d * 0.7, r: rnd() * 2 + 0.8, fill: '#ffe9a0' }, g);
+  }
+  // bowl
+  el('path', { d: 'M555,775 C 565,880 640,915 724,915 C 808,915 883,880 893,775 Z', fill: 'url(#bowl)', stroke: '#f1b53a', 'stroke-width': 4 }, g);
+  el('path', { d: 'M600,895 Q724,935 848,895 L 820,920 Q724,945 628,920 Z', fill: 'url(#gold)' }, g);
+  // lotus motif on bowl
+  const lotus = el('g', { transform: 'translate(724 850)' }, g);
+  [[-40, -55], [40, 55], [-20, -25], [20, 25], [0, 0]].forEach(([dx, rot]) => {
+    el('path', { d: 'M0,22 C -22,0 -14,-30 0,-44 C 14,-30 22,0 0,22 Z', fill: 'url(#gold)', stroke: '#8a3a00', 'stroke-width': 1.5, transform: `rotate(${rot} 0 22) translate(${dx*0.1} 0)` }, lotus);
+  });
+  el('path', { d: 'M-70,30 Q0,50 70,30', fill: 'none', stroke: '#f1b53a', 'stroke-width': 3 }, lotus);
+  [-110, 110].forEach(dx => {
+    const s = el('g', { transform: `translate(${724+dx} 830)` }, g);
+    el('circle', { r: 14, fill: 'none', stroke: '#f1b53a', 'stroke-width': 3 }, s);
+    el('circle', { r: 5, fill: '#f1b53a' }, s);
+  });
+  // rim
+  el('ellipse', { cx: 724, cy: 775, rx: 169, ry: 26, fill: 'url(#gold)', stroke: '#8a5500', 'stroke-width': 2 }, g);
+  el('ellipse', { cx: 724, cy: 773, rx: 150, ry: 18, fill: '#c86a00' }, g);
+  el('ellipse', { cx: 724, cy: 775, rx: 140, ry: 14, fill: '#ffcf4a' }, g);
+  // wick + flame
+  el('path', { d: 'M720,775 L724,742 L728,775 Z', fill: '#3a1a00' }, g);
+  el('ellipse', { cx: 724, cy: 690, rx: 70, ry: 95, fill: 'url(#glow)' }, g);
+  el('path', { d: 'M724,612 C 742,650 760,690 750,720 C 742,748 706,748 698,720 C 688,690 706,650 724,612 Z', fill: 'url(#flame)', filter: 'url(#softGlow)' }, g);
+  el('path', { d: 'M724,660 C 732,684 738,704 734,720 C 730,734 718,734 714,720 C 710,704 716,684 724,660 Z', fill: '#fff' }, g);
+})();
+
+/* ---------- Flora ---------- */
+function bigMarigold(parent, x, y, r) {
+  const g = el('g', { transform: `translate(${x} ${y})` }, parent);
+  const rings = [[1, '#e86a00'], [0.8, '#ff9a14'], [0.6, '#ffb52e'], [0.4, '#ffd04a']];
+  rings.forEach(([s, c], k) => {
+    const n = 18 - k * 3;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + k * 0.3;
+      el('ellipse', { cx: Math.cos(a) * r * s * 0.6, cy: Math.sin(a) * r * s * 0.6, rx: r * 0.32 * s + 2, ry: r * 0.2 * s + 1.5, fill: c, stroke: '#b44a00', 'stroke-width': 0.6, transform: `rotate(${a*180/Math.PI} ${Math.cos(a)*r*s*0.6} ${Math.sin(a)*r*s*0.6})` }, g);
+    }
+  });
+  el('circle', { r: r * 0.18, fill: '#e07a00' }, g);
+}
+function lotusFlower(parent, x, y, s) {
+  const g = el('g', { transform: `translate(${x} ${y}) scale(${s})` }, parent);
+  [-60, -35, 35, 60, -12, 12, 0].forEach((rot, i) => {
+    el('path', { d: 'M0,0 C -16,-18 -12,-46 0,-60 C 12,-46 16,-18 0,0 Z', fill: i < 4 ? '#e76f8a' : '#f7a3b5', stroke: '#b0304d', 'stroke-width': 1.5, transform: `rotate(${rot})` }, g);
+  });
+  el('ellipse', { cx: 0, cy: 2, rx: 22, ry: 6, fill: '#3f7d34' }, g);
+}
+function leaf(parent, x, y, rot, s, c) {
+  el('path', { d: 'M0,0 C 12,-10 30,-10 44,0 C 30,10 12,10 0,0 Z', fill: c || '#2f7a3a', stroke: '#1d4f24', 'stroke-width': 1, transform: `translate(${x} ${y}) rotate(${rot}) scale(${s})` }, parent);
+}
+function blossomSpray(parent, x, y, flip) {
+  const g = el('g', { transform: `translate(${x} ${y}) scale(${flip*0.75} 0.75)` }, parent);
+  el('path', { d: 'M0,0 C 10,-60 40,-100 80,-140', fill: 'none', stroke: '#5a3a1a', 'stroke-width': 3 }, g);
+  el('path', { d: 'M30,-70 C 60,-80 90,-80 120,-100', fill: 'none', stroke: '#5a3a1a', 'stroke-width': 2 }, g);
+  [[20, -40], [45, -90], [75, -135], [90, -84], [118, -100], [60, -60], [100, -150]].forEach(([fx, fy], i) => {
+    leaf(g, fx, fy, -40 + i * 25, 0.55);
+    const fl = el('g', { transform: `translate(${fx + 8} ${fy - 6})` }, g);
+    for (let p = 0; p < 5; p++) el('ellipse', { cx: 0, cy: -6, rx: 4, ry: 6.5, fill: '#fffaf0', stroke: '#d9c49a', 'stroke-width': 0.6, transform: `rotate(${p * 72})` }, fl);
+    el('circle', { r: 3, fill: '#f5b52e' }, fl);
+  });
+}
+(function flora() {
+  const g = document.getElementById('flora');
+  // green/red paisley mounds behind sides
+  [[440, 840, 1], [1008, 840, -1]].forEach(([x, y, f]) => {
+    const m = el('g', { transform: `translate(${x} ${y}) scale(${f} 1)` }, g);
+    el('path', { d: 'M-110,60 C -120,-20 -40,-80 40,-60 C 110,-40 120,20 110,60 Z', fill: '#1d6b3a', stroke: '#f1b53a', 'stroke-width': 3 }, m);
+    el('path', { d: 'M-80,55 C -80,-5 -20,-45 30,-35 C 80,-25 85,20 80,55 Z', fill: '#a3161c', stroke: '#f1b53a', 'stroke-width': 2 }, m);
+    lotusFlower(m, 0, 40, 0.9);
+  });
+  blossomSpray(g, 470, 790, 1);
+  blossomSpray(g, 978, 790, -1);
+  // side lotus + leaves (cream zone)
+  [[130, 560, 1], [1318, 560, -1]].forEach(([x, y, f]) => {
+    const s = el('g', { transform: `translate(${x} ${y}) scale(${f} 1)` }, g);
+    el('path', { d: 'M0,420 C 10,300 -10,200 20,60', fill: 'none', stroke: '#3f6b2a', 'stroke-width': 4 }, s);
+    for (let i = 0; i < 7; i++) leaf(s, 10 + (i % 2 ? 6 : -6), 380 - i * 48, i % 2 ? -30 : 210, 1.2, i % 2 ? '#3f8a3e' : '#2e6b33');
+    lotusFlower(s, 22, 70, 1.2);
+    lotusFlower(s, 40, 260, 0.8);
+  });
+  // marigold clusters bottom
+  [[300, 905, 34], [250, 860, 28], [355, 870, 26], [1148, 905, 34], [1198, 860, 28], [1093, 870, 26], [200, 925, 30], [1248, 925, 30], [470, 900, 22], [978, 900, 22]].forEach(([x, y, r]) => bigMarigold(g, x, y, r));
+})();
+
+/* ---------- Peacock ---------- */
+function peacock(container, x, y, flip) {
+  const g = el('g', { transform: `translate(${x} ${y}) scale(${flip} 1)` }, container);
+  // tail: cascading feathers going down-left
+  const tail = el('g', {}, g);
+  const fan = [];
+  for (let row = 0; row < 7; row++) {
+    for (let k = 0; k < 4 + (row > 2 ? 1 : 0); k++) {
+      const spread = (k - 2) * 26 + row * -6;
+      fan.push([-20 + spread - row * 8, 60 + row * 46, row]);
+    }
+  }
+  // feather shafts
+  fan.forEach(([fx, fy]) => el('path', { d: `M0,40 Q${fx/2},${fy/2+20} ${fx},${fy}`, stroke: '#2f7a3a', 'stroke-width': 1.2, fill: 'none' }, tail));
+  // feather body
+  fan.slice().reverse().forEach(([fx, fy, row]) => {
+    const f = el('g', { transform: `translate(${fx} ${fy})` }, tail);
+    el('ellipse', { rx: 18, ry: 26, fill: '#2f8a3e', stroke: '#c79a1c', 'stroke-width': 1.5 }, f);
+    el('ellipse', { rx: 13, ry: 19, cy: 2, fill: '#e7b52a' }, f);
+    el('ellipse', { rx: 9, ry: 12, cy: 3, fill: '#1aa0a0' }, f);
+    el('ellipse', { rx: 6, ry: 8, cy: 4, fill: '#1d3fa8' }, f);
+    el('ellipse', { rx: 3, ry: 4, cy: 4, fill: '#0b1240' }, f);
+  });
+  // body
+  el('path', { d: 'M-10,70 C -50,40 -40,-20 0,-30 C 40,-35 55,10 40,50 C 30,75 10,85 -10,70 Z', fill: 'url(#peaBody)', stroke: '#c79a1c', 'stroke-width': 2 }, g);
+  // wing with scale pattern
+  const wing = el('g', {}, g);
+  el('path', { d: 'M-25,10 C -10,-15 30,-10 38,20 C 40,45 10,70 -20,62 C -30,45 -32,25 -25,10 Z', fill: '#d9a521', stroke: '#8a5500', 'stroke-width': 1.5 }, wing);
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) el('path', { d: `M${-18 + c*13},${10 + r*13} q6.5,9 13,0`, fill: 'none', stroke: '#8a5500', 'stroke-width': 1.2 }, wing);
+  // neck & head
+  el('path', { d: 'M-5,-25 C -5,-60 10,-95 30,-110 C 42,-118 52,-108 46,-96 C 34,-80 25,-55 30,-25 Z', fill: 'url(#peaBody)', stroke: '#c79a1c', 'stroke-width': 1.5 }, g);
+  el('circle', { cx: 40, cy: -108, r: 13, fill: '#1e4fc4', stroke: '#c79a1c', 'stroke-width': 1.5 }, g);
+  el('path', { d: 'M51,-110 L68,-104 L51,-100 Z', fill: '#e2b04a' }, g);
+  el('circle', { cx: 43, cy: -110, r: 3.2, fill: '#fff' }, g);
+  el('circle', { cx: 43.5, cy: -110, r: 1.6, fill: '#000' }, g);
+  el('path', { d: 'M36,-118 Q44,-112 50,-114', stroke: '#fff', 'stroke-width': 2, fill: 'none' }, g);
+  // crest
+  [[-12, -30], [0, -34], [12, -30]].forEach(([dx, dy]) => {
+    el('line', { x1: 38, y1: -120, x2: 38 + dx, y2: -120 + dy, stroke: '#1e4fc4', 'stroke-width': 1.5 }, g);
+    el('circle', { cx: 38 + dx, cy: -120 + dy, r: 4, fill: '#1e4fc4', stroke: '#e7b52a', 'stroke-width': 1.2 }, g);
+  });
+  // legs
+  el('path', { d: 'M0,72 L-4,100 M12,74 L14,100', stroke: '#b07a2a', 'stroke-width': 3 }, g);
+}
+peacock(document.getElementById('peacockL'), 310, 560, 1);
+peacock(document.getElementById('peacockR'), 1138, 560, -1);
+
+/* ---------- Fit the names line ---------- */
+function fitNames() {
+  const t = document.getElementById('fromText');
+  const max = 900;
+  if (t.getComputedTextLength() > max) {
+    t.setAttribute('textLength', max);
+    t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+  }
+}
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(fitNames);
+</script>
+</body>
+</html>
