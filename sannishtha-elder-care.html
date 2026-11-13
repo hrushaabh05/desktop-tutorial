@@ -268,6 +268,26 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .csr-foot { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--surface); }
 .csr-foot ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 1rem; display: grid; gap: 4px; }
 @media (max-width: 860px) { .csr-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Contact form */
+[hidden] { display: none !important; }
+.contact { display: grid; gap: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px; position: relative; min-width: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row2 > * { min-width: 0; }
+@media (max-width: 560px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
+.contact input[type="text"], .contact input[type="tel"], .contact input[type="email"], .contact textarea { width: 100%; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 48px; }
+.contact textarea { resize: vertical; }
+.contact [aria-invalid="true"] { border-color: var(--sindoor); }
+.tick { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; font-size: 1rem; color: var(--muted); cursor: pointer; }
+.tick input { width: 20px; height: 20px; margin-top: 4px; accent-color: var(--peacock); }
+.contact .btn { justify-self: start; }
+.contact .btn[disabled] { opacity: 0.6; cursor: progress; }
+.form-error { color: var(--sindoor); font-weight: 600; font-size: 1rem; }
+.form-done, .form-fallback { display: grid; gap: 10px; padding: 18px; border-radius: 14px; }
+.form-done { background: var(--peacock-soft); }
+.form-fallback { background: var(--haldi-soft); }
+.form-done strong, .form-fallback strong { font-size: var(--step-1); }
+.form-fallback textarea { font-size: 0.95rem; }
 </style>
 
 <header class="site-head">
@@ -284,7 +304,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
       <a href="#abroad">Children abroad</a>
       <a href="#donate">Donate</a>
     </nav>
-    <a class="btn btn-primary" href="#estimate">Start your plan</a>
+    <a class="btn btn-primary" href="#contact">Talk to us</a>
   </div>
 </header>
 
@@ -598,7 +618,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
           <dt>Account name</dt><dd>Sannishtha Foundation</dd>
           <dt>Account no.</dt><dd><span class="fill">[add account no.]</span></dd>
           <dt>IFSC</dt><dd><span class="fill">[add IFSC]</span></dd>
-          <dt>Receipts</dt><dd><span class="fill">[add email]</span></dd>
+          <dt>Receipts</dt><dd style="user-select:all">sannishthafoundation@gmail.com</dd>
         </dl>
         <p class="small">After you give, email us your name, PAN and address. We send a receipt and an 80G certificate for every donation.</p>
         <p class="small">Indian citizens living abroad can donate from an NRO or NRE account. We cannot accept donations from foreign nationals or OCI card holders, because Indian law requires separate FCRA registration for those.</p>
@@ -637,7 +657,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
           <li>Support for impact assessment where your rules need it</li>
           <li>Employee volunteering with elders in Mumbai</li>
         </ul>
-        <p style="font-size:var(--step-1)">Write to our CSR team at <span class="fill" style="user-select:all">[add CSR email]</span></p>
+        <p style="font-size:var(--step-1)">Write to us at <span style="user-select:all;font-weight:600">sannishthafoundation@gmail.com</span> or <a href="#contact" data-role="CSR partnership">send a CSR enquiry</a></p>
       </div>
     </div>
   </section>
@@ -664,9 +684,63 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
     <div class="wrap">
       <div class="cta-arch">
         <h2>The best care plans are made over chai, not in an ICU corridor.</h2>
-        <p>Start a free ten-year care forecast for your parent. It takes 15 minutes, and you can finish it together.</p>
-        <a class="btn" href="#estimate">Start your free plan</a>
+        <p>Tell us a little about your parent and a care manager will call you within two working days. The first call and care forecast are free.</p>
+        <a class="btn" href="#contact">Request a free call</a>
       </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="contact">
+    <div class="wrap split">
+      <div class="section-head" style="margin:0">
+        <span class="eyebrow">Talk to us</span>
+        <h2>Request a free call with a care manager</h2>
+        <p class="lede">Share a few details and we will call you within two working days. You can also use this form to donate, volunteer or ask about CSR partnerships.</p>
+        <p>Email <b style="user-select:all">sannishthafoundation@gmail.com</b></p>
+        <p class="disclaim">In an emergency, call 112. For the national senior citizens’ helpline, call 14567.</p>
+      </div>
+      <form class="contact" id="contactForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="cf-phone">Phone or WhatsApp</label><input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="cf-email">Email <span class="hint">(optional)</span></label><input id="cf-email" name="email" type="email" autocomplete="email"></div>
+          <div class="field"><label for="cf-city">City</label><input id="cf-city" name="city" type="text" autocomplete="address-level2"></div>
+        </div>
+        <div class="field">
+          <label for="cf-role">I am writing about</label>
+          <select id="cf-role" name="topic">
+            <option>Care for my parent or relative</option>
+            <option>Care for myself</option>
+            <option>Making a donation</option>
+            <option>CSR partnership</option>
+            <option>Volunteering</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label for="cf-msg">How can we help?</label><textarea id="cf-msg" name="message" rows="4"></textarea></div>
+        <label class="tick"><input type="checkbox" id="cf-est" checked> <span>Include my answers from the cost estimator</span></label>
+        <label class="tick"><input type="checkbox" id="cf-consent" required> <span>I agree that Sannishtha Foundation may store these details and contact me about elder care. We never sell or share your data.</span></label>
+        <input type="text" id="cf-honey" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <p class="form-error" id="cf-error" hidden></p>
+        <button class="btn btn-primary" type="submit" id="cf-submit">Send my request</button>
+
+        <div class="form-done" id="cf-done" hidden>
+          <strong>Thank you. Your request has reached us.</strong>
+          <p>A care manager will call you within two working days.</p>
+        </div>
+        <div class="form-fallback" id="cf-fallback" hidden>
+          <strong>We could not send this from here.</strong>
+          <p>Please copy your message below and email it to <b style="user-select:all">sannishthafoundation@gmail.com</b>.</p>
+          <textarea id="cf-copytext" rows="7" readonly></textarea>
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" id="cf-copy">Copy message</button>
+            <a class="btn btn-ghost" id="cf-mailto" href="mailto:sannishthafoundation@gmail.com">Open email app</a>
+          </div>
+          <p class="disclaim" id="cf-copied" hidden>Copied. Paste it into an email to sannishthafoundation@gmail.com.</p>
+        </div>
+      </form>
     </div>
   </section>
 </main>
@@ -710,6 +784,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
       desc: "Needs skilled care around the clock. A trained nurse at home, or a dementia or nursing care home." }
   ];
   var INFLATION = 0.10, START_YEAR = 2026;
+  var estSummary = "";
   var form = document.getElementById("estForm");
   var $ = function (id) { return document.getElementById(id); };
 
@@ -761,6 +836,16 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
     var nextChange = years.find(function (d) { return d.stage > now; });
     $("stageDesc").textContent = S.desc + (nextChange ? " On current trends, needs are likely to rise to “" + STAGES[nextChange.stage].name.toLowerCase() + "” around " + nextChange.year + "." : "");
     $("total").textContent = "₹" + big(lo) + " – " + big(hi);
+    var labels = function (sel) { return Array.prototype.map.call(form.querySelectorAll(sel), function (i) { return i.nextElementSibling.textContent; }).join(", ") || "none"; };
+    estSummary = "Cost estimator answers\n" +
+      "City: " + $("city").options[$("city").selectedIndex].text + "\n" +
+      "Parent's age: " + v.age + "\n" +
+      "Needs help with: " + labels('input[name="adl"]:checked, input[name="iadl"]:checked') + "\n" +
+      "Conditions: " + labels('input[name="cond"]:checked') + "\n" +
+      "Lives with: " + $("living").options[$("living").selectedIndex].text + "\n" +
+      "Preferred setting: " + (v.pref === "res" ? "Senior living" : "At home") + "\n" +
+      "Estimated stage today: " + S.name + "\n" +
+      "10-year forecast: " + $("total").textContent;
 
     var max = Math.max.apply(null, years.map(function (d) { return d.mid; }));
     $("bars").innerHTML = years.map(function (d) {
@@ -817,5 +902,71 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
   }
   $("amounts").addEventListener("change", impact);
   impact();
+
+  // Contact form: sends through FormSubmit to the Foundation's inbox.
+  // Where sending is blocked (for example inside a preview), the visitor gets a copy-and-email fallback.
+  var TO = "sannishthafoundation@gmail.com";
+  var cform = $("contactForm");
+  Array.prototype.forEach.call(document.querySelectorAll('a[data-role]'), function (a) {
+    a.addEventListener("click", function () { $("cf-role").value = a.dataset.role; });
+  });
+  function messageText(d) {
+    return "Name: " + d.name + "\nPhone: " + d.phone + "\nEmail: " + (d.email || "-") + "\nCity: " + (d.city || "-") +
+      "\nTopic: " + d.topic + "\n\nMessage:\n" + (d.message || "-") + (d.estimator ? "\n\n" + d.estimator : "");
+  }
+  cform.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var err = $("cf-error");
+    err.hidden = true;
+    ["cf-name", "cf-phone"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
+    var d = {
+      name: $("cf-name").value.trim(), phone: $("cf-phone").value.trim(), email: $("cf-email").value.trim(),
+      city: $("cf-city").value.trim(), topic: $("cf-role").value, message: $("cf-msg").value.trim(),
+      estimator: $("cf-est").checked ? estSummary : ""
+    };
+    var missing = [];
+    if (!d.name) { missing.push("your name"); $("cf-name").setAttribute("aria-invalid", "true"); }
+    if (d.phone.replace(/\D/g, "").length < 10) { missing.push("a phone number with at least 10 digits"); $("cf-phone").setAttribute("aria-invalid", "true"); }
+    if (!$("cf-consent").checked) missing.push("your consent to be contacted");
+    if (missing.length) { err.textContent = "Please add " + missing.join(", ") + "."; err.hidden = false; return; }
+    if ($("cf-honey").value) return;
+
+    var btn = $("cf-submit");
+    btn.disabled = true; btn.textContent = "Sending…";
+    var payload = {
+      _subject: "Website enquiry: " + d.topic + " (" + d.name + ")",
+      _template: "table", _captcha: "false",
+      Name: d.name, Phone: d.phone, Email: d.email || "-", City: d.city || "-", Topic: d.topic,
+      Message: d.message || "-", Estimator: d.estimator || "-"
+    };
+    if (d.email) payload._replyto = d.email;
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { ctrl && ctrl.abort(); }, 15000);
+    function fallback() {
+      var text = messageText(d);
+      $("cf-copytext").value = text;
+      $("cf-mailto").href = "mailto:" + TO + "?subject=" + encodeURIComponent("Website enquiry: " + d.topic) + "&body=" + encodeURIComponent(text);
+      $("cf-fallback").hidden = false;
+      btn.disabled = false; btn.textContent = "Try sending again";
+    }
+    fetch("https://formsubmit.co/ajax/" + TO, {
+      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload), signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) { return res.json(); }).then(function (j) {
+      clearTimeout(timer);
+      if (j && String(j.success) === "true") {
+        $("cf-fallback").hidden = true; $("cf-done").hidden = false;
+        btn.hidden = true;
+        Array.prototype.forEach.call(cform.querySelectorAll("input, select, textarea"), function (el) { if (el.id !== "cf-copytext") el.disabled = true; });
+      } else { fallback(); }
+    }).catch(function () { clearTimeout(timer); fallback(); });
+  });
+  $("cf-copy").addEventListener("click", function () {
+    var t = $("cf-copytext");
+    function selectIt() { t.focus(); t.select(); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t.value).then(function () { $("cf-copied").hidden = false; }, selectIt);
+    } else { selectIt(); }
+  });
 })();
 </script>

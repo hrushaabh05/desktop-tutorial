@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sannishtha Elder Care, a not-for-profit programme of Sannishtha Foundation: long-term care planning for ageing parents in India.">
+<link rel="icon" href="assets/sannishtha-mark.png">
+<style>body{margin:0}img{max-width:100%}</style>
+<title>Sannishtha Elder Care</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600&family=Rozha+One&display=swap">
+<style>
+/* Layout: an arched doorway motif. Arched frames hold the key moments; everything else sits on open, quiet ground. */
+:root {
+  /* Brand colours from the Sannishtha Foundation logo: navy, river blue, sun, earth */
+  --paper: #f4f6f9;
+  --surface: #ffffff;
+  --ink: #13253e;
+  --muted: #55627a;
+  --line: #d8dee7;
+  --peacock: #22709b;
+  --peacock-soft: #e1edf5;
+  --haldi: #e39a22;
+  --haldi-soft: #fdf0d9;
+  --sindoor: #b9581f;
+  --stage0: #a8cbe1;
+  --on-accent: #ffffff;
+  --display: "Rozha One", "Noto Serif Devanagari", Georgia, serif;
+  --body: "Hind", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --step--1: 0.9rem;
+  --step-0: 1.125rem;
+  --step-1: 1.35rem;
+  --step-2: 1.75rem;
+  --step-3: 2.4rem;
+  --step-4: clamp(2.5rem, 5.2vw, 4.1rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0d1420; --surface: #152031; --ink: #e8edf4; --muted: #9ba8bc; --line: #26344a;
+    --peacock: #6db2dc; --peacock-soft: #13293b; --haldi: #f2b24a; --haldi-soft: #3a2c12;
+    --sindoor: #e5884f; --stage0: #2d5878; --on-accent: #0f151d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0d1420; --surface: #152031; --ink: #e8edf4; --muted: #9ba8bc; --line: #26344a;
+  --peacock: #6db2dc; --peacock-soft: #13293b; --haldi: #f2b24a; --haldi-soft: #3a2c12;
+  --sindoor: #e5884f; --stage0: #2d5878; --on-accent: #0f151d; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: var(--step-0); line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.12; text-wrap: balance; margin: 0; }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); }
+p { margin: 0; }
+a { color: var(--peacock); }
+:focus-visible { outline: 3px solid var(--haldi); outline-offset: 2px; border-radius: 4px; }
+
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band { padding-block: clamp(56px, 8vw, 96px); }
+.band-alt { background: var(--surface); border-block: 1px solid var(--line); }
+.eyebrow { font-size: var(--step--1); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--peacock); }
+.lede { color: var(--muted); max-width: 62ch; font-size: var(--step-1); line-height: 1.5; }
+.section-head { display: grid; gap: 12px; margin-bottom: 40px; max-width: 760px; }
+.num { font-variant-numeric: tabular-nums; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 26px; border-radius: 999px; font: 600 var(--step-0) var(--body); text-decoration: none; border: 2px solid var(--peacock); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn-primary { background: var(--peacock); color: var(--on-accent); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--peacock); }
+.btn-ghost:hover { background: var(--peacock-soft); }
+
+/* Header */
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.site-head .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+.logo-plate { background: #ffffff; border-radius: 12px; padding: 4px 6px; display: grid; place-items: center; }
+.logo-mark { width: 46px; height: auto; display: block; }
+.footer-logo { width: 220px; max-width: 100%; height: auto; display: block; }
+.logo-word { font-family: var(--display); font-size: 1.6rem; line-height: 1; }
+.logo-word small { display: block; font-family: var(--body); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.nav { display: flex; gap: 26px; }
+.nav a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 1rem; }
+.nav a:hover { color: var(--peacock); }
+.site-head .btn { min-height: 44px; padding: 0 20px; font-size: 1rem; }
+@media (max-width: 900px) { .nav { display: none; } }
+
+/* Hero */
+.hero { padding-block: clamp(40px, 6vw, 80px) clamp(56px, 7vw, 88px); }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+.hero-copy { display: grid; gap: 22px; min-width: 0; }
+.hero h1 { font-size: var(--step-4); }
+.hero h1 em { font-style: normal; color: var(--peacock); }
+.hindi { font-family: var(--body); font-weight: 600; font-size: var(--step-1); color: var(--muted); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: 1rem; }
+.trust span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--haldi); margin-right: 8px; vertical-align: middle; }
+
+.arch { background: var(--surface); border: 1px solid var(--line); border-radius: 220px 220px 20px 20px; padding: 56px 32px 28px; box-shadow: 0 30px 60px -40px rgba(15, 40, 50, 0.45); min-width: 0; }
+.sample-tag { display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; background: var(--haldi-soft); color: var(--ink); padding: 3px 10px; border-radius: 999px; }
+.plan-card { display: grid; gap: 18px; text-align: left; }
+.plan-card .who { text-align: center; display: grid; gap: 6px; justify-items: center; }
+.plan-card .who h3 { font-size: var(--step-2); }
+.plan-card .who p { color: var(--muted); font-size: 1rem; }
+.mini-stages { display: grid; gap: 10px; }
+.mini-stage { display: grid; grid-template-columns: 14px 1fr auto; gap: 12px; align-items: center; font-size: 1rem; }
+.mini-stage .dot { width: 14px; height: 14px; border-radius: 50%; }
+.mini-stage b { font-weight: 600; }
+.mini-stage span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+.plan-total { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px dashed var(--line); padding-top: 14px; gap: 12px; flex-wrap: wrap; }
+.plan-total strong { font-family: var(--display); font-size: var(--step-2); font-weight: 400; color: var(--peacock); }
+.plan-total span { color: var(--muted); font-size: 1rem; }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } .arch { border-radius: 160px 160px 20px 20px; padding-inline: 20px; } }
+
+/* Facts */
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); }
+.fact { padding: 28px 24px 8px 0; display: grid; gap: 6px; align-content: start; }
+.fact + .fact { padding-left: 24px; border-left: 1px solid var(--line); }
+.fact strong { font-family: var(--display); font-weight: 400; font-size: var(--step-3); line-height: 1; color: var(--ink); }
+.fact p { color: var(--muted); font-size: 1rem; }
+.source { font-size: 0.85rem; color: var(--muted); margin-top: 20px; }
+@media (max-width: 860px) { .facts { grid-template-columns: 1fr 1fr; } .fact:nth-child(3) { padding-left: 0; border-left: 0; } }
+@media (max-width: 480px) { .facts { grid-template-columns: 1fr; } .fact + .fact { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; }
+.step { display: grid; gap: 12px; align-content: start; padding-top: 22px; border-top: 3px solid var(--peacock); }
+.step-n { font-family: var(--display); font-size: var(--step-2); color: var(--haldi); line-height: 1; }
+.step p { color: var(--muted); }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+
+/* Estimator */
+.est { display: grid; grid-template-columns: 380px 1fr; gap: 28px; align-items: start; }
+.est-form { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: grid; gap: 22px; min-width: 0; }
+.field { display: grid; gap: 8px; }
+.field > label, .field legend { font-weight: 600; font-size: 1rem; }
+.field .hint { font-size: 0.9rem; color: var(--muted); font-weight: 400; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; min-width: 0; }
+select, input[type="range"] { width: 100%; font: inherit; }
+select { min-height: 48px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 0 12px; }
+input[type="range"] { accent-color: var(--peacock); }
+.age-row { display: flex; justify-content: space-between; align-items: baseline; }
+.age-row output { font-family: var(--display); font-size: var(--step-2); color: var(--peacock); line-height: 1; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.chip span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 0.98rem; cursor: pointer; }
+.chip input:checked + span { background: var(--peacock); border-color: var(--peacock); color: var(--on-accent); }
+.chip input:focus-visible + span { outline: 3px solid var(--haldi); outline-offset: 2px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px; }
+.seg label { position: relative; }
+.seg input { position: absolute; opacity: 0; }
+.seg span { display: block; text-align: center; padding: 10px 6px; border-radius: 9px; font-size: 0.98rem; cursor: pointer; }
+.seg input:checked + span { background: var(--peacock-soft); color: var(--ink); font-weight: 600; }
+.seg input:focus-visible + span { outline: 3px solid var(--haldi); }
+
+.est-out { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; min-width: 0; }
+.now-card { border-radius: 18px; padding: 26px; background: var(--peacock-soft); display: grid; gap: 10px; }
+.now-card .stage-pill { justify-self: start; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; color: var(--on-accent); }
+.now-card .big { font-family: var(--display); font-size: var(--step-3); line-height: 1.05; }
+.now-card .big small { font-family: var(--body); font-size: 1rem; color: var(--muted); }
+.now-card p { color: var(--muted); max-width: 60ch; }
+.chart-box { border: 1px solid var(--line); border-radius: 18px; padding: 22px; background: var(--surface); }
+.chart-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; margin-bottom: 16px; }
+.chart-head h3 { font-size: var(--step-1); }
+.chart-head .total { font-family: var(--display); font-size: var(--step-2); color: var(--peacock); }
+.chart-scroll { overflow-x: auto; }
+.bars { display: grid; grid-template-columns: repeat(10, minmax(34px, 1fr)); gap: 8px; align-items: end; height: 200px; min-width: 420px; border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 50px; background-position: 0 -1px; }
+.bar { border-radius: 6px 6px 0 0; position: relative; min-height: 4px; transition: height .35s ease; }
+.bar:last-child::after { content: attr(data-v); position: absolute; top: -24px; right: 0; font-size: 0.8rem; font-weight: 600; white-space: nowrap; color: var(--ink); }
+.years { display: grid; grid-template-columns: repeat(10, minmax(34px, 1fr)); gap: 8px; min-width: 420px; font-size: 0.8rem; color: var(--muted); text-align: center; padding-top: 6px; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 0.92rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.recs { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+.recs li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 1.02rem; }
+.recs li::before { content: ""; width: 10px; height: 10px; margin-top: 9px; border: 2px solid var(--peacock); border-radius: 50%; }
+.disclaim { font-size: 0.88rem; color: var(--muted); }
+@media (max-width: 960px) { .est { grid-template-columns: minmax(0, 1fr); } }
+
+/* Care options table */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+th, td { text-align: left; padding: 16px 20px; vertical-align: top; border-bottom: 1px solid var(--line); font-size: 1rem; }
+th { font-size: 0.85rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--paper); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; width: 24%; }
+td.cost { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; color: var(--peacock); }
+td .tip { display: block; color: var(--muted); font-weight: 400; font-size: 0.92rem; margin-top: 4px; }
+
+/* Schemes */
+.schemes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.scheme { padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); display: grid; gap: 10px; align-content: start; }
+.scheme .tag { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.scheme strong { font-family: var(--display); font-weight: 400; font-size: var(--step-2); color: var(--peacock); line-height: 1.1; }
+.scheme p { color: var(--muted); font-size: 1rem; }
+@media (max-width: 900px) { .schemes { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .schemes { grid-template-columns: 1fr; } }
+
+/* Abroad + note */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.split > * { min-width: 0; }
+.clock { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 8px; }
+.clock div { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: var(--surface); display: grid; gap: 2px; }
+.clock b { font-family: var(--display); font-weight: 400; font-size: var(--step-2); line-height: 1; font-variant-numeric: tabular-nums; }
+.clock span { font-size: 0.88rem; color: var(--muted); }
+.ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.ticks li { padding-left: 30px; position: relative; }
+.ticks li::before { content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 9px; border-left: 3px solid var(--peacock); border-bottom: 3px solid var(--peacock); transform: rotate(-45deg); }
+.note { border-left: 4px solid var(--haldi); padding-left: 24px; display: grid; gap: 16px; }
+.note p { font-size: var(--step-1); line-height: 1.55; max-width: 60ch; }
+.note .sig { font-size: 1rem; color: var(--muted); }
+@media (max-width: 860px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Checklist */
+.checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.check { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); cursor: pointer; }
+.check input { width: 22px; height: 22px; accent-color: var(--peacock); margin-top: 3px; }
+.check b { display: block; font-weight: 600; }
+.check span { color: var(--muted); font-size: 0.95rem; }
+.progress { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.meter { flex: 1 1 240px; height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--peacock); width: 0; transition: width .3s ease; }
+.progress output { font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .checklist { grid-template-columns: 1fr; } }
+
+/* FAQ */
+.faq { display: grid; gap: 0; max-width: 860px; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 18px; }
+.faq summary { cursor: pointer; font-weight: 600; font-size: var(--step-1); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--display); color: var(--peacock); font-size: 1.6rem; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--muted); margin-top: 10px; max-width: 70ch; }
+
+/* CTA + footer */
+.cta-arch { background: var(--peacock); color: var(--on-accent); border-radius: 300px 300px 24px 24px; padding: clamp(64px, 9vw, 110px) 24px 56px; text-align: center; display: grid; gap: 18px; justify-items: center; }
+.cta-arch h2 { font-size: var(--step-3); max-width: 20ch; }
+.cta-arch p { max-width: 54ch; opacity: 0.9; }
+.cta-arch .btn { background: var(--on-accent); color: var(--peacock); border-color: var(--on-accent); }
+@media (max-width: 600px) { .cta-arch { border-radius: 140px 140px 20px 20px; } }
+footer { padding-block: 48px; color: var(--muted); font-size: 0.95rem; }
+footer .wrap { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 28px; }
+footer h4 { color: var(--ink); margin: 0 0 8px; font-size: 1rem; }
+footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.helpline { font-family: var(--display); font-size: var(--step-2); color: var(--ink); user-select: all; }
+@media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } }
+
+/* Not-for-profit: donate + CSR */
+.fill { background: var(--haldi-soft); color: var(--ink); padding: 0 6px; border-radius: 4px; font-weight: 600; }
+.reg { margin-top: 10px; font-size: 0.88rem; line-height: 1.9; }
+.give { display: grid; gap: 18px; }
+.amounts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.amounts label { position: relative; }
+.amounts input { position: absolute; opacity: 0; }
+.amounts span { display: grid; place-items: center; min-height: 56px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font-family: var(--display); font-size: var(--step-1); cursor: pointer; font-variant-numeric: tabular-nums; }
+.amounts input:checked + span { background: var(--peacock); border-color: var(--peacock); color: var(--on-accent); }
+.amounts input:focus-visible + span { outline: 3px solid var(--haldi); outline-offset: 2px; }
+@media (max-width: 480px) { .amounts { grid-template-columns: 1fr 1fr; } }
+.impact { background: var(--peacock-soft); border-radius: 16px; padding: 20px 22px; display: grid; gap: 6px; }
+.impact strong { font-family: var(--display); font-weight: 400; font-size: var(--step-2); line-height: 1.15; }
+.impact p { color: var(--muted); font-size: 1rem; }
+.howto { border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--paper); display: grid; gap: 16px; align-content: start; }
+.howto dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 1rem; }
+.howto dt { color: var(--muted); }
+.howto dd { margin: 0; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.howto .small { font-size: 0.92rem; color: var(--muted); }
+.csr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.csr-card { border-top: 3px solid var(--haldi); padding-top: 18px; display: grid; gap: 10px; align-content: start; }
+.csr-card p { color: var(--muted); font-size: 1rem; }
+.csr-card .meta { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--peacock); }
+.csr-foot { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: var(--surface); }
+.csr-foot ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 1rem; display: grid; gap: 4px; }
+@media (max-width: 860px) { .csr-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Contact form */
+[hidden] { display: none !important; }
+.contact { display: grid; gap: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px; position: relative; min-width: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row2 > * { min-width: 0; }
+@media (max-width: 560px) { .row2 { grid-template-columns: minmax(0, 1fr); } }
+.contact input[type="text"], .contact input[type="tel"], .contact input[type="email"], .contact textarea { width: 100%; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 48px; }
+.contact textarea { resize: vertical; }
+.contact [aria-invalid="true"] { border-color: var(--sindoor); }
+.tick { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; font-size: 1rem; color: var(--muted); cursor: pointer; }
+.tick input { width: 20px; height: 20px; margin-top: 4px; accent-color: var(--peacock); }
+.contact .btn { justify-self: start; }
+.contact .btn[disabled] { opacity: 0.6; cursor: progress; }
+.form-error { color: var(--sindoor); font-weight: 600; font-size: 1rem; }
+.form-done, .form-fallback { display: grid; gap: 10px; padding: 18px; border-radius: 14px; }
+.form-done { background: var(--peacock-soft); }
+.form-fallback { background: var(--haldi-soft); }
+.form-done strong, .form-fallback strong { font-size: var(--step-1); }
+.form-fallback textarea { font-size: 0.95rem; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Sannishtha Elder Care home">
+      <span class="logo-plate"><img class="logo-mark" src="assets/sannishtha-mark.png" alt="" width="46" height="41"></span>
+      <span class="logo-word">Sannishtha<small>Elder Care</small></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#estimate">Cost estimator</a>
+      <a href="#options">Care options</a>
+      <a href="#schemes">Schemes</a>
+      <a href="#abroad">Children abroad</a>
+      <a href="#donate">Donate</a>
+    </nav>
+    <a class="btn btn-primary" href="#contact">Talk to us</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">A not-for-profit programme of Sannishtha Foundation</span>
+        <h1>Plan your parents’ later years <em>before a crisis plans them for you.</em></h1>
+        <p class="hindi" lang="hi">सन्निष्ठा · माँ-बाबा की देखभाल, समय रहते।</p>
+        <p class="lede">Sannishtha Elder Care predicts the care your parent is likely to need over the next ten years, what it will cost in your city, and which schemes and insurance can pay for it. Then a gerontology-trained care manager helps the whole family act on it.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#estimate">Estimate care costs</a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="trust">
+          <span>Run by a Section 8 not-for-profit</span>
+          <span>Built by gerontologists in Mumbai</span>
+          <span>English, हिंदी, मराठी, ગુજરાતી</span>
+          <span>Free first plan</span>
+        </div>
+      </div>
+
+      <div class="arch" aria-label="Sample care plan">
+        <div class="plan-card">
+          <div class="who">
+            <span class="sample-tag">Sample plan</span>
+            <h3>Aai, 76</h3>
+            <p>Dadar, Mumbai · Type 2 diabetes · one fall last monsoon · lives with son and daughter-in-law</p>
+          </div>
+          <div class="mini-stages">
+            <div class="mini-stage"><span class="dot" style="background:var(--stage0)"></span><span><b>Now</b> · day attendant, home physio</span><span>₹26k/mo</span></div>
+            <div class="mini-stage"><span class="dot" style="background:var(--peacock)"></span><span><b>2029</b> · add weekly nurse visits</span><span>₹32k/mo</span></div>
+            <div class="mini-stage"><span class="dot" style="background:var(--haldi)"></span><span><b>2033</b> · review for 24-hour care</span><span>₹45k/mo</span></div>
+          </div>
+          <div class="plan-total">
+            <span>Projected 10-year care cost</span>
+            <strong class="num">₹34–67 lakh</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap">
+      <div class="facts">
+        <div class="fact"><strong class="num">14.9 cr</strong><p>Indians are 60 or older today, about one in ten people.</p></div>
+        <div class="fact"><strong class="num">34.7 cr</strong><p>Expected by 2050, when one in five Indians will be a senior citizen.</p></div>
+        <div class="fact"><strong class="num">~88 lakh</strong><p>Older Indians are estimated to be living with dementia, most undiagnosed.</p></div>
+        <div class="fact"><strong class="num">~40%</strong><p>Of India’s health spending is paid out of pocket by families.</p></div>
+      </div>
+      <p class="source">Sources: UNFPA India Ageing Report 2023; LASI-DAD (2023) dementia prevalence study; National Health Accounts estimates 2021–22.</p>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>Three steps from worry to a written plan</h2>
+        <p class="lede">Most families in India start planning on the day of a fall, a stroke or a hospital discharge. Starting even two years earlier changes what is possible.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-n">1</span>
+          <h3>Tell us about your parent</h3>
+          <p>A 15-minute questionnaire on health, daily routines, home, family support and savings. Your parent can answer in their own language, or a family member can answer for them.</p>
+        </div>
+        <div class="step">
+          <span class="step-n">2</span>
+          <h3>Get a ten-year care forecast</h3>
+          <p>We model likely care stages using geriatric assessment tools such as the Katz ADL index, then price each stage with current rates for attendants, nursing and senior living in your city.</p>
+        </div>
+        <div class="step">
+          <span class="step-n">3</span>
+          <h3>Act on it together</h3>
+          <p>A care manager walks the family through the plan on one video call, sets up insurance and scheme enrolments, and shares a single dashboard so siblings in Pune, Dubai and Toronto see the same picture.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="estimate">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Care cost estimator</span>
+        <h2>What could care cost over the next ten years?</h2>
+        <p class="lede">Change the answers below. The forecast updates as you go. It starts with an example parent so you can see how it works.</p>
+      </div>
+
+      <div class="est">
+        <form class="est-form" id="estForm" autocomplete="off">
+          <div class="field">
+            <label for="city">City</label>
+            <select id="city" name="city">
+              <option value="1">Mumbai &amp; Thane</option>
+              <option value="0.95">Delhi NCR</option>
+              <option value="0.95">Bengaluru</option>
+              <option value="0.86">Pune</option>
+              <option value="0.85">Chennai</option>
+              <option value="0.85">Hyderabad</option>
+              <option value="0.76">Kolkata</option>
+              <option value="0.65">Tier-2 city (Nashik, Indore, Kochi…)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <div class="age-row"><label for="age">Parent’s age</label><output id="ageOut" for="age" class="num">78</output></div>
+            <input type="range" id="age" name="age" min="60" max="95" value="78">
+          </div>
+
+          <fieldset class="field">
+            <legend>Needs help today with <span class="hint">(daily activities)</span></legend>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" id="adl-bath" name="adl" value="bath" checked><span>Bathing</span></label>
+              <label class="chip"><input type="checkbox" id="adl-dress" name="adl" value="dress"><span>Dressing</span></label>
+              <label class="chip"><input type="checkbox" id="adl-toilet" name="adl" value="toilet"><span>Toileting</span></label>
+              <label class="chip"><input type="checkbox" id="adl-move" name="adl" value="move"><span>Walking, getting up</span></label>
+              <label class="chip"><input type="checkbox" id="adl-eat" name="adl" value="eat"><span>Eating</span></label>
+              <label class="chip"><input type="checkbox" id="iadl-med" name="iadl" value="med"><span>Medicines</span></label>
+              <label class="chip"><input type="checkbox" id="iadl-money" name="iadl" value="money"><span>Bank &amp; bills</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend>Health conditions</legend>
+            <div class="chips">
+              <label class="chip"><input type="checkbox" id="c-diab" name="cond" value="0.4" data-k="diabetes" checked><span>Diabetes</span></label>
+              <label class="chip"><input type="checkbox" id="c-heart" name="cond" value="0.5" data-k="heart"><span>Heart / BP</span></label>
+              <label class="chip"><input type="checkbox" id="c-falls" name="cond" value="0.6" data-k="falls" checked><span>Falls, arthritis</span></label>
+              <label class="chip"><input type="checkbox" id="c-mem" name="cond" value="1.4" data-k="dementia"><span>Memory loss</span></label>
+              <label class="chip"><input type="checkbox" id="c-stroke" name="cond" value="1.2" data-k="stroke"><span>Past stroke</span></label>
+              <label class="chip"><input type="checkbox" id="c-park" name="cond" value="1.1" data-k="parkinsons"><span>Parkinson’s</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="living">Lives with</label>
+            <select id="living" name="living">
+              <option value="family">Children / family at home</option>
+              <option value="spouse" selected>Spouse only</option>
+              <option value="alone">Alone, children in same city</option>
+              <option value="abroad">Alone, children abroad</option>
+            </select>
+          </div>
+
+          <fieldset class="field">
+            <legend>Preferred setting for later care</legend>
+            <div class="seg">
+              <label><input type="radio" id="pref-home" name="pref" value="home" checked><span>At home</span></label>
+              <label><input type="radio" id="pref-res" name="pref" value="res"><span>Senior living</span></label>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="est-out" aria-live="polite">
+          <div class="now-card">
+            <span class="stage-pill" id="stagePill">Some help</span>
+            <div class="big num" id="nowCost">₹18,000 – 35,000 <small>per month today</small></div>
+            <p id="stageDesc"></p>
+          </div>
+
+          <div class="chart-box">
+            <div class="chart-head">
+              <h3>Ten-year forecast</h3>
+              <span class="total num" id="total">₹—</span>
+            </div>
+            <div class="chart-scroll">
+              <div class="bars" id="bars" role="img" aria-label="Yearly care cost forecast"></div>
+              <div class="years" id="years"></div>
+            </div>
+            <div class="legend">
+              <span><i style="background:var(--stage0)"></i>Independent</span>
+              <span><i style="background:var(--peacock)"></i>Some help</span>
+              <span><i style="background:var(--haldi)"></i>Daily assistance</span>
+              <span><i style="background:var(--sindoor)"></i>Full-time care</span>
+            </div>
+          </div>
+
+          <div class="chart-box">
+            <div class="chart-head"><h3>What we would do first</h3></div>
+            <ul class="recs" id="recs"></ul>
+          </div>
+
+          <p class="disclaim">Indicative only. Figures use 2026 market rates we see across agencies and senior living operators, inflate costs by 10% a year, and assume care needs continue for the full ten years. Your actual plan is built from a full geriatric assessment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="options">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Care options in India</span>
+        <h2>Know the options, and the going rate, before you need them</h2>
+        <p class="lede">Monthly ranges for Mumbai in 2026. We vet agencies, check attendant police verification, and negotiate on your behalf.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Option</th><th>What it covers</th><th>Mumbai, per month</th><th>Best when</th></tr></thead>
+          <tbody>
+            <tr><td>Day attendant (12-hour)</td><td>Bathing, meals, walks, medicine reminders, company. <span class="tip">Ask for GDA-trained staff and police verification.</span></td><td class="cost">₹16,000 – 25,000</td><td>Parent is mostly independent but should not be alone all day.</td></tr>
+            <tr><td>Live-in attendant (24-hour)</td><td>Round-the-clock help including night toileting and turning in bed. <span class="tip">Needs a sleeping space and weekly off cover.</span></td><td class="cost">₹24,000 – 38,000</td><td>Needs help with two or more daily activities, or night-time falls risk.</td></tr>
+            <tr><td>Home nursing</td><td>Qualified GNM/ANM nurse for wound care, catheter, injections, post-surgery recovery.</td><td class="cost">₹40,000 – 70,000</td><td>After a hospital discharge, stroke or major surgery.</td></tr>
+            <tr><td>Home physiotherapy</td><td>Strength and balance work, fall prevention, stroke and knee rehab.</td><td class="cost">₹8,000 – 18,000 <span class="tip">for 12 sessions</span></td><td>Any parent over 70. The single best defence against falls.</td></tr>
+            <tr><td>Senior day care centre</td><td>Daytime activities, meals, exercise and social contact, with transport.</td><td class="cost">₹8,000 – 20,000</td><td>Lonely or early memory loss, while family is at work.</td></tr>
+            <tr><td>Assisted living</td><td>Private room, meals, nursing on call, activities. <span class="tip">Often a refundable deposit of ₹2–10 lakh.</span></td><td class="cost">₹45,000 – 1,20,000</td><td>Parent lives alone, or the home has no lift and many stairs.</td></tr>
+            <tr><td>Dementia care home</td><td>Secured environment, trained staff, structured routines.</td><td class="cost">₹60,000 – 1,50,000</td><td>Wandering, night agitation, or family caregivers burning out.</td></tr>
+            <tr><td>Palliative care at home</td><td>Pain and symptom relief, doctor and nurse visits, family counselling.</td><td class="cost">₹15,000 – 45,000 <span class="tip">NGO programmes may be free</span></td><td>Serious illness where comfort is now the main goal.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="schemes">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Schemes, tax &amp; legal</span>
+        <h2>Money families leave on the table</h2>
+        <p class="lede">Most of the families we meet are eligible for at least three of these and use one. We check eligibility and handle the paperwork.</p>
+      </div>
+      <div class="schemes">
+        <div class="scheme"><span class="tag">Health cover · age 70+</span><strong>₹5 lakh a year</strong><h3>Ayushman Vay Vandana card</h3><p>Under AB PM-JAY every Indian aged 70 or older gets hospital cover regardless of income, on top of any existing family cover.</p></div>
+        <div class="scheme"><span class="tag">Income · age 60+</span><strong>Up to ₹30 lakh</strong><h3>Senior Citizens’ Savings Scheme</h3><p>Government-backed deposit paying quarterly interest at a rate set each quarter. A steady base for care expenses.</p></div>
+        <div class="scheme"><span class="tag">Tax · Section 80D</span><strong>₹50,000 deduction</strong><h3>Health insurance for parents</h3><p>Premiums or preventive check-ups paid for senior citizen parents are deductible. Uninsured seniors can claim medical bills instead.</p></div>
+        <div class="scheme"><span class="tag">Tax · Section 80DDB</span><strong>₹1 lakh deduction</strong><h3>Specified illnesses</h3><p>Treatment for conditions such as dementia, Parkinson’s and cancer for a senior citizen dependant.</p></div>
+        <div class="scheme"><span class="tag">Legal</span><strong>Advance Medical Directive</strong><h3>A living will</h3><p>Since the Supreme Court’s 2018 ruling, simplified in 2023, your parent can record their wishes for end-of-life treatment. Few families know this is possible.</p></div>
+        <div class="scheme"><span class="tag">Legal · 2007 Act</span><strong>Maintenance Tribunal</strong><h3>Senior Citizens Act</h3><p>The Maintenance and Welfare of Parents and Senior Citizens Act protects a parent’s right to maintenance and to their property.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="abroad">
+    <div class="wrap split">
+      <div class="section-head" style="margin:0">
+        <span class="eyebrow">For children living abroad</span>
+        <h2>Be there for Mummy and Papa from 4,000 km away</h2>
+        <p class="lede">One in three families we work with has a son or daughter overseas. We become your eyes and hands in India, on your time zone.</p>
+        <div class="clock" aria-label="Example family call times">
+          <div><b class="num">7:30 pm</b><span>Mumbai</span></div>
+          <div><b class="num">6:00 pm</b><span>Dubai</span></div>
+          <div><b class="num">9:00 am</b><span>Toronto</span></div>
+        </div>
+      </div>
+      <ul class="ticks">
+        <li><b>A named care manager in your parent’s city</b>, who visits monthly and joins doctor appointments.</li>
+        <li><b>Daily check-in calls</b> to your parent, with a short note in the family dashboard.</li>
+        <li><b>Emergency response</b> coordinated with the society secretary, a trusted neighbour and the nearest hospital, with you on the line.</li>
+        <li><b>Bills, pharmacy and attendant payroll</b> handled with receipts you can see.</li>
+        <li><b>A quarterly care review</b> on video, timed for your evening, where every sibling sees the same numbers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap split">
+      <div class="note">
+        <span class="eyebrow">From our gerontology team</span>
+        <p>In Mumbai we see the same story every week. A parent in their late seventies, a third-floor flat with no lift, a slippery bathroom in the monsoon. Then a fall, a hip fracture, and a family making ten big decisions in one week in a hospital corridor.</p>
+        <p>Almost every one of those decisions could have been made calmly, two years earlier, with the parent at the table. That is why Sannishtha Foundation started this programme. Ageing well at home is possible for most Indian elders. It just needs a plan.</p>
+        <span class="sig">Geriatric care team, Sannishtha Elder Care · Mumbai</span>
+      </div>
+      <div>
+        <div class="section-head" style="margin-bottom:20px">
+          <span class="eyebrow">Readiness check</span>
+          <h3 style="font-size:var(--step-2)">How prepared is your family?</h3>
+        </div>
+        <div class="progress"><div class="meter"><i id="meter"></i></div><output id="score" class="num">0 of 8 done</output></div>
+        <div class="checklist" id="checklist" style="grid-template-columns:1fr">
+          <label class="check"><input type="checkbox" id="ck-1"><div><b>Registered will and nominees</b><span>On every bank account, FD, demat and insurance policy.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-2"><div><b>Power of attorney</b><span>So a trusted person can manage money if your parent cannot.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-3"><div><b>Health insurance that covers seniors</b><span>Plus the Ayushman Vay Vandana card if 70 or older.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-4"><div><b>One file of medicines and doctors</b><span>Prescriptions, reports and the family physician’s number.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-5"><div><b>Bathroom made safe</b><span>Grab bars, anti-skid tiles, a shower chair and a night light.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-6"><div><b>Emergency contacts in the building</b><span>A neighbour, the society secretary, and Elderline 14567 saved.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-7"><div><b>A monthly budget for care</b><span>Agreed among siblings, with who pays what written down.</span></div></label>
+          <label class="check"><input type="checkbox" id="ck-8"><div><b>The conversation</b><span>Your parent has said where and how they want to be cared for.</span></div></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="donate">
+    <div class="wrap split">
+      <div class="give">
+        <div class="section-head" style="margin:0">
+          <span class="eyebrow">Donate</span>
+          <h2>Fund care for an elder who has no one to plan it</h2>
+          <p class="lede">Many elders in Mumbai live alone in a single room, with children far away or no family at all. Your gift pays for their care plan, their home safety and a care manager who checks on them.</p>
+        </div>
+        <fieldset>
+          <legend class="eyebrow" style="margin-bottom:10px">Choose an amount</legend>
+          <div class="amounts" id="amounts">
+            <label><input type="radio" id="amt-1" name="amt" value="0"><span>₹2,000</span></label>
+            <label><input type="radio" id="amt-2" name="amt" value="1" checked><span>₹5,000</span></label>
+            <label><input type="radio" id="amt-3" name="amt" value="2"><span>₹12,000</span></label>
+            <label><input type="radio" id="amt-4" name="amt" value="3"><span>₹25,000</span></label>
+          </div>
+        </fieldset>
+        <div class="impact" aria-live="polite">
+          <strong id="impactHead">Four sessions of home physiotherapy</strong>
+          <p id="impactBody">Balance and strength work for an elder who has already fallen once. Physiotherapy is the best protection against a second, more serious fall.</p>
+        </div>
+      </div>
+      <div class="howto">
+        <h3>How to give</h3>
+        <dl>
+          <dt>UPI</dt><dd><span class="fill">[add UPI ID]</span></dd>
+          <dt>Account name</dt><dd>Sannishtha Foundation</dd>
+          <dt>Account no.</dt><dd><span class="fill">[add account no.]</span></dd>
+          <dt>IFSC</dt><dd><span class="fill">[add IFSC]</span></dd>
+          <dt>Receipts</dt><dd style="user-select:all">sannishthafoundation@gmail.com</dd>
+        </dl>
+        <p class="small">After you give, email us your name, PAN and address. We send a receipt and an 80G certificate for every donation.</p>
+        <p class="small">Indian citizens living abroad can donate from an NRO or NRE account. We cannot accept donations from foreign nationals or OCI card holders, because Indian law requires separate FCRA registration for those.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="csr">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">CSR partnerships</span>
+        <h2>Put your company’s CSR budget to work for India’s elders</h2>
+        <p class="lede">Care for senior citizens is listed under Schedule VII, item (iii) of the Companies Act, 2013. Sannishtha Foundation is registered with the Ministry of Corporate Affairs to carry out CSR projects. Choose one of our programmes, or we can design one with you.</p>
+      </div>
+      <div class="csr-grid">
+        <div class="csr-card">
+          <span class="meta">Schedule VII (iii)</span>
+          <h3>Ageing in place, one ward at a time</h3>
+          <p>Care plans, home safety changes, physiotherapy and a named care manager for low-income elders living alone in one BMC ward.</p>
+        </div>
+        <div class="csr-card">
+          <span class="meta">Schedule VII (i), (iii)</span>
+          <h3>Memory screening camps</h3>
+          <p>Community camps run with geriatricians and memory clinics to find dementia early, followed by counselling for families on what comes next.</p>
+        </div>
+        <div class="csr-card">
+          <span class="meta">Schedule VII (ii)</span>
+          <h3>Trained attendants, better livelihoods</h3>
+          <p>Elder care training for young women from low-income communities, with placement support. India needs many more trained attendants.</p>
+        </div>
+      </div>
+      <div class="csr-foot">
+        <ul>
+          <li>Board-ready proposals with budgets and outcomes</li>
+          <li>Quarterly progress reports and utilisation certificates</li>
+          <li>Support for impact assessment where your rules need it</li>
+          <li>Employee volunteering with elders in Mumbai</li>
+        </ul>
+        <p style="font-size:var(--step-1)">Write to us at <span style="user-select:all;font-weight:600">sannishthafoundation@gmail.com</span> or <a href="#contact" data-role="CSR partnership">send a CSR enquiry</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Questions families ask</span>
+        <h2>Frequently asked</h2>
+      </div>
+      <div class="faq">
+        <details><summary>My parent is healthy. Isn’t it too early?</summary><p>This is the best time. Healthy parents can choose for themselves, qualify for insurance at better rates, and make changes to the home before a fall forces them. A plan made at 70 is mostly about prevention.</p></details>
+        <details><summary>Is a senior living community abandoning our parents?</summary><p>No. Many elders choose it for company, safety and a lift. We help families talk about this openly and visit communities together. For most families the plan is ageing at home with the right support, and we say so when that is the better option.</p></details>
+        <details><summary>How do you find trustworthy attendants?</summary><p>We work only with agencies that provide police verification, written contracts, replacement guarantees and basic GDA training. Our care manager checks in on the attendant as well as your parent.</p></details>
+        <details><summary>Can you help if my parent has memory problems?</summary><p>Yes. We arrange a cognitive screening with a geriatrician or memory clinic, explain the diagnosis in plain words, and train family members and attendants in dementia care. Early diagnosis opens up more options.</p></details>
+        <details><summary>What does it cost?</summary><p>Your first care forecast and family call are free for everyone. Ongoing care management has a monthly fee on a sliding scale linked to household income, and elders with no family support or limited means pay nothing. The fees cover our costs. As a Section 8 company, Sannishtha Foundation cannot pay profits or dividends to anyone, so any surplus goes back into free care for elders who cannot pay.</p></details>
+        <details><summary>Why is a not-for-profit doing this?</summary><p>Families tell us they no longer trust advice from agencies and senior living operators who earn a commission on every placement. We take no commissions or referral fees from anyone we recommend, so our only interest is what is right for your parent.</p></details>
+        <details><summary>Can I get a tax deduction on my donation?</summary><p>Donations to Sannishtha Foundation are eligible for deduction under the Income Tax Act, and we send a receipt and certificate for every gift. Whether you can claim it depends on the tax regime you file under, so check with your tax adviser.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="cta-arch">
+        <h2>The best care plans are made over chai, not in an ICU corridor.</h2>
+        <p>Tell us a little about your parent and a care manager will call you within two working days. The first call and care forecast are free.</p>
+        <a class="btn" href="#contact">Request a free call</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="contact">
+    <div class="wrap split">
+      <div class="section-head" style="margin:0">
+        <span class="eyebrow">Talk to us</span>
+        <h2>Request a free call with a care manager</h2>
+        <p class="lede">Share a few details and we will call you within two working days. You can also use this form to donate, volunteer or ask about CSR partnerships.</p>
+        <p>Email <b style="user-select:all">sannishthafoundation@gmail.com</b></p>
+        <p class="disclaim">In an emergency, call 112. For the national senior citizens’ helpline, call 14567.</p>
+      </div>
+      <form class="contact" id="contactForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="cf-phone">Phone or WhatsApp</label><input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="cf-email">Email <span class="hint">(optional)</span></label><input id="cf-email" name="email" type="email" autocomplete="email"></div>
+          <div class="field"><label for="cf-city">City</label><input id="cf-city" name="city" type="text" autocomplete="address-level2"></div>
+        </div>
+        <div class="field">
+          <label for="cf-role">I am writing about</label>
+          <select id="cf-role" name="topic">
+            <option>Care for my parent or relative</option>
+            <option>Care for myself</option>
+            <option>Making a donation</option>
+            <option>CSR partnership</option>
+            <option>Volunteering</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label for="cf-msg">How can we help?</label><textarea id="cf-msg" name="message" rows="4"></textarea></div>
+        <label class="tick"><input type="checkbox" id="cf-est" checked> <span>Include my answers from the cost estimator</span></label>
+        <label class="tick"><input type="checkbox" id="cf-consent" required> <span>I agree that Sannishtha Foundation may store these details and contact me about elder care. We never sell or share your data.</span></label>
+        <input type="text" id="cf-honey" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <p class="form-error" id="cf-error" hidden></p>
+        <button class="btn btn-primary" type="submit" id="cf-submit">Send my request</button>
+
+        <div class="form-done" id="cf-done" hidden>
+          <strong>Thank you. Your request has reached us.</strong>
+          <p>A care manager will call you within two working days.</p>
+        </div>
+        <div class="form-fallback" id="cf-fallback" hidden>
+          <strong>We could not send this from here.</strong>
+          <p>Please copy your message below and email it to <b style="user-select:all">sannishthafoundation@gmail.com</b>.</p>
+          <textarea id="cf-copytext" rows="7" readonly></textarea>
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" id="cf-copy">Copy message</button>
+            <a class="btn btn-ghost" id="cf-mailto" href="mailto:sannishthafoundation@gmail.com">Open email app</a>
+          </div>
+          <p class="disclaim" id="cf-copied" hidden>Copied. Paste it into an email to sannishthafoundation@gmail.com.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo-plate" href="#top" style="justify-self:start;padding:14px 18px;display:inline-grid"><img class="footer-logo" src="assets/sannishtha-logo.png" alt="Sannishtha Foundation" width="220" height="192"></a>
+      <p style="margin-top:14px;max-width:46ch">Sannishtha Elder Care is a programme of Sannishtha Foundation, a not-for-profit company registered under Section 8 of the Companies Act, 2013. We help Indian families plan, pay for and coordinate long-term care for ageing parents. We do not replace emergency services or your doctor.</p>
+      <p class="reg">CIN <span class="fill">[add CIN]</span> · 12A <span class="fill">[add no.]</span> · 80G <span class="fill">[add no.]</span> · CSR-1 <span class="fill">[add no.]</span></p>
+    </div>
+    <div>
+      <h4>National Elderline</h4>
+      <div class="helpline num">14567</div>
+      <p>Free helpline for senior citizens, Government of India.</p>
+    </div>
+    <div>
+      <h4>Plan</h4>
+      <ul>
+        <li><a href="#estimate">Cost estimator</a></li>
+        <li><a href="#options">Care options</a></li>
+        <li><a href="#schemes">Schemes &amp; tax</a></li>
+        <li><a href="#abroad">Children abroad</a></li>
+        <li><a href="#donate">Donate</a></li>
+        <li><a href="#csr">CSR partnerships</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var STAGES = [
+    { name: "Independent", color: "var(--stage0)", home: [8000, 15000], res: [8000, 15000],
+      desc: "Lives independently. Spending goes on check-ups, medicines, a cook or help with errands, and fall prevention." },
+    { name: "Some help", color: "var(--peacock)", home: [18000, 35000], res: [45000, 80000],
+      desc: "Needs help with a few daily tasks. Typically a 12-hour day attendant and regular home physiotherapy, or a room in assisted living." },
+    { name: "Daily assistance", color: "var(--haldi)", home: [35000, 60000], res: [60000, 110000],
+      desc: "Needs help with most daily activities. Usually a 24-hour live-in attendant with weekly nurse visits, or assisted living with higher care." },
+    { name: "Full-time care", color: "var(--sindoor)", home: [70000, 140000], res: [90000, 160000],
+      desc: "Needs skilled care around the clock. A trained nurse at home, or a dementia or nursing care home." }
+  ];
+  var INFLATION = 0.10, START_YEAR = 2026;
+  var estSummary = "";
+  var form = document.getElementById("estForm");
+  var $ = function (id) { return document.getElementById(id); };
+
+  function inr(n) { return Math.round(n / 500) * 500 > 0 ? (Math.round(n / 500) * 500).toLocaleString("en-IN") : "0"; }
+  function big(n) {
+    if (n >= 1e7) return (n / 1e7).toFixed(2).replace(/\.?0+$/, "") + " crore";
+    return (n / 1e5).toFixed(n >= 1e6 ? 0 : 1) + " lakh";
+  }
+  function stageOf(score) { return score < 1.5 ? 0 : score < 3.5 ? 1 : score < 5.5 ? 2 : 3; }
+
+  function read() {
+    var conds = Array.prototype.slice.call(form.querySelectorAll('input[name="cond"]:checked'));
+    return {
+      city: parseFloat($("city").value),
+      age: parseInt($("age").value, 10),
+      adl: form.querySelectorAll('input[name="adl"]:checked').length,
+      iadl: form.querySelectorAll('input[name="iadl"]:checked').length,
+      condWeight: conds.reduce(function (s, c) { return s + parseFloat(c.value); }, 0),
+      condKeys: conds.map(function (c) { return c.dataset.k; }),
+      living: $("living").value,
+      pref: form.querySelector('input[name="pref"]:checked').value
+    };
+  }
+
+  function render() {
+    var v = read();
+    $("ageOut").textContent = v.age;
+    var has = function (k) { return v.condKeys.indexOf(k) !== -1; };
+    var alone = v.living === "alone" || v.living === "abroad";
+    var score = (v.age - 60) * 0.06 + v.adl * 0.75 + v.iadl * 0.3 + v.condWeight + (alone ? 0.3 : 0);
+    var rate = 0.08 + 0.03 * v.condKeys.length + (has("dementia") ? 0.12 : 0) + Math.max(0, v.age - 75) * 0.01;
+
+    var years = [], lo = 0, hi = 0;
+    for (var y = 0; y < 10; y++) {
+      var st = stageOf(score + rate * y);
+      var r = v.pref === "res" ? STAGES[st].res : STAGES[st].home;
+      var f = v.city * Math.pow(1 + INFLATION, y) * 12;
+      years.push({ year: START_YEAR + y, stage: st, mid: (r[0] + r[1]) / 2 * f });
+      lo += r[0] * f; hi += r[1] * f;
+    }
+
+    var now = years[0].stage, S = STAGES[now];
+    var nr = v.pref === "res" ? S.res : S.home;
+    var pill = $("stagePill");
+    pill.textContent = "Today: " + S.name;
+    pill.style.background = S.color;
+    pill.style.color = now === 0 ? "var(--ink)" : "var(--on-accent)";
+    $("nowCost").innerHTML = "₹" + inr(nr[0] * v.city) + " – " + inr(nr[1] * v.city) + " <small>per month today</small>";
+    var nextChange = years.find(function (d) { return d.stage > now; });
+    $("stageDesc").textContent = S.desc + (nextChange ? " On current trends, needs are likely to rise to “" + STAGES[nextChange.stage].name.toLowerCase() + "” around " + nextChange.year + "." : "");
+    $("total").textContent = "₹" + big(lo) + " – " + big(hi);
+    var labels = function (sel) { return Array.prototype.map.call(form.querySelectorAll(sel), function (i) { return i.nextElementSibling.textContent; }).join(", ") || "none"; };
+    estSummary = "Cost estimator answers\n" +
+      "City: " + $("city").options[$("city").selectedIndex].text + "\n" +
+      "Parent's age: " + v.age + "\n" +
+      "Needs help with: " + labels('input[name="adl"]:checked, input[name="iadl"]:checked') + "\n" +
+      "Conditions: " + labels('input[name="cond"]:checked') + "\n" +
+      "Lives with: " + $("living").options[$("living").selectedIndex].text + "\n" +
+      "Preferred setting: " + (v.pref === "res" ? "Senior living" : "At home") + "\n" +
+      "Estimated stage today: " + S.name + "\n" +
+      "10-year forecast: " + $("total").textContent;
+
+    var max = Math.max.apply(null, years.map(function (d) { return d.mid; }));
+    $("bars").innerHTML = years.map(function (d) {
+      return '<div class="bar" title="' + d.year + ": " + STAGES[d.stage].name + ", about ₹" + big(d.mid) + ' a year" data-v="₹' + big(d.mid) + '/yr" style="height:' + (d.mid / max * 100).toFixed(1) + "%;background:" + STAGES[d.stage].color + '"></div>';
+    }).join("");
+    $("years").innerHTML = years.map(function (d) { return "<span>" + String(d.year).slice(2).replace(/^/, "’") + "</span>"; }).join("");
+
+    var recs = [];
+    if (v.age >= 70) recs.push("Apply for the Ayushman Vay Vandana card: ₹5 lakh of hospital cover a year, with no income limit.");
+    if (has("falls") || v.adl > 0) recs.push("Book a home safety visit and 12 sessions of balance physiotherapy. Falls are the most common reason older Mumbaikars lose independence.");
+    if (has("dementia")) recs.push("Arrange a cognitive assessment at a memory clinic, and choose attendants with dementia training.");
+    if (has("stroke") || has("parkinsons")) recs.push("Set up a neuro-rehabilitation plan with a physiotherapist and speech therapist who visit at home.");
+    if (v.living === "abroad") recs.push("Assign a local care manager with daily check-in calls and an emergency plan that includes a neighbour and the society secretary.");
+    else if (alone) recs.push("Start a daily check-in routine and a medical alert device, since your parent is alone for much of the day.");
+    if (now >= 1) recs.push("Hire only police-verified attendants through an agency that offers replacement cover and a written contract.");
+    if (v.iadl > 0) recs.push("Put a power of attorney and joint bank access in place now, while your parent can sign with full capacity.");
+    if (lo > 2.5e6) recs.push("Fund the plan: review SCSS deposits, rental income and the Section 80D and 80DDB deductions with our financial planner.");
+    recs.push("Hold a family meeting with your parent at the table to agree on where they want to live and who does what.");
+    $("recs").innerHTML = recs.slice(0, 5).map(function (t) { return "<li>" + t + "</li>"; }).join("");
+  }
+
+  form.addEventListener("input", render);
+  form.addEventListener("change", render);
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  render();
+
+  // Readiness checklist, remembered on this device only
+  var KEY = "sannishtha-readiness";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll("#checklist input"));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+  boxes.forEach(function (b) { if (saved[b.id]) b.checked = true; });
+  function score() {
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    $("meter").style.width = (done / boxes.length * 100) + "%";
+    $("score").textContent = done + " of " + boxes.length + " done";
+    var s = {}; boxes.forEach(function (b) { s[b.id] = b.checked; });
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  boxes.forEach(function (b) { b.addEventListener("change", score); });
+  score();
+
+  // Donation impact
+  var IMPACT = [
+    ["A safer bathroom", "Grab bars, an anti-skid mat and a night light fitted in an elder’s home. Most falls at home happen in the bathroom."],
+    ["Four sessions of home physiotherapy", "Balance and strength work for an elder who has already fallen once. Physiotherapy is the best protection against a second, more serious fall."],
+    ["A month of care management", "Weekly visits, daily check-in calls and doctor appointments for an elder who lives alone."],
+    ["A month of a day attendant", "Twelve hours of help every day for a widowed elder recovering from a fracture, with no family nearby."]
+  ];
+  function impact() {
+    var i = +document.querySelector('input[name="amt"]:checked').value;
+    $("impactHead").textContent = IMPACT[i][0];
+    $("impactBody").textContent = IMPACT[i][1];
+  }
+  $("amounts").addEventListener("change", impact);
+  impact();
+
+  // Contact form: sends through FormSubmit to the Foundation's inbox.
+  // Where sending is blocked (for example inside a preview), the visitor gets a copy-and-email fallback.
+  var TO = "sannishthafoundation@gmail.com";
+  var cform = $("contactForm");
+  Array.prototype.forEach.call(document.querySelectorAll('a[data-role]'), function (a) {
+    a.addEventListener("click", function () { $("cf-role").value = a.dataset.role; });
+  });
+  function messageText(d) {
+    return "Name: " + d.name + "\nPhone: " + d.phone + "\nEmail: " + (d.email || "-") + "\nCity: " + (d.city || "-") +
+      "\nTopic: " + d.topic + "\n\nMessage:\n" + (d.message || "-") + (d.estimator ? "\n\n" + d.estimator : "");
+  }
+  cform.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var err = $("cf-error");
+    err.hidden = true;
+    ["cf-name", "cf-phone"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
+    var d = {
+      name: $("cf-name").value.trim(), phone: $("cf-phone").value.trim(), email: $("cf-email").value.trim(),
+      city: $("cf-city").value.trim(), topic: $("cf-role").value, message: $("cf-msg").value.trim(),
+      estimator: $("cf-est").checked ? estSummary : ""
+    };
+    var missing = [];
+    if (!d.name) { missing.push("your name"); $("cf-name").setAttribute("aria-invalid", "true"); }
+    if (d.phone.replace(/\D/g, "").length < 10) { missing.push("a phone number with at least 10 digits"); $("cf-phone").setAttribute("aria-invalid", "true"); }
+    if (!$("cf-consent").checked) missing.push("your consent to be contacted");
+    if (missing.length) { err.textContent = "Please add " + missing.join(", ") + "."; err.hidden = false; return; }
+    if ($("cf-honey").value) return;
+
+    var btn = $("cf-submit");
+    btn.disabled = true; btn.textContent = "Sending…";
+    var payload = {
+      _subject: "Website enquiry: " + d.topic + " (" + d.name + ")",
+      _template: "table", _captcha: "false",
+      Name: d.name, Phone: d.phone, Email: d.email || "-", City: d.city || "-", Topic: d.topic,
+      Message: d.message || "-", Estimator: d.estimator || "-"
+    };
+    if (d.email) payload._replyto = d.email;
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { ctrl && ctrl.abort(); }, 15000);
+    function fallback() {
+      var text = messageText(d);
+      $("cf-copytext").value = text;
+      $("cf-mailto").href = "mailto:" + TO + "?subject=" + encodeURIComponent("Website enquiry: " + d.topic) + "&body=" + encodeURIComponent(text);
+      $("cf-fallback").hidden = false;
+      btn.disabled = false; btn.textContent = "Try sending again";
+    }
+    fetch("https://formsubmit.co/ajax/" + TO, {
+      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload), signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) { return res.json(); }).then(function (j) {
+      clearTimeout(timer);
+      if (j && String(j.success) === "true") {
+        $("cf-fallback").hidden = true; $("cf-done").hidden = false;
+        btn.hidden = true;
+        Array.prototype.forEach.call(cform.querySelectorAll("input, select, textarea"), function (el) { if (el.id !== "cf-copytext") el.disabled = true; });
+      } else { fallback(); }
+    }).catch(function () { clearTimeout(timer); fallback(); });
+  });
+  $("cf-copy").addEventListener("click", function () {
+    var t = $("cf-copytext");
+    function selectIt() { t.focus(); t.select(); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t.value).then(function () { $("cf-copied").hidden = false; }, selectIt);
+    } else { selectIt(); }
+  });
+})();
+</script>
+
+</body>
+</html>
