@@ -6,17 +6,18 @@
 <style>
 /* Layout: an arched doorway motif. Arched frames hold the key moments; everything else sits on open, quiet ground. */
 :root {
-  --paper: #f2f5f1;
+  /* Brand colours from the Sannishtha Foundation logo: navy, river blue, sun, earth */
+  --paper: #f4f6f9;
   --surface: #ffffff;
-  --ink: #18223a;
-  --muted: #55607a;
-  --line: #d7ddd6;
-  --peacock: #0f6e6a;
-  --peacock-soft: #dcefea;
-  --haldi: #d99a0b;
-  --haldi-soft: #fbf0cf;
-  --sindoor: #b5432e;
-  --stage0: #9fd1c7;
+  --ink: #13253e;
+  --muted: #55627a;
+  --line: #d8dee7;
+  --peacock: #22709b;
+  --peacock-soft: #e1edf5;
+  --haldi: #e39a22;
+  --haldi-soft: #fdf0d9;
+  --sindoor: #b9581f;
+  --stage0: #a8cbe1;
   --on-accent: #ffffff;
   --display: "Rozha One", "Noto Serif Devanagari", Georgia, serif;
   --body: "Hind", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -29,15 +30,15 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0f151d; --surface: #17202b; --ink: #e8ecf2; --muted: #9ba6b8; --line: #2a3542;
-    --peacock: #4fb8ad; --peacock-soft: #15302d; --haldi: #f0bd3c; --haldi-soft: #362c12;
-    --sindoor: #e27c64; --stage0: #2f6a62; --on-accent: #0f151d; color-scheme: dark;
+    --paper: #0d1420; --surface: #152031; --ink: #e8edf4; --muted: #9ba8bc; --line: #26344a;
+    --peacock: #6db2dc; --peacock-soft: #13293b; --haldi: #f2b24a; --haldi-soft: #3a2c12;
+    --sindoor: #e5884f; --stage0: #2d5878; --on-accent: #0f151d; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0f151d; --surface: #17202b; --ink: #e8ecf2; --muted: #9ba6b8; --line: #2a3542;
-  --peacock: #4fb8ad; --peacock-soft: #15302d; --haldi: #f0bd3c; --haldi-soft: #362c12;
-  --sindoor: #e27c64; --stage0: #2f6a62; --on-accent: #0f151d; color-scheme: dark;
+  --paper: #0d1420; --surface: #152031; --ink: #e8edf4; --muted: #9ba8bc; --line: #26344a;
+  --peacock: #6db2dc; --peacock-soft: #13293b; --haldi: #f2b24a; --haldi-soft: #3a2c12;
+  --sindoor: #e5884f; --stage0: #2d5878; --on-accent: #0f151d; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -70,7 +71,9 @@ a { color: var(--peacock); }
 .site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .site-head .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
-.logo-mark { width: 34px; height: 40px; }
+.logo-plate { background: #ffffff; border-radius: 12px; padding: 4px 6px; display: grid; place-items: center; }
+.logo-mark { width: 46px; height: auto; display: block; }
+.footer-logo { width: 220px; max-width: 100%; height: auto; display: block; }
 .logo-word { font-family: var(--display); font-size: 1.6rem; line-height: 1; }
 .logo-word small { display: block; font-family: var(--body); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
 .nav { display: flex; gap: 26px; }
@@ -85,7 +88,7 @@ a { color: var(--peacock); }
 .hero-copy { display: grid; gap: 22px; min-width: 0; }
 .hero h1 { font-size: var(--step-4); }
 .hero h1 em { font-style: normal; color: var(--peacock); }
-.hindi { font-family: var(--display); font-size: var(--step-1); color: var(--muted); }
+.hindi { font-family: var(--body); font-weight: 600; font-size: var(--step-1); color: var(--muted); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .trust { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: 1rem; }
 .trust span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--haldi); margin-right: 8px; vertical-align: middle; }
@@ -270,10 +273,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 <header class="site-head">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="Sannishtha Elder Care home">
-      <svg class="logo-mark" viewBox="0 0 34 40" aria-hidden="true">
-        <path d="M2 40V17C2 8.7 8.7 2 17 2s15 6.7 15 15v23" fill="none" stroke="var(--peacock)" stroke-width="3"/>
-        <path d="M10 40V20c0-3.9 3.1-7 7-7s7 3.1 7 7v20" fill="var(--haldi)"/>
-      </svg>
+      <span class="logo-plate"><img class="logo-mark" src="assets/sannishtha-mark.png" alt="" width="46" height="41"></span>
       <span class="logo-word">Sannishtha<small>Elder Care</small></span>
     </a>
     <nav class="nav" aria-label="Main">
@@ -674,7 +674,7 @@ footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 <footer>
   <div class="wrap">
     <div>
-      <a class="logo" href="#top"><span class="logo-word">Sannishtha<small>Elder Care · Mumbai</small></span></a>
+      <a class="logo-plate" href="#top" style="justify-self:start;padding:14px 18px;display:inline-grid"><img class="footer-logo" src="assets/sannishtha-logo.png" alt="Sannishtha Foundation" width="220" height="192"></a>
       <p style="margin-top:14px;max-width:46ch">Sannishtha Elder Care is a programme of Sannishtha Foundation, a not-for-profit company registered under Section 8 of the Companies Act, 2013. We help Indian families plan, pay for and coordinate long-term care for ageing parents. We do not replace emergency services or your doctor.</p>
       <p class="reg">CIN <span class="fill">[add CIN]</span> · 12A <span class="fill">[add no.]</span> · 80G <span class="fill">[add no.]</span> · CSR-1 <span class="fill">[add no.]</span></p>
     </div>
