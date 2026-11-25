@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FMEA Audit-Readiness Scorecard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f5; --text:#14181f; --muted:#5a6473;
+  --border:#dde2e9; --accent:#0b5cad; --accent-ink:#ffffff; --accent-soft:#e3eefa;
+  --good:#1f7a4d; --good-soft:#e2f3ea; --warn:#a35f00; --warn-soft:#fbefdc; --bad:#b3261e; --bad-soft:#fbe5e3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1217; --surface:#171b22; --surface-2:#1f252e; --text:#e8ecf2; --muted:#9aa5b4;
+    --border:#2b323d; --accent:#5aa2ef; --accent-ink:#0b1320; --accent-soft:#1a2a3d;
+    --good:#4cc38a; --good-soft:#15291f; --warn:#e9a23b; --warn-soft:#2e2414; --bad:#f2766c; --bad-soft:#321a18;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1217; --surface:#171b22; --surface-2:#1f252e; --text:#e8ecf2; --muted:#9aa5b4;
+  --border:#2b323d; --accent:#5aa2ef; --accent-ink:#0b1320; --accent-soft:#1a2a3d;
+  --good:#4cc38a; --good-soft:#15291f; --warn:#e9a23b; --warn-soft:#2e2414; --bad:#f2766c; --bad-soft:#321a18;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:32px 16px 64px}
+header.hero{padding:8px 0 24px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:8px 0 12px;letter-spacing:-.02em}
+.lede{font-size:18px;color:var(--muted);max-width:640px;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:13px;padding:5px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-top:16px}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+h2{font-size:20px;margin:0}
+.sec-score{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.q{padding:14px 0;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.q:first-of-type{border-top:0}
+.q p{margin:0}
+.q small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:7px 12px;font-size:14px;font-weight:500;color:var(--muted);border-left:1px solid var(--border)}
+.seg button:first-child{border-left:0}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.seg button[aria-pressed="true"][data-v="2"]{background:var(--good-soft);color:var(--good)}
+.seg button[aria-pressed="true"][data-v="1"]{background:var(--warn-soft);color:var(--warn)}
+.seg button[aria-pressed="true"][data-v="0"]{background:var(--bad-soft);color:var(--bad)}
+@media (max-width:600px){.q{grid-template-columns:1fr}.seg{justify-self:start}}
+.sticky{position:sticky;bottom:12px;margin-top:20px;z-index:5}
+.progress{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.bar{flex:1;height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.progress span{font-size:14px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.btn{all:unset;cursor:pointer;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:10px 16px;border-radius:10px;font-size:15px;text-align:center}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#result{display:none}
+.big{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.score{font-size:56px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.score small{font-size:20px;color:var(--muted);font-weight:500}
+.band{display:inline-block;padding:4px 10px;border-radius:999px;font-size:14px;font-weight:600}
+.band.good{background:var(--good-soft);color:var(--good)}
+.band.warn{background:var(--warn-soft);color:var(--warn)}
+.band.bad{background:var(--bad-soft);color:var(--bad)}
+.rows{margin-top:18px;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:200px 1fr 48px;gap:12px;align-items:center;font-size:14px}
+.row .bar{height:10px}
+.row b{font-weight:500}
+.row em{font-style:normal;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:600px){.row{grid-template-columns:1fr 48px}.row .bar{grid-column:1 / -1;order:3}}
+ol.fixes{padding-left:20px;margin:8px 0 0}
+ol.fixes li{margin:8px 0}
+.ref{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.ref div{background:var(--surface-2);border-radius:10px;padding:14px;font-size:14px}
+.ref h3{font-size:15px;margin:0 0 6px}
+@media (max-width:600px){.ref{grid-template-columns:1fr}}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+form label{font-size:13px;font-weight:500;color:var(--muted);display:grid;gap:4px}
+form input,form select{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 10px;width:100%}
+form input:focus,form select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+form .full{grid-column:1 / -1}
+@media (max-width:600px){form{grid-template-columns:1fr}}
+.offer{background:var(--accent-soft);border-radius:12px;padding:16px;margin-top:4px}
+.offer ul{margin:6px 0 0;padding-left:18px}
+.thanks{display:none;color:var(--good);font-weight:600;margin-top:10px}
+.fine{font-size:12px;color:var(--muted);margin-top:10px}
+footer{color:var(--muted);font-size:13px;margin-top:32px;text-align:center}
+@media print{.sticky,#lead,.seg button:not([aria-pressed="true"]){display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Free self-assessment for automotive suppliers · Pune–Chakan belt</div>
+  <h1>Is your FMEA audit-ready for your next OEM visit?</h1>
+  <p class="lede">20 questions, 5 minutes. Find out where your DFMEA, PFMEA and control plan would fail an IATF 16949 or customer audit, and what to fix first.</p>
+  <div class="chips">
+    <span class="chip">AIAG‑VDA 7‑step</span><span class="chip">Action Priority vs RPN</span>
+    <span class="chip">PFD ↔ PFMEA ↔ Control Plan</span><span class="chip">8D feedback loop</span><span class="chip">EV / battery parts</span>
+  </div>
+</header>
+
+<div id="quiz"></div>
+
+<div class="sticky">
+  <div class="progress">
+    <div class="bar"><i id="pbar"></i></div>
+    <span id="ptext">0 / 20 answered</span>
+    <button class="btn" id="show" disabled>See my score</button>
+  </div>
+</div>
+
+<section id="result" class="card" aria-live="polite">
+  <div class="big">
+    <div class="score"><span id="total">0</span><small> / 40</small></div>
+    <div>
+      <span class="band" id="band"></span>
+      <p id="verdict" style="margin:8px 0 0;max-width:520px"></p>
+    </div>
+  </div>
+  <div class="rows" id="rows"></div>
+  <h2 style="margin-top:24px">Your top 3 fixes</h2>
+  <ol class="fixes" id="fixes"></ol>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+    <button class="btn ghost" onclick="window.print()">Print / save as PDF</button>
+    <button class="btn ghost" id="reset">Start again</button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Quick reference: what changed with AIAG‑VDA</h2>
+  <div class="ref">
+    <div><h3>Old way (AIAG 4th ed.)</h3>Risk Priority Number = S × O × D. A score of 120 could hide a severity‑10 failure. Form‑based worksheets with no structure analysis.</div>
+    <div><h3>AIAG‑VDA (2019)</h3>Action Priority (High / Medium / Low) puts severity first. 7 steps: Planning, Structure, Function, Failure, Risk, Optimisation, Documentation. Failure chains link effect, mode and cause.</div>
+    <div><h3>What auditors look for</h3>The same process steps in the process flow, PFMEA and control plan; special characteristics flagged across all three; actions closed with re‑rated AP; evidence of reviews after changes and complaints.</div>
+    <div><h3>Why EV programmes raise the bar</h3>New HV, battery and thermal failure modes have no FMEA history. OEMs expect foundation FMEAs and lessons learned before PPAP.</div>
+  </div>
+</section>
+
+<section class="card" id="lead">
+  <h2>Get your detailed gap report and a free FMEA migration</h2>
+  <div class="offer">
+    <b>What you get:</b>
+    <ul>
+      <li>A written gap report on your answers, with an action plan for your next audit</li>
+      <li>One of your existing Excel FMEAs converted to AIAG‑VDA format in FMEA Executive</li>
+      <li>A 30‑minute walkthrough with a Syselec FMEA specialist, at your plant or online</li>
+    </ul>
+  </div>
+  <!-- Connect this form to your CRM (e.g. HubSpot form endpoint) before publishing. -->
+  <form id="leadform">
+    <label>Full name<input name="name" required autocomplete="name"></label>
+    <label>Company<input name="company" required autocomplete="organization"></label>
+    <label>Role
+      <select name="role" required>
+        <option value="">Select…</option><option>Head of Quality / QA Manager</option><option>APQP / NPD Engineer</option>
+        <option>Plant Head / MD</option><option>Supplier Quality (OEM)</option><option>Other</option>
+      </select>
+    </label>
+    <label>Plant location<input name="location" placeholder="e.g. Chakan MIDC Phase II"></label>
+    <label>Work email<input type="email" name="email" required autocomplete="email"></label>
+    <label>Mobile / WhatsApp<input type="tel" name="phone" autocomplete="tel"></label>
+    <label class="full">Main OEM customers
+      <input name="customers" placeholder="e.g. Mahindra, Mercedes-Benz India, Skoda Auto VW India, Bajaj, Tata">
+    </label>
+    <div class="full"><button class="btn" type="submit">Send me my gap report</button></div>
+  </form>
+  <p class="thanks" id="thanks">Thank you. A Syselec FMEA specialist will contact you within one working day.</p>
+  <p class="fine">Your answers and details are used only to prepare your report and contact you about it. No spam.</p>
+</section>
+
+<footer>FMEA Executive · Syselec · Pune</footer>
+</div>
+
+<script>
+const SECTIONS = [
+  {name:"AIAG‑VDA method", fix:"Move your highest‑risk PFMEAs to the AIAG‑VDA 7‑step method and re‑rate them with Action Priority. Start with parts for your most demanding customer.",
+   qs:[["Our DFMEAs and PFMEAs follow the AIAG‑VDA 7‑step approach.","Planning → Structure → Function → Failure → Risk → Optimisation → Documentation"],
+       ["We rate risk with Action Priority (H/M/L), not only RPN.",""],
+       ["Failure chains (effect – mode – cause) are built from a structure and function analysis.",""],
+       ["Every optimisation action has an owner, a target date and a re‑rated AP.",""]]},
+  {name:"PFD ↔ PFMEA ↔ Control Plan", fix:"Link the process flow, PFMEA and control plan to one set of process steps, so a change in one updates the others. Mismatches here are a frequent audit finding.",
+   qs:[["Process flow, PFMEA and control plan use the same process steps and numbering.",""],
+       ["When the PFMEA changes, the control plan is updated in the same revision.",""],
+       ["Special characteristics (CC/SC) are flagged the same way in DFMEA, PFMEA and control plan.",""],
+       ["We can show an auditor the full revision history of any FMEA.",""]]},
+  {name:"Customer requirements", fix:"Build a customer‑specific requirements (CSR) matrix for each OEM and produce FMEAs in each customer's format from one master, instead of retyping.",
+   qs:[["We know each OEM's FMEA requirements (format, special‑characteristic symbols, review frequency).","Mahindra, Mercedes‑Benz, VW, Tata, Bajaj and others differ"],
+       ["We can produce FMEAs in the format each customer asks for without retyping.",""],
+       ["FMEAs for new EV parts (battery, HV, thermal) are complete before PPAP submission.",""],
+       ["FMEAs are reviewed after every complaint, engineering change and at fixed intervals.",""]]},
+  {name:"Knowledge & team", fix:"Create foundation (family) FMEAs for your common processes and part families, so new FMEAs start from proven content and do not depend on one engineer.",
+   qs:[["We reuse a library of foundation / family FMEAs for similar parts and processes.",""],
+       ["If our main FMEA engineer left tomorrow, others could maintain the FMEAs.",""],
+       ["Design, production, maintenance and quality all take part in FMEA sessions.",""],
+       ["Our engineers have been trained on AIAG‑VDA FMEA in the last two years.",""]]},
+  {name:"Closed loop & audit evidence", fix:"Feed every 8D/CAPA root cause and field failure back into the PFMEA and DFMEA, and keep FMEAs, control plans and lessons learned in one searchable place.",
+   qs:[["Root causes from 8D/CAPA reports are fed back into the PFMEA.",""],
+       ["Field and warranty failures are checked against the DFMEA.",""],
+       ["We can find any FMEA, control plan or lessons‑learned file in under 5 minutes.",""],
+       ["FMEA preparation for an audit takes less than one working day.",""]]}
+];
+const answers = {};
+const TOTAL_Q = SECTIONS.reduce((n,s)=>n+s.qs.length,0);
+const quiz = document.getElementById('quiz');
+SECTIONS.forEach((s,si)=>{
+  const c = document.createElement('section'); c.className='card';
+  c.innerHTML = `<div class="section-head"><h2>${si+1}. ${s.name}</h2><span class="sec-score" id="ss${si}">0 / ${s.qs.length*2}</span></div>`;
+  s.qs.forEach((q,qi)=>{
+    const id = `${si}-${qi}`;
+    const d = document.createElement('div'); d.className='q';
+    d.innerHTML = `<p>${q[0]}${q[1]?`<small>${q[1]}</small>`:''}</p>
+      <div class="seg" role="group" aria-label="Answer">
+        <button type="button" data-q="${id}" data-v="2" aria-pressed="false">Yes</button>
+        <button type="button" data-q="${id}" data-v="1" aria-pressed="false">Partly</button>
+        <button type="button" data-q="${id}" data-v="0" aria-pressed="false">No</button>
+      </div>`;
+    c.appendChild(d);
+  });
+  quiz.appendChild(c);
+});
+quiz.addEventListener('click',e=>{
+  const b = e.target.closest('button[data-q]'); if(!b) return;
+  answers[b.dataset.q] = +b.dataset.v;
+  b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+  update();
+});
+function secScore(si){ return SECTIONS[si].qs.reduce((n,_,qi)=>n+(answers[`${si}-${qi}`]??0),0); }
+function update(){
+  const n = Object.keys(answers).length;
+  document.getElementById('pbar').style.width = (n/TOTAL_Q*100)+'%';
+  document.getElementById('ptext').textContent = `${n} / ${TOTAL_Q} answered`;
+  document.getElementById('show').disabled = n<TOTAL_Q;
+  SECTIONS.forEach((s,si)=>document.getElementById('ss'+si).textContent = `${secScore(si)} / ${s.qs.length*2}`);
+  if(document.getElementById('result').style.display==='block') render();
+}
+function render(){
+  const total = SECTIONS.reduce((n,_,si)=>n+secScore(si),0);
+  const band = document.getElementById('band'), v = document.getElementById('verdict');
+  document.getElementById('total').textContent = total;
+  if(total>=32){band.className='band good';band.textContent='Audit-ready';v.textContent='Your FMEA system is in good shape. Tighten the weakest area below and make sure it scales to new EV programmes.';}
+  else if(total>=20){band.className='band warn';band.textContent='At risk';v.textContent='You would likely get minor findings in an OEM or IATF audit, and FMEA work is probably slowing down new part launches.';}
+  else{band.className='band bad';band.textContent='High risk';v.textContent='There is a real chance of a major finding on FMEA or control plan in your next audit. Start with the fixes below.';}
+  const rows = document.getElementById('rows'); rows.innerHTML='';
+  const ranked = SECTIONS.map((s,si)=>({s,pct:secScore(si)/(s.qs.length*2)}));
+  ranked.forEach(({s,pct})=>{
+    const r = document.createElement('div'); r.className='row';
+    const col = pct>=.8?'var(--good)':pct>=.5?'var(--warn)':'var(--bad)';
+    r.innerHTML = `<b>${s.name}</b><div class="bar"><i style="width:${pct*100}%;background:${col}"></i></div><em>${Math.round(pct*100)}%</em>`;
+    rows.appendChild(r);
+  });
+  const fixes = document.getElementById('fixes'); fixes.innerHTML='';
+  [...ranked].sort((a,b)=>a.pct-b.pct).slice(0,3).forEach(({s})=>{
+    const li=document.createElement('li'); li.innerHTML=`<b>${s.name}:</b> ${s.fix}`; fixes.appendChild(li);
+  });
+}
+document.getElementById('show').onclick=()=>{
+  const r=document.getElementById('result'); r.style.display='block'; render(); r.scrollIntoView({behavior:'smooth'});
+};
+document.getElementById('reset').onclick=()=>{
+  for(const k in answers) delete answers[k];
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed','false'));
+  document.getElementById('result').style.display='none'; update(); window.scrollTo({top:0,behavior:'smooth'});
+};
+document.getElementById('leadform').onsubmit=e=>{
+  e.preventDefault();
+  // TODO: send form data + score to CRM. Placeholder only.
+  e.target.style.display='none'; document.getElementById('thanks').style.display='block';
+};
+</script>
+</body>
+</html>
