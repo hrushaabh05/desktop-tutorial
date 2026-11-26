@@ -41,7 +41,7 @@ Everything is synthesized in `audio.py`:
 * `timeline.py`: scene timings and beat maps shared by picture and sound.
 * `audio.py`: score and sound design.
 * `render.py`: renders across multiple processes and pipes frames to ffmpeg. `render.py stills <t…>` renders still frames for checking.
-* `make.sh`: full rebuild.
+* `make.sh`: full rebuild (the committed MP4 was then re-encoded two-pass at 3.2 Mbps to stay under GitHub’s 100 MB limit).
 
 ## Rebuild
 
